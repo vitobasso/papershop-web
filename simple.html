@@ -14,30 +14,23 @@
 <button onclick="nextEbayRequest()">Fetch more</button>
 <script>
 
-    var format = d3.time.format("%Y-%m-%dT%H:%M:%S.%LZ");
     var x = {
         label: "Listing Begin",
         scale: Chart.scaleType.TIME,
         fun: function (d) {
-            var dateStr = d.listingInfo[0].startTime[0];
-            return format.parse(dateStr);
+            return d.listingTime;
         }
     };
     var y = {
         label: "Current Price (USD)",
         scale: Chart.scaleType.LINEAR,
         fun: function (d) {
-            return d.sellingStatus[0].currentPrice[0].__value__;
+            return d.price;
         }
     };
     var chart = new Chart(x, y);
 
     var allItems = [];
-    function populateChart(data) {
-        var newItems = data.findItemsAdvancedResponse[0].searchResult[0].item || [];
-        allItems = allItems.concat(newItems);
-        chart.populate(allItems);
-    }
 
     var ebay = new Ebay();
     var requestCount = 0;
@@ -48,6 +41,28 @@
         };
         ebay.call(populateChart, ebayParams);
     }
+
+    function populateChart(response) {
+        var newItems = parseResponse(response)
+        allItems = allItems.concat(newItems);
+        chart.populate(allItems);
+    }
+
+    function parseResponse(response) {
+        var items = response.findItemsAdvancedResponse[0].searchResult[0].item || [];
+        return items.map(parseItem);
+    }
+
+    function parseItem(item) {
+        var dateStr = item.listingInfo[0].startTime[0];
+        var time = dateFormat.parse(dateStr);
+        var price = +item.sellingStatus[0].currentPrice[0].__value__;
+        return {
+            listingTime: time,
+            price: price
+        }
+    }
+    var dateFormat = d3.time.format("%Y-%m-%dT%H:%M:%S.%LZ");
 
 </script>
 </body>
