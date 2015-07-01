@@ -4,7 +4,8 @@
 
 function Ebay() {
 
-    var ebayUrl = "http://svcs.ebay.com/services/search/FindingService/v1?" +
+    function buildUrl(params){
+        return "http://svcs.ebay.com/services/search/FindingService/v1?" +
         "OPERATION-NAME=findItemsAdvanced" +
         "&SERVICE-VERSION=1.0.0" +
         "&SECURITY-APPNAME=VictorBa-91f0-4b04-b497-3a5e426e0ece" +
@@ -15,11 +16,13 @@ function Ebay() {
         "&itemFilter(0).value(1)=FixedPrice" +
         "&aspectFilter(0).aspectName=Storage+Capacity" +
         "&aspectFilter(0).aspectValueName(0)=1-3.9TB" +
-        "&aspectFilter(0).aspectValueName(1)=4-8TB";
+        "&aspectFilter(0).aspectValueName(1)=4-8TB" +
+        "&paginationInput.pageNumber=" + params.page;
+    }
 
-    this.call = function(callback){
+    this.call = function(callback, params){
         $.ajax({
-            url: ebayUrl,
+            url: buildUrl(params),
             dataType: "jsonp",
             success: callback
         });

@@ -11,8 +11,8 @@ function Chart(xParam, yParam) {
     var x = xParam.scale()
         .range([0, width]);
 
-    var y = xParam.scale()
-        .range([0, height]);
+    var y = yParam.scale()
+        .range([height, 0]);
 
     var xAxis = d3.svg.axis()
         .scale(x)
@@ -24,7 +24,7 @@ function Chart(xParam, yParam) {
 
     var svg = initSvg();
 
-    this.refresh = function(data) {
+    this.populate = function(data) {
         refreshAxes(data);
         var circles = svg.selectAll("circle").data(data);
 

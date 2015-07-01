@@ -11,7 +11,7 @@
 </head>
 <body>
 <div id="canvas"></div>
-
+<button onclick="nextEbayRequest()">Fetch more</button>
 <script>
 
     var format = d3.time.format("%Y-%m-%dT%H:%M:%S.%LZ");
@@ -32,13 +32,22 @@
     };
     var chart = new Chart(x, y);
 
+    var allItems = [];
     function populateChart(data) {
-        var items = data.findItemsAdvancedResponse[0].searchResult[0].item || [];
-        chart.refresh(items);
+        var newItems = data.findItemsAdvancedResponse[0].searchResult[0].item || [];
+        allItems = allItems.concat(newItems);
+        chart.populate(allItems);
     }
 
     var ebay = new Ebay();
-    ebay.call(populateChart);
+    var requestCount = 0;
+    function nextEbayRequest() {
+        requestCount = requestCount + 1;
+        var ebayParams = {
+            page: requestCount
+        };
+        ebay.call(populateChart, ebayParams);
+    }
 
 </script>
 </body>
