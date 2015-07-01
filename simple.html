@@ -33,14 +33,22 @@
 <script>
 
     var format = d3.time.format("%Y-%m-%dT%H:%M:%S.%LZ");
-    var xFun = function (d) {
-        var dateStr = d.listingInfo[0].startTime[0];
-        return format.parse(dateStr);
+    var x = {
+        label: "Listing Begin",
+        scale: Chart.scaleType.TIME,
+        fun: function (d) {
+            var dateStr = d.listingInfo[0].startTime[0];
+            return format.parse(dateStr);
+        }
     };
-    var yFun = function (d) {
-        return d.sellingStatus[0].currentPrice[0].__value__;
+    var y = {
+        label: "Current Price (USD)",
+        scale: Chart.scaleType.LINEAR,
+        fun: function (d) {
+            return d.sellingStatus[0].currentPrice[0].__value__;
+        }
     };
-    var chart = new Chart(xFun, yFun);
+    var chart = new Chart(x, y);
 
     function populateChart(data) {
         var items = data.findItemsAdvancedResponse[0].searchResult[0].item || [];

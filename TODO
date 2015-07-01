@@ -1,0 +1,5 @@
+- ebay api wrapper
+    https://github.com/benbuckman/nodejs-ebay-api
+    . needs node.js?
+    . node.js for web requires "express"?
+    . no problem w/ "same origin policy"?

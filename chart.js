@@ -2,20 +2,17 @@
  * Created by Victor on 30/06/2015.
  */
 
-function Chart(xFun, yFun) {
-
-    var xLabel = "Listing Start Time";
-    var yLabel = "Current Price (USD)";
+function Chart(xParam, yParam) {
 
     var margin = {top: 20, right: 20, bottom: 30, left: 40},
         width = 960 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
 
-    var x = d3.time.scale()
+    var x = xParam.scale()
         .range([0, width]);
 
-    var y = d3.scale.linear()
-        .range([height, 0]);
+    var y = xParam.scale()
+        .range([0, height]);
 
     var xAxis = d3.svg.axis()
         .scale(x)
@@ -33,10 +30,10 @@ function Chart(xFun, yFun) {
 
         circles.transition()
             .attr("cx", function (d) {
-                return x(xFun(d))
+                return x(xParam.fun(d))
             })
             .attr("cy", function (d) {
-                return y(yFun(d))
+                return y(yParam.fun(d))
             });
 
         circles.enter()
@@ -44,16 +41,16 @@ function Chart(xFun, yFun) {
             .attr("class", "dot")
             .attr("r", 3.5)
             .attr("cx", function (d) {
-                return x(xFun(d))
+                return x(xParam.fun(d))
             })
             .attr("cy", function (d) {
-                return y(yFun(d))
+                return y(yParam.fun(d))
             })
     };
 
     function refreshAxes(data) {
-        x.domain(d3.extent(data, xFun)).nice();
-        y.domain(d3.extent(data, yFun)).nice();
+        x.domain(d3.extent(data, xParam.fun)).nice();
+        y.domain(d3.extent(data, yParam.fun)).nice();
         svg.selectAll(".axis").filter(".x").call(xAxis);
         svg.selectAll(".axis").filter(".y").call(yAxis);
     }
@@ -74,7 +71,7 @@ function Chart(xFun, yFun) {
             .attr("x", width)
             .attr("y", -6)
             .style("text-anchor", "end")
-            .text(xLabel);
+            .text(xParam.label);
 
         svg.append("g")
             .attr("class", "y axis")
@@ -85,9 +82,14 @@ function Chart(xFun, yFun) {
             .attr("y", 6)
             .attr("dy", ".71em")
             .style("text-anchor", "end")
-            .text(yLabel);
+            .text(yParam.label);
 
         return svg;
     }
 
 }
+
+Chart.scaleType = Object.freeze({
+    LINEAR: d3.scale.linear,
+    TIME: d3.time.scale
+});
