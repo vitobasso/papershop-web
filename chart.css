@@ -1,13 +1,3 @@
-body {
-    font: 10px sans-serif;
-}
-
-#left {
-    float: left;
-}
-#right {
-    float: right;
-}
 
 svg {
     vertical-align: middle;
