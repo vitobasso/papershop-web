@@ -19,20 +19,20 @@ function Ebay() {
 
     function buildHistogramsUrl(params){
         return "http://svcs.ebay.com/services/search/FindingService/v1?" +
-        "OPERATION-NAME=findItemsAdvanced" +
+        "OPERATION-NAME=getHistograms" +
         "&SERVICE-VERSION=1.0.0" +
         "&SECURITY-APPNAME=VictorBa-91f0-4b04-b497-3a5e426e0ece" +
         "&RESPONSE-DATA-FORMAT=json" +
-        "&categoryId=hdd" + params.categoryId
+        "&categoryId=" + params.categoryId
     }
 
-    this.find = function(params, callback){
+    this.find = function (params, callback) {
         $.ajax({
             url: buildFindUrl(params),
             dataType: "jsonp",
             success: callback
         });
-    }
+    };
 
     this.histograms = function(params, callback){
         $.ajax({

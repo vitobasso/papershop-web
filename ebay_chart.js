@@ -36,14 +36,14 @@ function EbayChart() {
     };
 
     function populateChart(response) {
-        var newItems = parseResponse(response);
+        var newItems = parseFindResponse(response);
         items = items.concat(newItems);
         categories = uniqueCategories(items);
         populateCategories(categories);
         chart.populate(items);
     }
 
-    function parseResponse(response) {
+    function parseFindResponse(response) {
         var items = response.findItemsAdvancedResponse[0].searchResult[0].item || [];
         return items.map(parseItem);
     }
@@ -71,7 +71,8 @@ function EbayChart() {
             .append("li")
             .html(function (d) {
                 return d.name;
-            });
+            })
+            .on("click", onClickCategory);
     }
 
     function uniqueCategories(items) {
@@ -82,6 +83,43 @@ function EbayChart() {
         return categoryIds.map(function (id) {
             var item = mapByCategoryId.get(id);
             return item.category;
+        });
+    }
+
+    function onClickCategory(category) {
+        ebay.histograms({categoryId: category.id}, function (response) {
+            var histograms = parseHistogramsResponse(response);
+            d3.select("#histograms")
+                .selectAll("li").data(histograms)
+                .enter()
+                .append("li")
+                .html(function (d) {
+                    return d.name;
+                })
+                .append("ul")
+                .selectAll("li").data(function(d){
+                    return d.histograms;
+                })
+                .enter()
+                .append("li")
+                .html(function(d){
+                    return d.name;
+                })
+        });
+    }
+
+    function parseHistogramsResponse(response) {
+        var aspects = response.getHistogramsResponse[0].aspectHistogramContainer[0].aspect;
+        return aspects.map(function (aspect) {
+            return {
+                name: aspect['@name'],
+                histograms: aspect.valueHistogram.map(function (histogram) {
+                    return {
+                        name: histogram['@valueName'],
+                        count: histogram.count[0]
+                    }
+                })
+            }
         });
     }
 

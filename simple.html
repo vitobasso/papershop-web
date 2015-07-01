@@ -11,18 +11,22 @@
     <link rel="stylesheet" type="text/css" href="chart.css"/>
 </head>
 <body>
-<input type="text" title="keywords" value="hdd"/>
-<button onclick="chart.requestNextPage()">Fetch more</button>
-<ul id="categories"></ul>
-<div id="histograms"></div>
-<div id="chart"></div>
+
+<div id="header">
+    <input type="text" title="keywords" value="hdd"/>
+    <button onclick="chart.requestNextPage()">Fetch more</button>
+</div>
+<div id="left">
+    <ul id="categories"></ul>
+    <ul id="histograms"></ul>
+</div>
+<div id="right">
+    <div id="chart"></div>
+</div>
+
 <script>
-//    var ebay = new Ebay();
-//    ebay.histograms();
-
-
-
     var chart = new EbayChart();
 </script>
+
 </body>
 </html>
