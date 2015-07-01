@@ -37,11 +37,12 @@ function Categories(ebay){
     }
 
     function populateAspects(category) {
-        ebay.histograms({categoryId: category.id}, function (response) {
-            var selCategory = d3.select("#categories")
-                .select("[title='" + category.id + "']");
+        var selCategory = d3.select("#categories")
+            .select("[title='" + category.id + "']");
 
+        ebay.histograms({categoryId: category.id}, function (response) {
             var aspects = parseHistogramsResponse(response);
+
             var selAspect = selCategory.select("ul")
                 .selectAll("li").data(aspects)
                 .enter().append("li")
@@ -55,7 +56,7 @@ function Categories(ebay){
                 })
                 .enter().append("li")
                 .html(function (partition) {
-                    return partition.name;
+                    return partition.name + " (" + partition.count + ")";
                 });
         });
     }
