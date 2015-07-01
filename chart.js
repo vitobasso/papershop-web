@@ -26,7 +26,7 @@ function Chart(xParam, yParam) {
 
     this.populate = function(data) {
         refreshAxes(data);
-        var circles = svg.selectAll("circle").data(data);
+        var circles = svg.selectAll("circle").data(data, getId);
 
         circles.transition()
             .attr("cx", function (d) {
@@ -85,6 +85,10 @@ function Chart(xParam, yParam) {
             .text(yParam.label);
 
         return svg;
+    }
+
+    function getId(object){
+        return object.id;
     }
 
 }

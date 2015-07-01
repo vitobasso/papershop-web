@@ -22,16 +22,12 @@ function Categories(ebay){
     }
 
     function populate() {
+
         d3.select("#categories")
-            .selectAll("li").data(categories)
-            .enter()
-            .append("li")
-            .html(function (category) {
-                return category.name;
-            })
-            .attr("title", function (category) {
-                return category.id;
-            })
+            .selectAll("li").data(categories, getId)
+            .enter().append("li")
+            .html(getName)
+            .attr("title", getId) // allow to find by title later
             .on("click", populateAspects)
             .append("ul")
     }
@@ -44,16 +40,13 @@ function Categories(ebay){
             var aspects = parseHistogramsResponse(response);
 
             var selAspect = selCategory.select("ul")
-                .selectAll("li").data(aspects)
-                .enter().append("li")
-                .html(function (aspect) {
-                    return aspect.name;
-                });
+                .selectAll("li").data(aspects, getName)
+                .enter().append("li").html(getName);
 
             var selPartition = selAspect.append("ul")
                 .selectAll("li").data(function (aspect) {
                     return aspect.partitions;
-                })
+                }, getName)
                 .enter().append("li")
                 .html(function (partition) {
                     return partition.name + " (" + partition.count + ")";
@@ -75,4 +68,12 @@ function Categories(ebay){
             }
         });
     }
+
+    function getId(object){
+        return object.id;
+    };
+
+    function getName(object){
+        return object.name;
+    };
 }
