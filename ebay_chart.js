@@ -69,15 +69,19 @@ function EbayChart() {
             .selectAll("li").data(categories)
             .enter()
             .append("li")
-            .html(function (d) {
-                return d.name;
+            .html(function (category) {
+                return category.name;
             })
-            .on("click", onClickCategory);
+            .attr("title", function (category) {
+                return category.id;
+            })
+            .on("click", populateAspects)
+            .append("ul")
     }
 
     function uniqueCategories(items) {
-        var mapByCategoryId = d3.map(items, function (d) {
-            return d.category.id
+        var mapByCategoryId = d3.map(items, function (item) {
+            return item.category.id
         });
         var categoryIds = mapByCategoryId.keys();
         return categoryIds.map(function (id) {
@@ -86,25 +90,27 @@ function EbayChart() {
         });
     }
 
-    function onClickCategory(category) {
+    function populateAspects(category) {
         ebay.histograms({categoryId: category.id}, function (response) {
-            var histograms = parseHistogramsResponse(response);
-            d3.select("#histograms")
-                .selectAll("li").data(histograms)
-                .enter()
-                .append("li")
-                .html(function (d) {
-                    return d.name;
+            var selCategory = d3.select("#categories")
+                .select("[title='" + category.id + "']");
+
+            var aspects = parseHistogramsResponse(response);
+            var selAspect = selCategory.select("ul")
+                .selectAll("li").data(aspects)
+                .enter().append("li")
+                .html(function (aspect) {
+                    return aspect.name;
+                });
+
+            var selPartition = selAspect.append("ul")
+                .selectAll("li").data(function (aspect) {
+                    return aspect.partitions;
                 })
-                .append("ul")
-                .selectAll("li").data(function(d){
-                    return d.histograms;
-                })
-                .enter()
-                .append("li")
-                .html(function(d){
-                    return d.name;
-                })
+                .enter().append("li")
+                .html(function (partition) {
+                    return partition.name;
+                });
         });
     }
 
@@ -113,7 +119,7 @@ function EbayChart() {
         return aspects.map(function (aspect) {
             return {
                 name: aspect['@name'],
-                histograms: aspect.valueHistogram.map(function (histogram) {
+                partitions: aspect.valueHistogram.map(function (histogram) {
                     return {
                         name: histogram['@valueName'],
                         count: histogram.count[0]
