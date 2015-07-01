@@ -7,66 +7,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8"></script>
     <script src="chart.js"></script>
     <script src="ebay_api.js"></script>
+    <script src="ebay_chart.js"></script>
     <link rel="stylesheet" type="text/css" href="chart.css"/>
 </head>
 <body>
+<input type="text" title="keywords" value="hdd"/>
+<button onclick="chart.requestNextPage()">Fetch more</button>
+<ul id="categories"></ul>
+<div id="histograms"></div>
 <div id="chart"></div>
-<input type="text" title="keywords"/>
-<button onclick="nextEbayRequest()">Fetch more</button>
 <script>
+//    var ebay = new Ebay();
+//    ebay.histograms();
 
-    var x = {
-        label: "Listing Time",
-        scale: d3.time.scale,
-        fun: function (d) {
-            return d.listingTime;
-        }
-    };
-    var y = {
-        label: "Current Price (USD)",
-        scale: d3.scale.linear,
-        fun: function (d) {
-            return d.price;
-        }
-    };
-    var chart = new Chart(x, y);
 
-    var allItems = [];
 
-    var ebay = new Ebay();
-    var requestCount = 0;
-    function nextEbayRequest() {
-        requestCount = requestCount + 1;
-        var keywords = $("input[title=keywords]").val();
-        var ebayParams = {
-            keywords: keywords,
-            page: requestCount
-        };
-        ebay.find(ebayParams, populateChart);
-    }
-
-    function populateChart(response) {
-        var newItems = parseResponse(response)
-        allItems = allItems.concat(newItems);
-        chart.populate(allItems);
-    }
-
-    function parseResponse(response) {
-        var items = response.findItemsAdvancedResponse[0].searchResult[0].item || [];
-        return items.map(parseItem);
-    }
-
-    function parseItem(item) {
-        var dateStr = item.listingInfo[0].startTime[0];
-        var time = dateFormat.parse(dateStr);
-        var price = +item.sellingStatus[0].currentPrice[0].__value__;
-        return {
-            listingTime: time,
-            price: price
-        }
-    }
-    var dateFormat = d3.time.format("%Y-%m-%dT%H:%M:%S.%LZ");
-
+    var chart = new EbayChart();
 </script>
 </body>
 </html>
