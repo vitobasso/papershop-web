@@ -4,7 +4,20 @@
 
 function Ebay() {
 
-    function buildUrl(params){
+    function buildFindUrl(params){
+        return "http://svcs.ebay.com/services/search/FindingService/v1?" +
+        "OPERATION-NAME=findItemsAdvanced" +
+        "&SERVICE-VERSION=1.0.0" +
+        "&SECURITY-APPNAME=VictorBa-91f0-4b04-b497-3a5e426e0ece" +
+        "&RESPONSE-DATA-FORMAT=json" +
+        "&keywords=" + params.keywords +
+        "&itemFilter(0).name=ListingType" +
+        "&itemFilter(0).value(0)=AuctionWithBIN" +
+        "&itemFilter(0).value(1)=FixedPrice" +
+        "&paginationInput.pageNumber=" + params.page;
+    }
+
+    function buildHistogramsUrl(params){
         return "http://svcs.ebay.com/services/search/FindingService/v1?" +
         "OPERATION-NAME=findItemsAdvanced" +
         "&SERVICE-VERSION=1.0.0" +
@@ -20,9 +33,17 @@ function Ebay() {
         "&paginationInput.pageNumber=" + params.page;
     }
 
-    this.call = function(callback, params){
+    this.find = function(params, callback){
         $.ajax({
-            url: buildUrl(params),
+            url: buildFindUrl(params),
+            dataType: "jsonp",
+            success: callback
+        });
+    }
+
+    this.histograms = function(params, callback){
+        $.ajax({
+            url: buildHistogramsUrl(params),
             dataType: "jsonp",
             success: callback
         });

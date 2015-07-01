@@ -10,20 +10,21 @@
     <link rel="stylesheet" type="text/css" href="chart.css"/>
 </head>
 <body>
-<div id="canvas"></div>
+<div id="chart"></div>
+<input type="text" title="keywords"/>
 <button onclick="nextEbayRequest()">Fetch more</button>
 <script>
 
     var x = {
-        label: "Listing Begin",
-        scale: Chart.scaleType.TIME,
+        label: "Listing Time",
+        scale: d3.time.scale,
         fun: function (d) {
             return d.listingTime;
         }
     };
     var y = {
         label: "Current Price (USD)",
-        scale: Chart.scaleType.LINEAR,
+        scale: d3.scale.linear,
         fun: function (d) {
             return d.price;
         }
@@ -36,10 +37,12 @@
     var requestCount = 0;
     function nextEbayRequest() {
         requestCount = requestCount + 1;
+        var keywords = $("input[title=keywords]").val();
         var ebayParams = {
+            keywords: keywords,
             page: requestCount
         };
-        ebay.call(populateChart, ebayParams);
+        ebay.find(ebayParams, populateChart);
     }
 
     function populateChart(response) {

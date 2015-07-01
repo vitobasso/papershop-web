@@ -56,7 +56,7 @@ function Chart(xParam, yParam) {
     }
 
     function initSvg() {
-        var svg = d3.select("#canvas").append("svg:svg")
+        var svg = d3.select("#chart").append("svg:svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
@@ -88,8 +88,3 @@ function Chart(xParam, yParam) {
     }
 
 }
-
-Chart.scaleType = Object.freeze({
-    LINEAR: d3.scale.linear,
-    TIME: d3.time.scale
-});
