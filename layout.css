@@ -21,3 +21,19 @@ body {
     padding-left: 10px;
     text-indent: -4px;
 }
+
+.category_div li a {
+    text-decoration: none;
+}
+
+.category_div li a.active {
+    background: lightgray;
+}
+
+.category_div > ul {
+    margin-top: 0;
+}
+
+.category_div > ul > li {
+    padding-bottom: 10px;
+}

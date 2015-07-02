@@ -48,17 +48,17 @@ function Categories(ebay) {
 
             // populate aspects
             var selAspect = selCategory.selectAll("li").data(aspects, getName)
-                .enter().append("li").html(getName);
+                .enter().append("li");
+            selAspect.append("a").attr("href", "#").html(getName)
+                .on("click", toggleActive);
 
             // populate partitions
             selAspect.append("ul")
                 .selectAll("li").data(function (aspect) {
                     return aspect.partitions;
                 }, getName)
-                .enter().append("li")
-                .html(function (partition) {
-                    return partition.name + " (" + partition.count + ")";
-                });
+                .enter().append("li").append("a").attr("href", "#").html(getName)
+                .on("click", toggleActive);
         });
     }
 
@@ -91,5 +91,9 @@ function Categories(ebay) {
 
     function selCategoryId(object) {
         return "#" + getCategoryId(object);
+    }
+
+    function toggleActive() {
+        $(this).toggleClass("active");
     }
 }
