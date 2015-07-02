@@ -9,3 +9,15 @@ body {
 #right {
     float: right;
 }
+
+.category_div {
+    column-width: 10em;
+    -webkit-column-width: 10em;
+    -moz-column-width: 10em;
+}
+
+.category_div ul {
+    list-style-position: inside;
+    padding-left: 10px;
+    text-indent: -4px;
+}

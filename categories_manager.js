@@ -1,7 +1,7 @@
 /**
  * Created by Victor on 01/07/2015.
  */
-function Categories(ebay){
+function Categories(ebay) {
 
     var categories = [];
 
@@ -22,28 +22,36 @@ function Categories(ebay){
     }
 
     function populate() {
-
-        d3.select("#categories")
-            .selectAll("li").data(categories, getId)
-            .enter().append("li")
+        var selRoot = d3.select("#categories");
+        selRoot.select("ul").selectAll("li").data(categories, getId)
+            .enter()
+            .append("li")
+            .append("a")
+            .attr("href", selCategoryId)
             .html(getName)
-            .attr("title", getId) // allow to find by title later
-            .on("click", populateAspects)
-            .append("ul")
+            .on("click", populateAspects);
+        selRoot.selectAll("div").data(categories, getId)
+            .enter()
+            .append("div").attr("id", getCategoryId).classed("category_div", true)
+            .append("ul");
+
+        $("#categories").tabs().tabs("refresh");
     }
 
     function populateAspects(category) {
         var selCategory = d3.select("#categories")
-            .select("[title='" + category.id + "']");
+            .selectAll("div").filter(selCategoryId(category))
+            .select("ul");
 
         ebay.histograms({categoryId: category.id}, function (response) {
             var aspects = parseHistogramsResponse(response);
 
-            var selAspect = selCategory.select("ul")
-                .selectAll("li").data(aspects, getName)
+            // populate aspects
+            var selAspect = selCategory.selectAll("li").data(aspects, getName)
                 .enter().append("li").html(getName);
 
-            var selPartition = selAspect.append("ul")
+            // populate partitions
+            selAspect.append("ul")
                 .selectAll("li").data(function (aspect) {
                     return aspect.partitions;
                 }, getName)
@@ -69,11 +77,19 @@ function Categories(ebay){
         });
     }
 
-    function getId(object){
+    function getId(object) {
         return object.id;
-    };
+    }
 
-    function getName(object){
+    function getName(object) {
         return object.name;
-    };
+    }
+
+    function getCategoryId(object) {
+        return "category" + object.id;
+    }
+
+    function selCategoryId(object) {
+        return "#" + getCategoryId(object);
+    }
 }
