@@ -40,3 +40,7 @@ body {
     overflow: hidden; /* hide scrollbar */
     display: block; /* list box below title, not beside */
 }
+
+.chart-tooltip img {
+    float: left;
+}

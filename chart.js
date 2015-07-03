@@ -24,33 +24,53 @@ function Chart(xParam, yParam) {
 
     var svg = initSvg();
 
-    this.populate = function(data) {
-        refreshAxes(data);
-        var circles = svg.selectAll("circle").data(data, getId);
+    this.populate = function (items) {
+        refreshAxes(items);
+        var circles = svg.selectAll("circle").data(items, getId);
 
         circles.transition()
-            .attr("cx", function (d) {
-                return x(xParam.fun(d))
+            .attr("cx", function (item) {
+                return x(xParam.fun(item))
             })
-            .attr("cy", function (d) {
-                return y(yParam.fun(d))
+            .attr("cy", function (item) {
+                return y(yParam.fun(item))
             });
 
         circles.enter()
             .append("svg:circle")
             .attr("class", "dot")
             .attr("r", 3.5)
-            .attr("cx", function (d) {
-                return x(xParam.fun(d))
+            .attr("cx", function (item) {
+                return x(xParam.fun(item))
             })
-            .attr("cy", function (d) {
-                return y(yParam.fun(d))
+            .attr("cy", function (item) {
+                return y(yParam.fun(item))
             })
+            .on("click", function (item) {
+                window.open(item.link);
+            });
+
+        assignTooltips();
     };
 
-    function refreshAxes(data) {
-        x.domain(d3.extent(data, xParam.fun)).nice();
-        y.domain(d3.extent(data, yParam.fun)).nice();
+    function assignTooltips() {
+        $("#chart").find("svg").tooltip({
+            items: "circle",
+            content: buildTooltip
+        });
+        function buildTooltip() {
+            var item = this.__data__;
+            return "<div class='chart-tooltip'>" +
+                "<img src='" + item.image + "'/>" +
+                "<p>" + item.title + "</p>" +
+                "<p>" + "Price: " + item.price + "</p>" +
+                "</div>";
+        }
+    }
+
+    function refreshAxes(items) {
+        x.domain(d3.extent(items, xParam.fun)).nice();
+        y.domain(d3.extent(items, yParam.fun)).nice();
         svg.selectAll(".axis").filter(".x").call(xAxis);
         svg.selectAll(".axis").filter(".y").call(yAxis);
     }
@@ -87,7 +107,7 @@ function Chart(xParam, yParam) {
         return svg;
     }
 
-    function getId(object){
+    function getId(object) {
         return object.id;
     }
 

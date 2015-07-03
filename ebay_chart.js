@@ -6,15 +6,15 @@ function EbayChart() {
     var x = {
         label: "Listing Time",
         scale: d3.time.scale,
-        fun: function (d) {
-            return d.listingTime;
+        fun: function (item) {
+            return item.listingTime;
         }
     };
     var y = {
         label: "Current Price (USD)",
         scale: d3.scale.linear,
-        fun: function (d) {
-            return d.price;
+        fun: function (item) {
+            return item.price;
         }
     };
     var chart = new Chart(x, y);
@@ -77,7 +77,9 @@ function EbayChart() {
                 name: category.categoryName[0]
             },
             listingTime: dateFormat.parse(dateStr),
-            price: +item.sellingStatus[0].currentPrice[0].__value__
+            price: +item.sellingStatus[0].currentPrice[0].__value__,
+            image: item.galleryURL[0],
+            link: item.viewItemURL[0]
         }
     }
 
