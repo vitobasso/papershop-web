@@ -49,16 +49,23 @@ function Categories(ebay) {
             // populate aspects
             var selAspect = selCategory.selectAll("li").data(aspects, getName)
                 .enter().append("li");
-            selAspect.append("a").attr("href", "#").html(getName)
+            selAspect.append("a")
+                .attr("href", "#")
+                .html(getName)
                 .on("click", toggleActive);
 
             // populate partitions
-            selAspect.append("ul")
-                .selectAll("li").data(function (aspect) {
+            selAspect.append("select")
+                .attr("multiple", true)
+                .attr("size", function(aspect){
+                    return aspect.partitions.length;
+                })
+                .selectAll("option").data(function (aspect) {
                     return aspect.partitions;
                 }, getName)
-                .enter().append("li").append("a").attr("href", "#").html(getName)
-                .on("click", toggleActive);
+                .enter()
+                .append("option")
+                .html(getName);
         });
     }
 
@@ -96,4 +103,5 @@ function Categories(ebay) {
     function toggleActive() {
         $(this).toggleClass("active");
     }
+
 }

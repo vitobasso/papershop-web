@@ -4,6 +4,7 @@ body {
 
 #left {
     float: left;
+    width: 600px;
 }
 
 #right {
@@ -11,9 +12,9 @@ body {
 }
 
 .category_div {
-    column-width: 10em;
-    -webkit-column-width: 10em;
-    -moz-column-width: 10em;
+    column-width: 12em;
+    -webkit-column-width: 12em;
+    -moz-column-width: 12em;
 }
 
 .category_div ul {
@@ -26,14 +27,16 @@ body {
     text-decoration: none;
 }
 
-.category_div li a.active {
-    background: lightgray;
-}
-
 .category_div > ul {
     margin-top: 0;
 }
 
 .category_div > ul > li {
     padding-bottom: 10px;
+}
+
+.category_div select {
+    width: 10em;
+    overflow: hidden; /* hide scrollbar */
+    display: block; /* list box below title, not beside */
 }

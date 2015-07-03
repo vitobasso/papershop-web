@@ -31,10 +31,28 @@ function EbayChart() {
         var keywords = $("input[title=keywords]").val();
         var params = {
             keywords: keywords,
-            page: currentPage
+            page: currentPage,
+            aspects: getAspectFilters()
         };
         ebay.find(params, populateChart);
     };
+
+    function getAspectFilters() {
+        var filters = [];
+        $("#categories").find("select").each(function (i, aspect) {
+            var sel = $(aspect).find("option").filter(":selected");
+            if (sel.length > 0) {
+                var filter = {
+                    name: aspect.__data__.name,
+                    values: sel.toArray().map(function (option) {
+                        return option.__data__.name
+                    })
+                };
+                filters.push(filter);
+            }
+        });
+        return filters;
+    }
 
     function populateChart(response) {
         var newItems = parseFindResponse(response);
@@ -53,6 +71,7 @@ function EbayChart() {
         var category = item.primaryCategory[0];
         return {
             id: item.itemId[0],
+            title: item.title[0],
             category: {
                 id: category.categoryId[0],
                 name: category.categoryName[0]
