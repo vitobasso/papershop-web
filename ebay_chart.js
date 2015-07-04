@@ -20,10 +20,13 @@ function EbayChart() {
     var chart = new Chart(x, y);
 
 
+    var ebay = new Ebay();
 
+    var categories = new Categories(ebay);
+
+    /////////////////////////////////////////////////////////
 
     var items = new Set(getId);
-    var currentPage = 0;
 
     function addItems(newItems){
         items.addAll(newItems);
@@ -34,18 +37,12 @@ function EbayChart() {
         return item.id;
     }
 
+    /////////////////////////////////////////////////////////
 
-
-    var ebay = new Ebay();
-
-    var categories = new Categories(ebay);
-
-    this.requestNextPage = function () {
-        currentPage = currentPage + 1;
-        var keywords = $("input[title=keywords]").val();
+    this.doRequest = function() {
         var params = {
-            keywords: keywords,
-            page: currentPage,
+            keywords: $("#keywords").val(),
+            page: $("#page").val(),
             aspects: getAspectFilters()
         };
         ebay.find(params, populateChart);
@@ -68,13 +65,17 @@ function EbayChart() {
         return filters;
     }
 
+    /////////////////////////////////////////////////////////
+
     function populateChart(response) {
         var newItems = parseFindResponse(response);
         addItems(newItems);
         var itemsArray = items.toArray();
-        categories.addFromItens(itemsArray);
+        categories.populate(itemsArray);
         chart.populate(itemsArray);
     }
+
+    /////////////////////////////////////////////////////////
 
     function parseFindResponse(response) {
         var responseItems = response.findItemsAdvancedResponse[0].searchResult[0].item || [];

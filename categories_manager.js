@@ -5,9 +5,9 @@ function Categories(ebay) {
 
     var categories = [];
 
-    this.addFromItens = function (itens) {
+    this.populate = function (itens) {
         categories = uniqueCategories(itens);
-        populate();
+        populateCategories();
     };
 
     function uniqueCategories(items) {
@@ -21,7 +21,7 @@ function Categories(ebay) {
         });
     }
 
-    function populate() {
+    function populateCategories() {
         var selRoot = d3.select("#categories");
         selRoot.select("ul").selectAll("li").data(categories, getId)
             .enter()

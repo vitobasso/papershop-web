@@ -18,8 +18,11 @@
 <body>
 
 <div id="header">
-    <input type="text" title="keywords" value="hdd"/>
-    <button onclick="chart.requestNextPage()">Fetch more</button>
+    <label for="keywords">Keywords:</label>
+    <input type="text" id="keywords" value="bicycle"/>
+    <label for="page">Page:</label>
+    <input type="text" id="page" value="1" size="1"/>
+    <button onclick="chart.doRequest()">Fetch</button>
 </div>
 <div id="left">
     <div id="categories">
