@@ -53,7 +53,7 @@ function EbayChart() {
     /////////////////////////////////////////////////////////
 
     var listingTimeAxis = {
-        label: "Listing Time",
+        label: "Listing Begin",
         scale: d3.time.scale,
         fun: function (item) {
             return item.listingTime;

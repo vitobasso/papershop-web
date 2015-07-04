@@ -124,7 +124,7 @@ function Chart(xParam, yParam) {
 
     function initXScale(scale) {
         if (isOrdinal(scale)) {
-            scale.rangePoints([0, width]);
+            scale.rangePoints([0, width], .5);
         } else {
             scale.range([0, width]);
         }
