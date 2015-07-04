@@ -19,8 +19,22 @@ function EbayChart() {
     };
     var chart = new Chart(x, y);
 
-    var items = [];
+
+
+
+    var items = new Set(getId);
     var currentPage = 0;
+
+    function addItems(newItems){
+        items.addAll(newItems);
+        $("#total-count").show().text(items.size());
+    }
+
+    function getId(item){
+        return item.id;
+    }
+
+
 
     var ebay = new Ebay();
 
@@ -56,14 +70,15 @@ function EbayChart() {
 
     function populateChart(response) {
         var newItems = parseFindResponse(response);
-        items = items.concat(newItems);
-        categories.addFromItens(items);
-        chart.populate(items);
+        addItems(newItems);
+        var itemsArray = items.toArray();
+        categories.addFromItens(itemsArray);
+        chart.populate(itemsArray);
     }
 
     function parseFindResponse(response) {
-        var items = response.findItemsAdvancedResponse[0].searchResult[0].item || [];
-        return items.map(parseItem);
+        var responseItems = response.findItemsAdvancedResponse[0].searchResult[0].item || [];
+        return responseItems.map(parseItem);
     }
 
     function parseItem(item) {
