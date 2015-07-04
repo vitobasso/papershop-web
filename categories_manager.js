@@ -36,6 +36,7 @@ function Categories(ebay) {
             .append("ul");
 
         $("#categories").tabs().tabs("refresh");
+        populateAspects(categories[0]);
     }
 
     function populateAspects(category) {

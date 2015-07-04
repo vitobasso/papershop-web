@@ -2,6 +2,10 @@ body {
     font: 10px sans-serif;
 }
 
+#error-msg {
+    color: red;
+}
+
 #left {
     float: left;
     width: 600px;

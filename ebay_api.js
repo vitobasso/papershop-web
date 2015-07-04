@@ -44,7 +44,8 @@ function Ebay() {
         $.ajax({
             url: buildFindUrl(params),
             dataType: "jsonp",
-            success: callback
+            success: callback,
+            error: handleError
         });
     };
 
@@ -52,8 +53,14 @@ function Ebay() {
         $.ajax({
             url: buildHistogramsUrl(params),
             dataType: "jsonp",
-            success: callback
+            success: callback,
+            error: handleError
         });
+    };
+
+    function handleError(xhr, msg, err) {
+        showError(msg);
+        throw err;
     }
 
 }

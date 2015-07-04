@@ -3,23 +3,6 @@
  */
 function EbayChart() {
 
-    var x = {
-        label: "Listing Time",
-        scale: d3.time.scale,
-        fun: function (item) {
-            return item.listingTime;
-        }
-    };
-    var y = {
-        label: "Current Price (USD)",
-        scale: d3.scale.linear,
-        fun: function (item) {
-            return item.price;
-        }
-    };
-    var chart = new Chart(x, y);
-
-
     var ebay = new Ebay();
 
     var categories = new Categories(ebay);
@@ -28,24 +11,24 @@ function EbayChart() {
 
     var items = new Set(getId);
 
-    function addItems(newItems){
+    function addItems(newItems) {
         items.addAll(newItems);
         $("#total-count").show().text(items.size());
     }
 
-    function getId(item){
+    function getId(item) {
         return item.id;
     }
 
     /////////////////////////////////////////////////////////
 
-    this.doRequest = function() {
+    this.doRequest = function () {
         var params = {
             keywords: $("#keywords").val(),
             page: $("#page").val(),
             aspects: getAspectFilters()
         };
-        ebay.find(params, populateChart);
+        ebay.find(params, tryPopulateChart);
     };
 
     function getAspectFilters() {
@@ -67,6 +50,31 @@ function EbayChart() {
 
     /////////////////////////////////////////////////////////
 
+    var x = {
+        label: "Listing Time",
+        scale: d3.time.scale,
+        fun: function (item) {
+            return item.listingTime;
+        }
+    };
+    var y = {
+        label: "Current Price (USD)",
+        scale: d3.scale.linear,
+        fun: function (item) {
+            return item.price.value;
+        }
+    };
+    var chart = new Chart(x, y);
+
+    function tryPopulateChart(response) {
+        try {
+            populateChart(response);
+        } catch (err) {
+            showError(err);
+            throw err;
+        }
+    }
+
     function populateChart(response) {
         var newItems = parseFindResponse(response);
         addItems(newItems);
@@ -85,6 +93,7 @@ function EbayChart() {
     function parseItem(item) {
         var dateStr = item.listingInfo[0].startTime[0];
         var category = item.primaryCategory[0];
+        var price = item.sellingStatus[0].currentPrice[0];
         return {
             id: item.itemId[0],
             title: item.title[0],
@@ -92,13 +101,37 @@ function EbayChart() {
                 id: category.categoryId[0],
                 name: category.categoryName[0]
             },
+            condition: parseCondition(item),
             listingTime: dateFormat.parse(dateStr),
-            price: +item.sellingStatus[0].currentPrice[0].__value__,
+            price: {
+                currency: price["@currencyId"],
+                value: +price.__value__
+            },
+            country: item.country[0],
             image: item.galleryURL[0],
             link: item.viewItemURL[0]
         }
     }
 
-    var dateFormat = d3.time.format("%Y-%m-%dT%H:%M:%S.%LZ");
+    function parseCondition(item) {
+        var result = {};
+        if (item.condition && item.condition[0]) {
+            var condition = item.condition[0];
+            if (condition) {
+                result = {
+                    id: condition.conditionId[0],
+                    name: condition.conditionDisplayName[0]
+                }
+            }
+        }
+        return result;
+    }
+}
 
+var dateFormat = d3.time.format("%Y-%m-%dT%H:%M:%S.%LZ");
+
+///////////////////////////////////////////////////////////
+
+function showError(msg) {
+    $("#error-msg").html(msg);
 }

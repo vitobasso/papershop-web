@@ -53,17 +53,18 @@ function Chart(xParam, yParam) {
         assignTooltips();
     };
 
-    function assignTooltips() {
+    function assignTooltips() { //TODO extract knowledge about item
         $("#chart").find("svg").tooltip({
             items: "circle",
             content: buildTooltip
         });
         function buildTooltip() {
             var item = this.__data__;
+            var priceStr = item.price.currency + " " + item.price.value;
             return "<div class='chart-tooltip'>" +
                 "<img src='" + item.image + "'/>" +
                 "<p>" + item.title + "</p>" +
-                "<p>" + "Price: " + item.price + "</p>" +
+                "<p>" + "Price: " + priceStr + "</p>" +
                 "</div>";
         }
     }
