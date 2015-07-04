@@ -25,8 +25,10 @@ function EbayChart() {
     this.doRequest = function () {
         var params = {
             keywords: $("#keywords").val(),
-            page: $("#page").val(),
-            aspects: getAspectFilters()
+            listingType: ["AuctionWithBIN", "FixedPrice"],
+            aspects: getAspectFilters(),
+            page: $("#page").val()
+
         };
         ebay.find(params, tryPopulateChart);
     };
@@ -50,11 +52,25 @@ function EbayChart() {
 
     /////////////////////////////////////////////////////////
 
-    var x = {
+    var listingTimeAxis = {
         label: "Listing Time",
         scale: d3.time.scale,
         fun: function (item) {
             return item.listingTime;
+        }
+    };
+    var conditionAxis = {
+        label: "Condition",
+        scale: d3.scale.ordinal,
+        fun: function (item) {
+            return item.condition.name;
+        }
+    };
+    var categoryAxis = {
+        label: "Category",
+        scale: d3.scale.ordinal,
+        fun: function (item) {
+            return item.category.name;
         }
     };
     var y = {
@@ -64,7 +80,34 @@ function EbayChart() {
             return item.price.value;
         }
     };
-    var chart = new Chart(x, y);
+    var chart;
+
+    var xAxisCandidates = [conditionAxis, categoryAxis, listingTimeAxis];
+
+    initAxisSelector();
+    rebuildChart();
+
+    function initAxisSelector() {
+        d3.select("#x-axis-select")
+            .on("change", rebuildChart)
+            .selectAll("option").data(xAxisCandidates)
+            .enter().append("option")
+            .html(function (axis) {
+                return axis.label;
+            });
+    }
+
+    function rebuildChart() {
+        if (chart) {
+            chart.destroy();
+        }
+        var selected = $("#x-axis-select").find("option:selected").get(0);
+        var x = selected.__data__;
+        chart = new Chart(x, y);
+        if (!items.empty()) {
+            chart.populate(items.toArray());
+        }
+    }
 
     function tryPopulateChart(response) {
         try {
@@ -102,6 +145,7 @@ function EbayChart() {
                 name: category.categoryName[0]
             },
             condition: parseCondition(item),
+            aspects: [],
             listingTime: dateFormat.parse(dateStr),
             price: {
                 currency: price["@currencyId"],
@@ -126,12 +170,28 @@ function EbayChart() {
         }
         return result;
     }
-}
 
-var dateFormat = d3.time.format("%Y-%m-%dT%H:%M:%S.%LZ");
+    var dateFormat = d3.time.format("%Y-%m-%dT%H:%M:%S.%LZ");
 
 ///////////////////////////////////////////////////////////
 
-function showError(msg) {
-    $("#error-msg").html(msg);
+    var condition = [
+        {1000: "New"},
+        {1500: "New other (see details)"},
+        {1750: "New with defects"},
+        {2000: "Manufacturer refurbished"},
+        {2500: "Seller refurbished"},
+        {3000: "Used"},
+        {4000: "Very Good"},
+        {5000: "Good"},
+        {6000: "Acceptable"},
+        {7000: "For parts or not working"}
+    ];
+
+///////////////////////////////////////////////////////////
+
+    function showError(msg) {
+        $("#error-msg").html(msg);
+    }
+
 }

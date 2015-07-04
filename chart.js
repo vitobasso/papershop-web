@@ -8,8 +8,7 @@ function Chart(xParam, yParam) {
         width = 960 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
 
-    var x = xParam.scale()
-        .range([0, width]);
+    var x = initXScale(xParam.scale());
 
     var y = yParam.scale()
         .range([height, 0]);
@@ -65,12 +64,15 @@ function Chart(xParam, yParam) {
                 "<img src='" + item.image + "'/>" +
                 "<p>" + item.title + "</p>" +
                 "<p>" + "Price: " + priceStr + "</p>" +
+                "<p>" + "Category: " + item.category.name + "</p>" +
+                "<p>" + "Condition: " + item.condition.name + "</p>" +
                 "</div>";
         }
     }
 
     function refreshAxes(items) {
-        x.domain(d3.extent(items, xParam.fun)).nice();
+        resetDomain(x, items);
+        resetDomain(y, items);
         y.domain(d3.extent(items, yParam.fun)).nice();
         svg.selectAll(".axis").filter(".x").call(xAxis);
         svg.selectAll(".axis").filter(".y").call(yAxis);
@@ -108,8 +110,33 @@ function Chart(xParam, yParam) {
         return svg;
     }
 
+    this.destroy = function () {
+        d3.select("#chart").html("");
+    };
+
     function getId(object) {
         return object.id;
+    }
+
+    function isOrdinal(scale) {
+        return typeof scale.rangePoints === "function";
+    }
+
+    function initXScale(scale) {
+        if (isOrdinal(scale)) {
+            scale.rangePoints([0, width]);
+        } else {
+            scale.range([0, width]);
+        }
+        return scale;
+    }
+
+    function resetDomain(scale, items) {
+        if (isOrdinal(scale)) {
+            scale.domain(items.map(xParam.fun));
+        } else {
+            scale.domain(d3.extent(items, xParam.fun)).nice();
+        }
     }
 
 }

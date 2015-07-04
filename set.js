@@ -38,6 +38,10 @@ Set.prototype = {
         return this._size;
     },
 
+    empty: function() {
+        return this._size == 0;
+    },
+
     each: function each(iteratorFunction, thisObj) {
         for (var value in this._values) {
             iteratorFunction.call(thisObj, this._values[value]);

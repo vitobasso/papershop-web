@@ -11,14 +11,36 @@ function Ebay() {
             "&SECURITY-APPNAME=VictorBa-91f0-4b04-b497-3a5e426e0ece" +
             "&RESPONSE-DATA-FORMAT=json" +
             "&keywords=" + params.keywords +
-            "&itemFilter(0).name=ListingType" +
-            "&itemFilter(0).value(0)=AuctionWithBIN" +
-            "&itemFilter(0).value(1)=FixedPrice" +
-            "&paginationInput.pageNumber=" + params.page +
-            buildAspectFilterParams(params.aspects);
+            buildCategory(params.category) +
+            buildItemFilter("ListingType", params.listingType, 0) +
+            buildItemFilter("Condition", params.condition, 0) +
+            buildItemFilter("FreeShippingOnly", params.freeShipping, 0) +
+            buildItemFilter("LocatedIn", params.locatedIn, 0) +
+            buildItemFilter("Seller", params.seller, 0) +
+            buildAspectFilter(params.aspects) +
+            "&paginationInput.pageNumber=" + params.page;
     }
 
-    function buildAspectFilterParams(filters) {
+    function buildCategory(categoryId) {
+        var result = "";
+        if (categoryId) {
+            result = "&categoryId=" + categoryId;
+        }
+        return result;
+    }
+
+    function buildItemFilter(name, values, i) {
+        var result = "";
+        if (values) {
+            result = "&itemFilter(" + i + ").name=" + name;
+            values.forEach(function (value, j) {
+                result += "&itemFilter(" + i + ").value(" + j + ")=" + value;
+            });
+        }
+        return result;
+    }
+
+    function buildAspectFilter(filters) {
         var result = "";
         if (filters) {
             filters.forEach(function (filter, i) {
