@@ -51,60 +51,10 @@ function Main() {
 
     /////////////////////////////////////////////////////////
 
-    var listingTimeAxis = {
-        label: "Listing Begin",
-        scale: d3.time.scale,
-        fun: function (item) {
-            return item.listingTime;
-        }
-    };
-    var conditionAxis = {
-        label: "Condition",
-        scale: d3.scale.ordinal,
-        fun: function (item) {
-            return item.condition.name;
-        }
-    };
-    var categoryAxis = {
-        label: "Category",
-        scale: d3.scale.ordinal,
-        fun: function (item) {
-            return item.category.name;
-        }
-    };
-    var priceAxis = {
-        label: "Current Price (USD)",
-        scale: d3.scale.linear,
-        fun: function (item) {
-            return item.price.value;
-        }
-    };
-    var xAxisCandidates = [conditionAxis, categoryAxis, listingTimeAxis];
+    var ebayChart = new EbayChart(getItems, "#x-axis-select");
 
-    var chart;
-    initAxisSelector();
-    rebuildChart();
-
-    function initAxisSelector() {
-        d3.select("#x-axis-select")
-            .on("change", rebuildChart)
-            .selectAll("option").data(xAxisCandidates)
-            .enter().append("option")
-            .html(function (axis) {
-                return axis.label;
-            });
-    }
-
-    function rebuildChart() {
-        if (chart) {
-            chart.destroy();
-        }
-        var selected = $("#x-axis-select").find("option:selected").get(0);
-        var xAxis = selected.__data__;
-        chart = new Chart(xAxis, priceAxis, buildTooltip);
-        if (!items.empty()) {
-            chart.populate(items.toArray());
-        }
+    function getItems(){
+        return items.toArray();
     }
 
     function tryPopulateChart(response) {
@@ -120,22 +70,11 @@ function Main() {
         addItems(newItems);
         var itemsArray = items.toArray();
         categories.populate(itemsArray);
-        chart.populate(itemsArray);
+        ebayChart.populate(itemsArray);
     }
 
-    function buildTooltip() {
-        var item = this.__data__;
-        var priceStr = item.price.currency + " " + item.price.value;
-        return "<div class='chart-tooltip'>" +
-            "<img src='" + item.image + "'/>" +
-            "<p>" + item.title + "</p>" +
-            "<p>" + "Price: " + priceStr + "</p>" +
-            "<p>" + "Category: " + item.category.name + "</p>" +
-            "<p>" + "Condition: " + item.condition.name + "</p>" +
-            "</div>";
-    }
 
-/////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////
 
     var condition = [
         {1000: "New"},
@@ -150,7 +89,7 @@ function Main() {
         {7000: "For parts or not working"}
     ];
 
-///////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////
 
     function showError(msg) {
         $("#error-msg").html(msg);
