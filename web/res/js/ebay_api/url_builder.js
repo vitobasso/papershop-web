@@ -1,12 +1,12 @@
 /**
- * Created by Victor on 30/06/2015.
+ * Created by Victor on 05/07/2015.
  */
 
-function Ebay() {
+function EbayUrlBuilder(){
 
     var APPID = "VictorBa-91f0-4b04-b497-3a5e426e0ece";
 
-    function buildFindUrl(params) {
+    this.buildFindUrl = function (params) {
         return "http://svcs.ebay.com/services/search/FindingService/v1?" +
             "OPERATION-NAME=findItemsAdvanced" +
             "&SERVICE-VERSION=1.0.0" +
@@ -21,7 +21,7 @@ function Ebay() {
             buildItemFilter("Seller", params.seller, 0) +
             buildAspectFilter(params.aspects) +
             "&paginationInput.pageNumber=" + params.page;
-    }
+    };
 
     function buildCategory(categoryId) {
         var result = "";
@@ -55,18 +55,8 @@ function Ebay() {
         return result;
     }
 
-    this.find = function (params, callback) {
-        $.ajax({
-            url: buildFindUrl(params),
-            dataType: "jsonp",
-            success: callback,
-            error: handleError
-        });
-    };
 
-    //////////////////////////////////////////////////////////////////////////
-
-    function buildSpecificsUrl(itemIds) {
+    this.buildSpecificsUrl = function (itemIds) {
         return "http://open.api.ebay.com/shopping?" +
             "callname=GetMultipleItems" +
             "&version=515" +
@@ -74,40 +64,15 @@ function Ebay() {
             "&appid=" + APPID +
             "&ItemID=" + itemIds.join(",") +
             "&IncludeSelector=ItemSpecifics"
-    }
-
-    this.itemSpecifics = function (params, callback) {
-        $.ajax({
-            url: buildFindUrl(params),
-            dataType: "jsonp",
-            success: callback,
-            error: handleError
-        });
     };
 
-    //////////////////////////////////////////////////////////////////////////
-
-    function buildHistogramsUrl(params) {
+    this.buildHistogramsUrl = function (params) {
         return "http://svcs.ebay.com/services/search/FindingService/v1?" +
             "OPERATION-NAME=getHistograms" +
             "&SERVICE-VERSION=1.0.0" +
             "&SECURITY-APPNAME=" + APPID +
             "&RESPONSE-DATA-FORMAT=json" +
             "&categoryId=" + params.categoryId
-    }
-
-    this.histograms = function (params, callback) {
-        $.ajax({
-            url: buildHistogramsUrl(params),
-            dataType: "jsonp",
-            success: callback,
-            error: handleError
-        });
     };
-
-    function handleError(xhr, msg, err) {
-        showError(msg);
-        throw err;
-    }
 
 }

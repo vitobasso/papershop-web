@@ -44,8 +44,7 @@ function Categories(ebay) {
             .selectAll("div").filter(selCategoryId(category))
             .select("ul");
 
-        ebay.histograms({categoryId: category.id}, function (response) {
-            var aspects = parseHistogramsResponse(response);
+        ebay.histograms({categoryId: category.id}, function (aspects) {
 
             // populate aspects
             var selAspect = selCategory.selectAll("li").data(aspects, getName)
@@ -67,21 +66,6 @@ function Categories(ebay) {
                 .enter()
                 .append("option")
                 .html(getName);
-        });
-    }
-
-    function parseHistogramsResponse(response) {
-        var aspects = response.getHistogramsResponse[0].aspectHistogramContainer[0].aspect;
-        return aspects.map(function (aspect) {
-            return {
-                name: aspect['@name'],
-                partitions: aspect.valueHistogram.map(function (histogram) {
-                    return {
-                        name: histogram['@valueName'],
-                        count: histogram.count[0]
-                    }
-                })
-            }
         });
     }
 
