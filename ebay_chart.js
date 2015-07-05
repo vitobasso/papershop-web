@@ -73,17 +73,16 @@ function EbayChart() {
             return item.category.name;
         }
     };
-    var y = {
+    var priceAxis = {
         label: "Current Price (USD)",
         scale: d3.scale.linear,
         fun: function (item) {
             return item.price.value;
         }
     };
-    var chart;
-
     var xAxisCandidates = [conditionAxis, categoryAxis, listingTimeAxis];
 
+    var chart;
     initAxisSelector();
     rebuildChart();
 
@@ -102,8 +101,8 @@ function EbayChart() {
             chart.destroy();
         }
         var selected = $("#x-axis-select").find("option:selected").get(0);
-        var x = selected.__data__;
-        chart = new Chart(x, y);
+        var xAxis = selected.__data__;
+        chart = new Chart(xAxis, priceAxis);
         if (!items.empty()) {
             chart.populate(items.toArray());
         }
