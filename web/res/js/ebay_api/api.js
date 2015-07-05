@@ -2,7 +2,7 @@
  * Created by Victor on 30/06/2015.
  */
 
-function Ebay() {
+function EbayApi() {
 
     var urlBuilder = new EbayUrlBuilder()
     var parser = new EbayResponseParser();

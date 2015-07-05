@@ -3,15 +3,17 @@
  */
 function Main() {
 
-    var ebay = new Ebay();
-    var categories = new Categories(ebay);
-
-    /////////////////////////////////////////////////////////
-
     var items = new Set(getId);
+    var api = new EbayApi();
+    var ebayChart = new EbayChart(getItems, "#x-axis-select");
+    var categories = new Categories(api);
 
     function getId(item) {
         return item.id;
+    }
+
+    function getItems(){
+        return items.toArray();
     }
 
     function addItems(newItems) {
@@ -29,7 +31,7 @@ function Main() {
             page: $("#page").val()
 
         };
-        ebay.find(params, tryPopulateChart);
+        api.find(params, tryPopulateChart);
     };
 
     function getAspectFilters() {
@@ -51,12 +53,6 @@ function Main() {
 
     /////////////////////////////////////////////////////////
 
-    var ebayChart = new EbayChart(getItems, "#x-axis-select");
-
-    function getItems(){
-        return items.toArray();
-    }
-
     function tryPopulateChart(response) {
         try {
             populateChart(response);
@@ -72,7 +68,6 @@ function Main() {
         categories.populate(itemsArray);
         ebayChart.populate(itemsArray);
     }
-
 
     /////////////////////////////////////////////////////////
 
