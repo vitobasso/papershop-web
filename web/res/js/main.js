@@ -1,7 +1,7 @@
 /**
  * Created by Victor on 01/07/2015.
  */
-function EbayChart() {
+function Main() {
 
     var ebay = new Ebay();
 

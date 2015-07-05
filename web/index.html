@@ -13,7 +13,7 @@
     <script src="res/js/ebay_api.js"></script>
     <script src="res/js/categories_manager.js"></script>
     <script src="res/js/chart.js"></script>
-    <script src="res/js/ebay_chart.js"></script>
+    <script src="res/js/main.js"></script>
 </head>
 <body>
 
@@ -22,7 +22,7 @@
     <input type="text" id="keywords" value="bicycle"/>
     <label for="page">Page:</label>
     <input type="text" id="page" value="1" size="1"/>
-    <button onclick="chart.doRequest()">Fetch</button>
+    <button onclick="main.doRequest()">Fetch</button>
     <p id="error-msg"></p>
 </div>
 <div id="left">
@@ -38,7 +38,7 @@
 </div>
 
 <script>
-    var chart = new EbayChart();
+    var main = new Main();
 </script>
 
 </body>
