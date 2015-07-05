@@ -2,7 +2,7 @@
  * Created by Victor on 30/06/2015.
  */
 
-function Chart(xParam, yParam) {
+function Chart(xParam, yParam, onBuildTooltip) {
 
     var margin = {top: 20, right: 20, bottom: 30, left: 40},
         width = 960 - margin.left - margin.right,
@@ -52,22 +52,11 @@ function Chart(xParam, yParam) {
         assignTooltips();
     };
 
-    function assignTooltips() { //TODO extract knowledge about item
+    function assignTooltips() {
         $("#chart").find("svg").tooltip({
             items: "circle",
-            content: buildTooltip
+            content: onBuildTooltip
         });
-        function buildTooltip() {
-            var item = this.__data__;
-            var priceStr = item.price.currency + " " + item.price.value;
-            return "<div class='chart-tooltip'>" +
-                "<img src='" + item.image + "'/>" +
-                "<p>" + item.title + "</p>" +
-                "<p>" + "Price: " + priceStr + "</p>" +
-                "<p>" + "Category: " + item.category.name + "</p>" +
-                "<p>" + "Condition: " + item.condition.name + "</p>" +
-                "</div>";
-        }
     }
 
     function refreshAxes(items) {

@@ -4,20 +4,19 @@
 function Main() {
 
     var ebay = new Ebay();
-
     var categories = new Categories(ebay);
 
     /////////////////////////////////////////////////////////
 
     var items = new Set(getId);
 
+    function getId(item) {
+        return item.id;
+    }
+
     function addItems(newItems) {
         items.addAll(newItems);
         $("#total-count").show().text(items.size());
-    }
-
-    function getId(item) {
-        return item.id;
     }
 
     /////////////////////////////////////////////////////////
@@ -102,7 +101,7 @@ function Main() {
         }
         var selected = $("#x-axis-select").find("option:selected").get(0);
         var xAxis = selected.__data__;
-        chart = new Chart(xAxis, priceAxis);
+        chart = new Chart(xAxis, priceAxis, buildTooltip);
         if (!items.empty()) {
             chart.populate(items.toArray());
         }
@@ -122,6 +121,18 @@ function Main() {
         var itemsArray = items.toArray();
         categories.populate(itemsArray);
         chart.populate(itemsArray);
+    }
+
+    function buildTooltip() {
+        var item = this.__data__;
+        var priceStr = item.price.currency + " " + item.price.value;
+        return "<div class='chart-tooltip'>" +
+            "<img src='" + item.image + "'/>" +
+            "<p>" + item.title + "</p>" +
+            "<p>" + "Price: " + priceStr + "</p>" +
+            "<p>" + "Category: " + item.category.name + "</p>" +
+            "<p>" + "Condition: " + item.condition.name + "</p>" +
+            "</div>";
     }
 
 /////////////////////////////////////////////////////////
