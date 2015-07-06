@@ -25,13 +25,17 @@ Set.prototype = {
 
     remove: function remove(value) {
         if (this.contains(value)) {
-            delete this._values[this._hashFunction(value)];
+            delete this.get(value);
             this._size--;
         }
     },
 
+    get: function(value) {
+        return this._values[this._hashFunction(value)];
+    },
+
     contains: function contains(value) {
-        return typeof this._values[this._hashFunction(value)] !== "undefined";
+        return typeof this.get(value) !== "undefined";
     },
 
     size: function size() {

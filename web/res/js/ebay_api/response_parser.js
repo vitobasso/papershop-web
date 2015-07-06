@@ -2,16 +2,16 @@
  * Created by Victor on 05/07/2015.
  */
 
-function EbayResponseParser(){
+function EbayResponseParser() {
 
     var dateFormat = d3.time.format("%Y-%m-%dT%H:%M:%S.%LZ");
 
     this.parseFind = function (response) {
         var responseItems = response.findItemsAdvancedResponse[0].searchResult[0].item || [];
-        return responseItems.map(parseItem);
+        return responseItems.map(parseFindItem);
     };
 
-    function parseItem(item) {
+    function parseFindItem(item) {
         var dateStr = item.listingInfo[0].startTime[0];
         var category = item.primaryCategory[0];
         var price = item.sellingStatus[0].currentPrice[0];
@@ -65,6 +65,21 @@ function EbayResponseParser(){
     };
 
     this.parseSpecifics = function (response) {
-        //TODO
+        var responseItems = response.Item;
+        return responseItems.map(function (responseItem) {
+            var responseSpecifics = responseItem.ItemSpecifics.NameValueList;
+            return {
+                id: +responseItem.ItemId,
+                aspects: parseAspects(responseSpecifics)
+            }
+        });
+    };
+
+    function parseAspects(responseSpecifics) {
+        return responseSpecifics.map(function (nameValue) {
+            var result = {};
+            result[nameValue.Name] = nameValue.Value[0];
+            return result;
+        });
     }
 }

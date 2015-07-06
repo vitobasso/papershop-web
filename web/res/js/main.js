@@ -12,7 +12,7 @@ function Main() {
         return item.id;
     }
 
-    function getItems(){
+    function getItems() {
         return items.toArray();
     }
 
@@ -64,9 +64,27 @@ function Main() {
 
     function populateChart(newItems) {
         addItems(newItems);
+        //fetchItemAspects(newItems);
         var itemsArray = items.toArray();
         categories.populate(itemsArray);
         ebayChart.populate(itemsArray);
+    }
+
+    function fetchItemAspects(newItems) {
+        newItems.map(getId)
+            .chunk(20)
+            .forEach(fetchAspectsAndMerge);
+    }
+
+    function fetchAspectsAndMerge(itemIds) {
+        api.itemSpecifics(itemIds, function (aspectsOfEachItem) {
+            aspectsOfEachItem.forEach(mergeItemAspects)
+        });
+    }
+
+    function mergeItemAspects(itemAspects) {
+        var item = items.get(itemAspects.id);
+        item.aspects = itemAspects.aspects;
     }
 
     /////////////////////////////////////////////////////////
@@ -86,8 +104,12 @@ function Main() {
 
     ///////////////////////////////////////////////////////////
 
-    function showError(msg) {
-        $("#error-msg").html(msg);
+    function getId(object) {
+        return object.id;
     }
 
+}
+
+function showError(msg) {
+    $("#error-msg").html(msg);
 }

@@ -13,7 +13,7 @@ function EbayApi() {
     };
 
     this.itemSpecifics = function (params, callback) {
-        var url = urlBuilder.buildFindUrl(params);
+        var url = urlBuilder.buildSpecificsUrl(params);
         requestAndParse(url, parser.parseSpecifics, callback);
     };
 
@@ -30,6 +30,7 @@ function EbayApi() {
     }
 
     function request(url, callback) {
+        console.log(url);
         $.ajax({
             url: url,
             dataType: "jsonp",
