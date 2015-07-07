@@ -3,12 +3,20 @@
  */
 function Main() {
 
-    var items = new Set(getId);
+    var items = new Set(getId, mergeItems);
     var api = new EbayApi();
     var ebayChart = new EbayChart(api, getItems, "#x-axis-select", "#color-select");
 
     function getItems() {
         return items.toArray();
+    }
+
+    function mergeItems(oldItem, newItem) {
+        for (var key in  newItem.aspects) {
+            if (newItem.aspects.hasOwnProperty(key)) {
+                oldItem.aspects[key] = newItem.aspects[key];
+            }
+        }
     }
 
     function addItems(newItems) {
@@ -54,7 +62,6 @@ function Main() {
     function populateChart(requestParams, newItems) {
         rememberAspects(requestParams, newItems); //TODO move to parser? api?
         addItems(newItems);
-        //fetchItemAspects(newItems);
         var itemsArray = items.toArray();
         ebayChart.populate(itemsArray);
     }
@@ -75,14 +82,6 @@ function Main() {
             aspectsMap[aspect.name] = aspect.values[0];
         });
         return aspectsMap;
-    }
-
-    function mergeAspects(oldItem, newItem) {
-        for (var key in  oldItem.aspects) {
-            if (oldItem.aspects.hasOwnProperty(key)) {
-                oldItem.aspects[key] = newItem.aspects[key];
-            }
-        }
     }
 
     ///////////////////////////////////////////////////////////

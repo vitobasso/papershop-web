@@ -1,19 +1,26 @@
 /**
  * Created by Victor on 03/07/2015.
+ *
+ * https://github.com/lukasolson/simple-js-set/blob/master/set.js
  */
-// https://github.com/lukasolson/simple-js-set/blob/master/set.js
 
-function Set(hashFunction) {
+function Set(hashFunction, mergeFunction) {
     this._hashFunction = hashFunction || JSON.stringify;
+    this._mergeFunction = mergeFunction || $.noop;
     this._values = {};
     this._size = 0;
+
 }
 
 Set.prototype = {
     add: function add(value) {
+        var key = this._hashFunction(value);
         if (!this.contains(value)) {
-            this._values[this._hashFunction(value)] = value;
+            this._values[key] = value;
             this._size++;
+        } else {
+            var oldValue = this._values[key];
+            this._mergeFunction(oldValue, value);
         }
     },
 

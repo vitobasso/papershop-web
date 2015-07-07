@@ -49,22 +49,20 @@ function Categories(ebay) {
     }
 
     function fetchAspects(category) {
+        var categoryFromSet = categoriesSet.get(category);
+        if (categoryFromSet.aspects.length == 0) {
+            ebay.histograms({categoryId: category.id}, function (aspects) {
+                categoryFromSet.aspects = aspects;
+                populateAspects(category, aspects);
+            });
+        }
+    }
+
+    function populateAspects(category, aspects) {
         var selCategory = d3.select("#categories")
             .selectAll("div").filter(selCategoryId(category))
             .select("ul");
 
-        ebay.histograms({categoryId: category.id}, function (aspects) {
-            rememberAspects(category, aspects);
-            populateAspects(selCategory, aspects);
-        });
-    }
-
-    function rememberAspects(category, aspects) {
-        var categoryFromSet = categoriesSet.get(category);
-        categoryFromSet.aspects = aspects;
-    }
-
-    function populateAspects(selCategory, aspects) {
         // aspects
         var selAspect = selCategory.selectAll("li").data(aspects, getName)
             .enter().append("li");
