@@ -3,11 +3,16 @@
  */
 function Categories(ebay) {
 
-    var categories = [];
+    var categoriesSet = new Set(getId);
 
     this.populate = function (itens) {
-        categories = uniqueCategories(itens);
-        populateCategories();
+        var categoriesArray = uniqueCategories(itens);
+        categoriesSet.addAll(categoriesArray)
+        populateCategories(categoriesArray);
+    };
+
+    this.each = function (fun) {
+        categoriesSet.each(fun);
     };
 
     function uniqueCategories(items) {
@@ -17,11 +22,15 @@ function Categories(ebay) {
         var categoryIds = mapByCategoryId.keys();
         return categoryIds.map(function (id) {
             var item = mapByCategoryId.get(id);
-            return item.category;
+            return {
+                id: item.category.id,
+                name: item.category.name,
+                aspects: []
+            };
         });
     }
 
-    function populateCategories() {
+    function populateCategories(categories) {
         var selRoot = d3.select("#categories");
         selRoot.select("ul").selectAll("li").data(categories, getId)
             .enter()
@@ -29,44 +38,53 @@ function Categories(ebay) {
             .append("a")
             .attr("href", selCategoryId)
             .html(getName)
-            .on("click", populateAspects);
+            .on("click", fetchAspects);
         selRoot.selectAll("div").data(categories, getId)
             .enter()
             .append("div").attr("id", getCategoryId).classed("category_div", true)
             .append("ul");
 
         $("#categories").tabs().tabs("refresh");
-        populateAspects(categories[0]);
+        fetchAspects(categories[0]);
     }
 
-    function populateAspects(category) {
+    function fetchAspects(category) {
         var selCategory = d3.select("#categories")
             .selectAll("div").filter(selCategoryId(category))
             .select("ul");
 
         ebay.histograms({categoryId: category.id}, function (aspects) {
-
-            // populate aspects
-            var selAspect = selCategory.selectAll("li").data(aspects, getName)
-                .enter().append("li");
-            selAspect.append("a")
-                .attr("href", "#")
-                .html(getName)
-                .on("click", toggleActive);
-
-            // populate partitions
-            selAspect.append("select")
-                .attr("multiple", true)
-                .attr("size", function(aspect){
-                    return aspect.partitions.length;
-                })
-                .selectAll("option").data(function (aspect) {
-                    return aspect.partitions;
-                }, getName)
-                .enter()
-                .append("option")
-                .html(getName);
+            rememberAspects(category, aspects);
+            populateAspects(selCategory, aspects);
         });
+    }
+
+    function rememberAspects(category, aspects) {
+        var categoryFromSet = categoriesSet.get(category);
+        categoryFromSet.aspects = aspects;
+    }
+
+    function populateAspects(selCategory, aspects) {
+        // aspects
+        var selAspect = selCategory.selectAll("li").data(aspects, getName)
+            .enter().append("li");
+        selAspect.append("a")
+            .attr("href", "#")
+            .html(getName)
+            .on("click", toggleActive);
+
+        // partitions
+        selAspect.append("select")
+            .attr("multiple", true)
+            .attr("size", function (aspect) {
+                return aspect.partitions.length;
+            })
+            .selectAll("option").data(function (aspect) {
+                return aspect.partitions;
+            }, getName)
+            .enter()
+            .append("option")
+            .html(getName);
     }
 
     function getId(object) {

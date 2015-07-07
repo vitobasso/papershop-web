@@ -12,11 +12,6 @@ function EbayApi() {
         requestAndParse(url, parser.parseFind, callback)
     };
 
-    this.itemSpecifics = function (params, callback) {
-        var url = urlBuilder.buildSpecificsUrl(params);
-        requestAndParse(url, parser.parseSpecifics, callback);
-    };
-
     this.histograms = function (params, callback) {
         var url = urlBuilder.buildHistogramsUrl(params);
         requestAndParse(url, parser.parseHistograms, callback);

@@ -5,12 +5,7 @@ function Main() {
 
     var items = new Set(getId);
     var api = new EbayApi();
-    var ebayChart = new EbayChart(getItems, "#x-axis-select");
-    var categories = new Categories(api);
-
-    function getId(item) {
-        return item.id;
-    }
+    var ebayChart = new EbayChart(api, getItems, "#x-axis-select");
 
     function getItems() {
         return items.toArray();
@@ -31,7 +26,10 @@ function Main() {
             page: $("#page").val()
 
         };
-        api.find(params, tryPopulateChart);
+
+        api.find(params, function (response) {
+            populateChart(params, response)
+        });
     };
 
     function getAspectFilters() {
@@ -53,38 +51,38 @@ function Main() {
 
     /////////////////////////////////////////////////////////
 
-    function tryPopulateChart(response) {
-        try {
-            populateChart(response);
-        } catch (err) {
-            showError(err);
-            throw err;
-        }
-    }
-
-    function populateChart(newItems) {
+    function populateChart(requestParams, newItems) {
+        rememberAspects(requestParams, newItems); //TODO move to parser? api?
         addItems(newItems);
         //fetchItemAspects(newItems);
         var itemsArray = items.toArray();
-        categories.populate(itemsArray);
         ebayChart.populate(itemsArray);
     }
 
-    function fetchItemAspects(newItems) {
-        newItems.map(getId)
-            .chunk(20)
-            .forEach(fetchAspectsAndMerge);
-    }
-
-    function fetchAspectsAndMerge(itemIds) {
-        api.itemSpecifics(itemIds, function (aspectsOfEachItem) {
-            aspectsOfEachItem.forEach(mergeItemAspects)
+    function rememberAspects(requestParams, newItems) {
+        var requestAspects = getAspectsFromRequest(requestParams);
+        newItems.forEach(function (item) {
+            item.aspects = requestAspects;
         });
     }
 
-    function mergeItemAspects(itemAspects) {
-        var item = items.get(itemAspects.id);
-        item.aspects = itemAspects.aspects;
+    function getAspectsFromRequest(requestParams) {
+        var singleValueAspects = requestParams.aspects.filter(function (aspect) {
+            return aspect.values.length == 1;
+        });
+        var aspectsMap = {};
+        singleValueAspects.forEach(function (aspect) {
+            aspectsMap[aspect.name] = aspect.values[0];
+        });
+        return aspectsMap;
+    }
+
+    function mergeAspects(oldItem, newItem) {
+        for (var key in  oldItem.aspects) {
+            if (oldItem.aspects.hasOwnProperty(key)) {
+                oldItem.aspects[key] = newItem.aspects[key];
+            }
+        }
     }
 
     /////////////////////////////////////////////////////////
@@ -106,6 +104,10 @@ function Main() {
 
     function getId(object) {
         return object.id;
+    }
+
+    function getName(object) {
+        return object.name;
     }
 
 }

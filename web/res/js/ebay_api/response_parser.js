@@ -23,7 +23,7 @@ function EbayResponseParser() {
                 name: category.categoryName[0]
             },
             condition: parseCondition(item),
-            aspects: [],
+            aspects: {},
             listingTime: dateFormat.parse(dateStr),
             price: {
                 currency: price["@currencyId"],
@@ -64,22 +64,4 @@ function EbayResponseParser() {
         });
     };
 
-    this.parseSpecifics = function (response) {
-        var responseItems = response.Item;
-        return responseItems.map(function (responseItem) {
-            var responseSpecifics = responseItem.ItemSpecifics.NameValueList;
-            return {
-                id: +responseItem.ItemId,
-                aspects: parseAspects(responseSpecifics)
-            }
-        });
-    };
-
-    function parseAspects(responseSpecifics) {
-        return responseSpecifics.map(function (nameValue) {
-            var result = {};
-            result[nameValue.Name] = nameValue.Value[0];
-            return result;
-        });
-    }
 }

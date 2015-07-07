@@ -2,19 +2,10 @@
  * Created by Victor on 05/07/2015.
  */
 
-function EbayChart(getItems, axisSelectorId) {
+function EbayChart(api, getItems, axisSelectorId) {
 
+    var categories = new Categories(api);
     var chart;
-
-    function initAxisSelector() {
-        d3.select(axisSelectorId)
-            .on("change", rebuildChart)
-            .selectAll("option").data(xAxisOptions)
-            .enter().append("option")
-            .html(function (axis) {
-                return axis.label;
-            });
-    }
 
     function rebuildChart() {
         if (chart) {
@@ -30,9 +21,23 @@ function EbayChart(getItems, axisSelectorId) {
         }
     }
 
-    this.populate = function(items) {
+    this.populate = function (items) {
+        categories.populate(items);
+        populateAxisSelector();
         chart.populate(items);
     };
+
+    function populateAxisSelector() {
+        var selOption = d3.select(axisSelectorId)
+            .on("change", rebuildChart)
+            .selectAll("option").data(createAxisOptions());
+        selOption
+            .exit().remove();
+        selOption.enter().append("option")
+            .html(function (axis) {
+                return axis.label;
+            });
+    }
 
     function buildTooltip() {
         var item = this.__data__;
@@ -43,6 +48,7 @@ function EbayChart(getItems, axisSelectorId) {
             "<p>" + "Price: " + priceStr + "</p>" +
             "<p>" + "Category: " + item.category.name + "</p>" +
             "<p>" + "Condition: " + item.condition.name + "</p>" +
+            "<p>" + "Aspects: " + JSON.stringify(item.aspects) + "</p>" +
             "</div>";
     }
 
@@ -76,9 +82,27 @@ function EbayChart(getItems, axisSelectorId) {
         }
     };
 
-    var xAxisOptions = [conditionAxis, categoryAxis, listingTimeAxis];
+    function createAxisOptions() {
+        var result = [conditionAxis, categoryAxis, listingTimeAxis];
+        categories.each(function (category) {
+            category.aspects.forEach(function (aspect) {
+                result.push(createAspectAxis(aspect.name));
+            });
+        });
+        return result;
+    }
 
-    initAxisSelector();
+    function createAspectAxis(aspectName) {
+        return {
+            label: aspectName,
+            scale: d3.scale.ordinal,
+            fun: function (item) {
+                return item.aspects[aspectName];
+            }
+        }
+    }
+
+    populateAxisSelector();
     rebuildChart();
 
 }
