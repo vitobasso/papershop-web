@@ -13,6 +13,5 @@ svg {
 }
 
 .dot {
-    stroke: #000;
     cursor: pointer;
 }

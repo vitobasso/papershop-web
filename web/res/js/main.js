@@ -5,7 +5,7 @@ function Main() {
 
     var items = new Set(getId);
     var api = new EbayApi();
-    var ebayChart = new EbayChart(api, getItems, "#x-axis-select");
+    var ebayChart = new EbayChart(api, getItems, "#x-axis-select", "#color-select");
 
     function getItems() {
         return items.toArray();
@@ -84,21 +84,6 @@ function Main() {
             }
         }
     }
-
-    /////////////////////////////////////////////////////////
-
-    var condition = [
-        {1000: "New"},
-        {1500: "New other (see details)"},
-        {1750: "New with defects"},
-        {2000: "Manufacturer refurbished"},
-        {2500: "Seller refurbished"},
-        {3000: "Used"},
-        {4000: "Very Good"},
-        {5000: "Good"},
-        {6000: "Acceptable"},
-        {7000: "For parts or not working"}
-    ];
 
     ///////////////////////////////////////////////////////////
 

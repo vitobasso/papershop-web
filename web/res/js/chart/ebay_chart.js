@@ -2,7 +2,7 @@
  * Created by Victor on 05/07/2015.
  */
 
-function EbayChart(api, getItems, axisSelectorId) {
+function EbayChart(api, getItems, axisSelectorId, colorSelectorId) {
 
     var categories = new Categories(api);
     var chart;
@@ -11,24 +11,35 @@ function EbayChart(api, getItems, axisSelectorId) {
         if (chart) {
             chart.destroy();
         }
-        var selected = $(axisSelectorId).find("option:selected").get(0);
-        var xAxis = selected.__data__;
 
-        chart = new Chart(xAxis, priceAxis, buildTooltip);
+        var xAxis = getSelected(axisSelectorId);
+        var colorAxis = getSelected(colorSelectorId);
+        chart = new Chart(priceAxis, xAxis, colorAxis, buildTooltip);
+
         var items = getItems();
         if (items) {
             chart.populate(items);
         }
     }
 
+    function getSelected(selectorId) {
+        var selected = $(selectorId).find("option:selected").get(0)
+        return selected.__data__;
+    }
+
     this.populate = function (items) {
         categories.populate(items);
-        populateAxisSelector();
+        populateSelectors();
         chart.populate(items);
     };
 
-    function populateAxisSelector() {
-        var selOption = d3.select(axisSelectorId)
+    function populateSelectors() {
+        populateSelector(axisSelectorId);
+        populateSelector(colorSelectorId);
+    }
+
+    function populateSelector(selectorId) {
+        var selOption = d3.select(selectorId)
             .on("change", rebuildChart)
             .selectAll("option").data(createAxisOptions());
         selOption
@@ -37,19 +48,6 @@ function EbayChart(api, getItems, axisSelectorId) {
             .html(function (axis) {
                 return axis.label;
             });
-    }
-
-    function buildTooltip() {
-        var item = this.__data__;
-        var priceStr = item.price.currency + " " + item.price.value;
-        return "<div class='chart-tooltip'>" +
-            "<img src='" + item.image + "'/>" +
-            "<p>" + item.title + "</p>" +
-            "<p>" + "Price: " + priceStr + "</p>" +
-            "<p>" + "Category: " + item.category.name + "</p>" +
-            "<p>" + "Condition: " + item.condition.name + "</p>" +
-            "<p>" + "Aspects: " + JSON.stringify(item.aspects) + "</p>" +
-            "</div>";
     }
 
     var priceAxis = {
@@ -102,7 +100,20 @@ function EbayChart(api, getItems, axisSelectorId) {
         }
     }
 
-    populateAxisSelector();
+    function buildTooltip() {
+        var item = this.__data__;
+        var priceStr = item.price.currency + " " + item.price.value;
+        return "<div class='chart-tooltip'>" +
+            "<img src='" + item.image + "'/>" +
+            "<p>" + item.title + "</p>" +
+            "<p>" + "Price: " + priceStr + "</p>" +
+            "<p>" + "Category: " + item.category.name + "</p>" +
+            "<p>" + "Condition: " + item.condition.name + "</p>" +
+            "<p>" + "Aspects: " + JSON.stringify(item.aspects) + "</p>" +
+            "</div>";
+    }
+
+    populateSelectors();
     rebuildChart();
 
 }

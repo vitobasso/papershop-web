@@ -2,7 +2,7 @@
  * Created by Victor on 30/06/2015.
  */
 
-function Chart(xParam, yParam, onBuildTooltip) {
+function Chart(yParam, xParam, colorParam, onBuildTooltip) {
 
     var margin = {top: 20, right: 20, bottom: 30, left: 40},
         width = 960 - margin.left - margin.right,
@@ -10,8 +10,9 @@ function Chart(xParam, yParam, onBuildTooltip) {
 
     var x = initXScale(xParam.scale());
 
-    var y = yParam.scale()
-        .range([height, 0]);
+    var y = yParam.scale().range([height, 0]);
+
+    var colorScale = d3.scale.category10();
 
     var xAxis = d3.svg.axis()
         .scale(x)
@@ -23,30 +24,33 @@ function Chart(xParam, yParam, onBuildTooltip) {
 
     var svg = initSvg();
 
-    this.populate = function (items) {
-        refreshAxes(items);
-        var circles = svg.selectAll("circle").data(items, getId);
+    this.populate = function (data) {
+        refreshAxes(data);
+        var circles = svg.selectAll("circle").data(data, getId);
 
         circles.transition()
-            .attr("cx", function (item) {
-                return x(xParam.fun(item))
+            .attr("cx", function (datum) {
+                return x(xParam.fun(datum))
             })
-            .attr("cy", function (item) {
-                return y(yParam.fun(item))
+            .attr("cy", function (datum) {
+                return y(yParam.fun(datum))
             });
 
         circles.enter()
             .append("svg:circle")
             .attr("class", "dot")
             .attr("r", 3.5)
-            .attr("cx", function (item) {
-                return x(xParam.fun(item))
+            .attr("cx", function (datum) {
+                return x(xParam.fun(datum))
             })
-            .attr("cy", function (item) {
-                return y(yParam.fun(item))
+            .attr("cy", function (datum) {
+                return y(yParam.fun(datum))
             })
-            .on("click", function (item) {
-                window.open(item.link);
+            .style("fill", function (datum) {
+                return colorScale(colorParam.fun(datum))
+            })
+            .on("click", function (datum) {
+                window.open(datum.link);
             });
 
         assignTooltips();
@@ -59,10 +63,10 @@ function Chart(xParam, yParam, onBuildTooltip) {
         });
     }
 
-    function refreshAxes(items) {
-        resetDomain(x, items);
-        resetDomain(y, items);
-        y.domain(d3.extent(items, yParam.fun)).nice();
+    function refreshAxes(data) {
+        resetDomain(x, data);
+        resetDomain(colorScale, data);
+        y.domain(d3.extent(data, yParam.fun)).nice();
         svg.selectAll(".axis").filter(".x").call(xAxis);
         svg.selectAll(".axis").filter(".y").call(yAxis);
     }
@@ -120,11 +124,11 @@ function Chart(xParam, yParam, onBuildTooltip) {
         return scale;
     }
 
-    function resetDomain(scale, items) {
+    function resetDomain(scale, data) {
         if (isOrdinal(scale)) {
-            scale.domain(items.map(xParam.fun));
+            scale.domain(data.map(xParam.fun));
         } else {
-            scale.domain(d3.extent(items, xParam.fun)).nice();
+            scale.domain(d3.extent(data, xParam.fun)).nice();
         }
     }
 
