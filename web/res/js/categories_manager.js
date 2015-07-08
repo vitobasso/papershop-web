@@ -7,12 +7,16 @@ function Categories(ebay) {
 
     this.populate = function (itens) {
         var categoriesArray = uniqueCategories(itens);
-        categoriesSet.addAll(categoriesArray)
+        categoriesSet.addAll(categoriesArray);
         populateCategories(categoriesArray);
     };
 
     this.each = function (fun) {
         categoriesSet.each(fun);
+    };
+
+    this.get = function(category) {
+        return categoriesSet.get(category);
     };
 
     function uniqueCategories(items) {
@@ -53,6 +57,9 @@ function Categories(ebay) {
         if (categoryFromSet.aspects.length == 0) {
             ebay.histograms({categoryId: category.id}, function (aspects) {
                 categoryFromSet.aspects = aspects;
+                categoryFromSet.aspectValuesMap = mapAspectValues(aspects);
+                var values = Object.keys(category.aspectValuesMap);
+                categoryFromSet.fuzzyValues = FuzzySet(values);
                 populateAspects(category, aspects);
             });
         }
@@ -71,14 +78,14 @@ function Categories(ebay) {
             .html(getName)
             .on("click", toggleActive);
 
-        // partitions
+        // aspect values
         selAspect.append("select")
             .attr("multiple", true)
             .attr("size", function (aspect) {
-                return aspect.partitions.length;
+                return aspect.values.length;
             })
             .selectAll("option").data(function (aspect) {
-                return aspect.partitions;
+                return aspect.values;
             }, getName)
             .enter()
             .append("option")
@@ -103,6 +110,16 @@ function Categories(ebay) {
 
     function toggleActive() {
         $(this).toggleClass("active");
+    }
+
+    function mapAspectValues(aspects) {
+        var map = {};
+        for (var i = 0, aspect; aspect = aspects[i]; i++) {
+            for (var j = 0, partition; partition = aspect.values[j]; j++) {
+                map[partition.name] = aspect;
+            }
+        }
+        return map;
     }
 
 }

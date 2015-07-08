@@ -10,7 +10,3 @@ Array.prototype.chunk = function (chunkSize) {
         })
     );
 };
-
-function clone(object) {
-    return JSON.parse(JSON.stringify(object));
-};

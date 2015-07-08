@@ -54,7 +54,7 @@ function EbayResponseParser() {
         return aspects.map(function (aspect) {
             return {
                 name: aspect['@name'],
-                partitions: aspect.valueHistogram.map(function (histogram) {
+                values: aspect.valueHistogram.map(function (histogram) {
                     return {
                         name: histogram['@valueName'],
                         count: histogram.count[0]

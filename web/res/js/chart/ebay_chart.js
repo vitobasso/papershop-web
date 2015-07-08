@@ -7,6 +7,16 @@ function EbayChart(api, getItems, axisSelectorId, colorSelectorId) {
     var categories = new Categories(api);
     var chart;
 
+    this.populate = function (items) {
+        categories.populate(items);
+        populateSelectors();
+        chart.populate(items);
+    };
+
+    this.getCategory = function (category) {
+        return categories.get(category);
+    };
+
     function rebuildChart() {
         if (chart) {
             chart.destroy();
@@ -14,7 +24,7 @@ function EbayChart(api, getItems, axisSelectorId, colorSelectorId) {
 
         var xAxis = getSelected(axisSelectorId);
         var colorAxis = getSelected(colorSelectorId);
-        chart = new Chart(priceAxis, xAxis, colorAxis, buildTooltip);
+        chart = new Chart(priceAxis, xAxis, colorAxis, renderTooltip);
 
         var items = getItems();
         if (items) {
@@ -26,12 +36,6 @@ function EbayChart(api, getItems, axisSelectorId, colorSelectorId) {
         var selected = $(selectorId).find("option:selected").get(0)
         return selected.__data__;
     }
-
-    this.populate = function (items) {
-        categories.populate(items);
-        populateSelectors();
-        chart.populate(items);
-    };
 
     function populateSelectors() {
         populateSelector(axisSelectorId);
@@ -95,12 +99,13 @@ function EbayChart(api, getItems, axisSelectorId, colorSelectorId) {
             label: aspectName,
             scale: d3.scale.ordinal,
             fun: function (item) {
-                return item.aspects[aspectName];
+                var aspect = item.aspects[aspectName] || {};
+                return aspect.value;
             }
         }
     }
 
-    function buildTooltip() {
+    function renderTooltip() {
         var item = this.__data__;
         var priceStr = item.price.currency + " " + item.price.value;
         return "<div class='chart-tooltip'>" +
@@ -109,8 +114,26 @@ function EbayChart(api, getItems, axisSelectorId, colorSelectorId) {
             "<p>" + "Price: " + priceStr + "</p>" +
             "<p>" + "Category: " + item.category.name + "</p>" +
             "<p>" + "Condition: " + item.condition.name + "</p>" +
-            "<p>" + "Aspects: " + JSON.stringify(item.aspects) + "</p>" +
+            renderAspectsForTooltip(item) +
             "</div>";
+    }
+
+    function renderAspectsForTooltip(item) {
+        var result = "";
+        for (var aspectName in item.aspects) {
+            if (item.aspects.hasOwnProperty(aspectName)) {
+                result += "<p>" + aspectName + ": " + renderAspectValueForTooltip(item.aspects[aspectName]) + "</p>";
+            }
+        }
+        return result;
+    }
+
+    function renderAspectValueForTooltip(aspectValue) {
+        var result = aspectValue.value;
+        if (aspectValue.confidence < 1) {
+            result += " (?)";
+        }
+        return result;
     }
 
     populateSelectors();

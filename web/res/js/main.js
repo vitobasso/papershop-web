@@ -61,16 +61,64 @@ function Main() {
     /////////////////////////////////////////////////////////
 
     function populateChart(requestParams, newItems) {
-        rememberAspects(requestParams, newItems); //TODO move to parser? api?
+        guessAspectsFromTitle(newItems);
+        rememberAspectsFromRequest(requestParams, newItems);
         addItems(newItems);
-        var itemsArray = items.toArray();
-        ebayChart.populate(itemsArray);
+        ebayChart.populate(items.toArray());
     }
 
-    function rememberAspects(requestParams, newItems) {
+    function guessAspectsFromTitle(newItems) {
+        newItems.forEach(function (item) {
+            var category = ebayChart.getCategory(item.category);
+            if (category) {
+                guessAspectsAndSet(item, category);
+            }
+        });
+    }
+
+    function guessAspectsAndSet(item, category) {
+        var guesses = guessAspects(item, category);
+        setAspectGuessesToItem(guesses, item);
+    }
+
+    function guessAspects(item, category) {
+        var bestGuesses = {};
+        var words = item.title.split(" ");
+        for (var i = 0, word; word = words[i]; i++) {
+            var match = category.fuzzyValues.get(word);
+            if (match) {
+                var newGuess = {
+                    confidence: match[0][0],
+                    value: match[0][1]
+                };
+                var aspectName = category.aspectValuesMap[match[0][1]].name;
+                if (!bestGuesses[aspectName] || bestGuesses[aspectName].confidence < newGuess.confidence) {
+                    bestGuesses[aspectName] = newGuess;
+                }
+            }
+        }
+        return bestGuesses;
+    }
+
+    function setAspectGuessesToItem(guesses, item) {
+        for (var aspectName in guesses) {
+            if (guesses.hasOwnProperty(aspectName)) {
+                item.aspects[aspectName] = guesses[aspectName];
+            }
+        }
+    }
+
+    function rememberAspectsFromRequest(requestParams, newItems) {
         var requestAspects = getAspectsFromRequest(requestParams);
         newItems.forEach(function (item) {
-            item.aspects = clone(requestAspects);
+            for (var aspectName in requestAspects) {
+                if (requestAspects.hasOwnProperty(aspectName)) {
+                    item.aspects[aspectName] = {
+                        value: requestAspects[aspectName],
+                        confidence: 2
+                    };
+                }
+            }
         });
     }
 

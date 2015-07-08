@@ -2,7 +2,7 @@
  * Created by Victor on 30/06/2015.
  */
 
-function Chart(yParam, xParam, colorParam, onBuildTooltip) {
+function Chart(yParam, xParam, colorParam, onRenderTooltip) {
 
     var margin = {top: 20, right: 20, bottom: 30, left: 40},
         width = 960 - margin.left - margin.right,
@@ -59,7 +59,7 @@ function Chart(yParam, xParam, colorParam, onBuildTooltip) {
     function assignTooltips() {
         $("#chart").find("svg").tooltip({
             items: "circle",
-            content: onBuildTooltip
+            content: onRenderTooltip
         });
     }
 
