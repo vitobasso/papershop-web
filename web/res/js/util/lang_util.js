@@ -2,11 +2,15 @@
  * Created by Victor on 05/07/2015.
  */
 
-Array.prototype.chunk = function(chunkSize) {
-    var array=this;
+Array.prototype.chunk = function (chunkSize) {
+    var array = this;
     return [].concat.apply([],
-        array.map(function(elem,i) {
-            return i%chunkSize ? [] : [array.slice(i,i+chunkSize)];
+        array.map(function (elem, i) {
+            return i % chunkSize ? [] : [array.slice(i, i + chunkSize)];
         })
     );
-}
+};
+
+function clone(object) {
+    return JSON.parse(JSON.stringify(object));
+};

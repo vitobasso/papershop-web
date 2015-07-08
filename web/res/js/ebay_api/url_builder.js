@@ -20,6 +20,7 @@ function EbayUrlBuilder(){
             buildItemFilter("LocatedIn", params.locatedIn, 0) +
             buildItemFilter("Seller", params.seller, 0) +
             buildAspectFilter(params.aspects) +
+            "&paginationInput.entriesPerPage=" + params.itemsPerPage +
             "&paginationInput.pageNumber=" + params.page;
     };
 
@@ -54,17 +55,6 @@ function EbayUrlBuilder(){
         }
         return result;
     }
-
-
-    this.buildSpecificsUrl = function (itemIds) {
-        return "http://open.api.ebay.com/shopping?" +
-            "callname=GetMultipleItems" +
-            "&version=515" +
-            "&responseencoding=JSON" +
-            "&appid=" + APPID +
-            "&ItemID=" + itemIds.join(",") +
-            "&IncludeSelector=ItemSpecifics"
-    };
 
     this.buildHistogramsUrl = function (params) {
         return "http://svcs.ebay.com/services/search/FindingService/v1?" +

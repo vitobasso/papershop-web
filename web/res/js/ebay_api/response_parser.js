@@ -22,8 +22,8 @@ function EbayResponseParser() {
                 id: category.categoryId[0],
                 name: category.categoryName[0]
             },
-            condition: parseCondition(item),
             aspects: {},
+            condition: parseCondition(item),
             listingTime: dateFormat.parse(dateStr),
             price: {
                 currency: price["@currencyId"],

@@ -31,6 +31,7 @@ function Main() {
             keywords: $("#keywords").val(),
             listingType: ["AuctionWithBIN", "FixedPrice"],
             aspects: getAspectFilters(),
+            itemsPerPage: $("#items-per-page").val(),
             page: $("#page").val()
 
         };
@@ -69,7 +70,7 @@ function Main() {
     function rememberAspects(requestParams, newItems) {
         var requestAspects = getAspectsFromRequest(requestParams);
         newItems.forEach(function (item) {
-            item.aspects = requestAspects;
+            item.aspects = clone(requestAspects);
         });
     }
 
