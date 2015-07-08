@@ -10,3 +10,7 @@ Array.prototype.chunk = function (chunkSize) {
         })
     );
 };
+
+Array.prototype.pushAll = function (array) {
+    this.push.apply(this, array);
+};

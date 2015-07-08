@@ -131,7 +131,7 @@ function EbayChart(api, getItems, axisSelectorId, colorSelectorId) {
     function renderAspectValueForTooltip(aspectValue) {
         var result = aspectValue.value;
         if (aspectValue.confidence < 1) {
-            result += " (?)";
+            result += " (?" + Number(aspectValue.confidence).toFixed(2) + ")";
         }
         return result;
     }

@@ -83,7 +83,7 @@ function Main() {
 
     function guessAspects(item, category) {
         var bestGuesses = {};
-        var words = item.title.split(" ");
+        var words = getAspectCandidates(item);
         for (var i = 0, word; word = words[i]; i++) {
             var match = category.fuzzyValues.get(word);
             if (match) {
@@ -98,6 +98,32 @@ function Main() {
             }
         }
         return bestGuesses;
+    }
+
+    function getAspectCandidates(item) {
+        var words = item.title.split(" ");
+        var result = [];
+        result.pushAll(words);
+        result.pushAll(createNgrams(2, words));
+        result.pushAll(createNgrams(3, words));
+        return result;
+    }
+
+    function createNgrams(n, words) {
+        var result = [];
+        for (var i = 0, end = words.length - (n-1); i < end; i++) {
+            var ngram = createNgram(n, words, i);
+            result.push(ngram);
+        }
+        return result;
+    }
+
+    function createNgram(n, words, i) {
+        var wordArray = [];
+        for (var j = 0; j < n; j++) {
+            wordArray.push(words[i + j]);
+        }
+        return wordArray.join(" ");
     }
 
     function setAspectGuessesToItem(guesses, item) {
