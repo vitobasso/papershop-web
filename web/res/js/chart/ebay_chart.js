@@ -61,7 +61,6 @@ function EbayChart(api, getItems, axisSelectorId, colorSelectorId) {
             return item.price.value;
         }
     };
-
     var listingTimeAxis = {
         label: "Listing Begin",
         scale: d3.time.scale,
@@ -102,7 +101,7 @@ function EbayChart(api, getItems, axisSelectorId, colorSelectorId) {
                 var aspect = item.aspects[aspectName] || {};
                 return aspect.value;
             },
-            ifun: function (item) { //TODO index w/ relation to existing data (so legend always has same colors)
+            ifun: function (item) { //TODO index w/ respect to existing data (so legend always has same colors)
                 var itemAspect = item.aspects[aspectName] || {};
                 return getAspectValueIndex(itemAspect.value, aspectName, item.category);
             }

@@ -1,65 +1,83 @@
 /**
  * Created by Victor on 03/07/2015.
  *
- * https://github.com/lukasolson/simple-js-set/blob/master/set.js
+ * Based on: https://github.com/lukasolson/simple-js-set/blob/master/set.js
  */
 
-function Set(hashFunction, mergeFunction) {
+function Set(hashFunction) {
     this._hashFunction = hashFunction || JSON.stringify;
-    this._mergeFunction = mergeFunction || $.noop;
     this._values = {};
     this._size = 0;
-
 }
 
 Set.prototype = {
-    add: function add(value) {
+    add: function (value) {
+        var key = this._hashFunction(value);
+        if (!this.contains(value)) {
+            this._values[key] = value;
+            this._size++;
+        }
+    },
+
+    addAll: function (array) {
+        for (var i = 0, elm; elm = array[i]; i++) {
+            this.add(elm);
+        }
+    },
+
+    addMerge: function (value, mergeFunction) {
         var key = this._hashFunction(value);
         if (!this.contains(value)) {
             this._values[key] = value;
             this._size++;
         } else {
             var oldValue = this._values[key];
-            this._mergeFunction(oldValue, value);
+            mergeFunction(oldValue, value);
         }
     },
 
-    addAll: function(array){
-        for(var i=0; i<array.length; i++){
-            this.add(array[i]);
+    addMergeAll: function (array, mergeFunction) {
+        for (var i = 0, elm; elm = array[i]; i++) {
+            this.addMerge(elm, mergeFunction);
         }
     },
 
-    remove: function remove(value) {
+    addMap: function (array, mapFunction) {
+        for (var i = 0, elm; elm = array[i]; i++) {
+            this.add(mapFunction(elm));
+        }
+    },
+
+    remove: function (value) {
         if (this.contains(value)) {
             delete this.get(value);
             this._size--;
         }
     },
 
-    get: function(value) {
+    get: function (value) {
         return this._values[this._hashFunction(value)];
     },
 
-    contains: function contains(value) {
+    contains: function (value) {
         return typeof this.get(value) !== "undefined";
     },
 
-    size: function size() {
+    size: function () {
         return this._size;
     },
 
-    empty: function() {
+    empty: function () {
         return this._size == 0;
     },
 
-    each: function each(iteratorFunction, thisObj) {
+    each: function (iteratorFunction, thisObj) {
         for (var value in this._values) {
             iteratorFunction.call(thisObj, this._values[value]);
         }
     },
 
-    toArray: function(){
+    toArray: function () {
         var array = [];
         var i = 0;
         for (var value in this._values) {

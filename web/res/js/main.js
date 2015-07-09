@@ -3,7 +3,7 @@
  */
 function Main() {
 
-    var items = new Set(getId, mergeItems);
+    var items = new Set(getId);
     var api = new EbayApi();
     var ebayChart = new EbayChart(api, getItems, "#x-axis-select", "#color-select");
 
@@ -20,7 +20,7 @@ function Main() {
     }
 
     function addItems(newItems) {
-        items.addAll(newItems);
+        items.addMergeAll(newItems, mergeItems);
         $("#total-count").show().text(items.size());
     }
 

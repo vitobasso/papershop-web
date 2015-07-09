@@ -151,7 +151,9 @@ function Chart(yParam, xParam, colorParam, onRenderTooltip) {
 
     function resetDomain(scale, data) {
         if (isOrdinal(scale)) {
-            scale.domain(data.map(xParam.fun));
+            var uniqueValues = new Set();
+            uniqueValues.addMap(data, xParam.fun);
+            scale.domain(uniqueValues.toArray());
         } else {
             scale.domain(d3.extent(data, xParam.fun)).nice();
         }
