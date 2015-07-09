@@ -53,7 +53,8 @@ function Chart(yParam, xParam, colorParam, onRenderTooltip) {
                 return y(yParam.fun(datum))
             })
             .style("fill", function (datum) {
-                return colorScale(colorParam.fun(datum))
+                var fun = colorParam.ifun || colorParam.fun;
+                return colorScale(fun(datum))
             })
             .attr("data-legend", colorParam.fun)
             .on("click", function (datum) {
@@ -94,7 +95,6 @@ function Chart(yParam, xParam, colorParam, onRenderTooltip) {
 
     function renderAxes(data) {
         resetDomain(x, data);
-        resetDomain(colorScale, data);
         y.domain(d3.extent(data, yParam.fun)).nice();
         svg.selectAll(".axis").filter(".x").call(xAxis);
         svg.selectAll(".axis").filter(".y").call(yAxis);
@@ -135,10 +135,6 @@ function Chart(yParam, xParam, colorParam, onRenderTooltip) {
     this.destroy = function () {
         d3.select("#chart").html("");
     };
-
-    function getId(object) {
-        return object.id;
-    }
 
     function isOrdinal(scale) {
         return typeof scale.rangePoints === "function";

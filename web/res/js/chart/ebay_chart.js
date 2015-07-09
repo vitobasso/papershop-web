@@ -101,7 +101,21 @@ function EbayChart(api, getItems, axisSelectorId, colorSelectorId) {
             fun: function (item) {
                 var aspect = item.aspects[aspectName] || {};
                 return aspect.value;
+            },
+            ifun: function (item) { //TODO index w/ relation to existing data (so legend always has same colors)
+                var itemAspect = item.aspects[aspectName] || {};
+                return getAspectValueIndex(itemAspect.value, aspectName, item.category);
             }
+        }
+    }
+
+    function getAspectValueIndex(value, aspectName, referenceCategory) {
+        var category = categories.get(referenceCategory);
+        var aspectValues = category.aspects.find(byName).values.map(getName);
+        return aspectValues.indexOf(value);
+
+        function byName(aspect) {
+            return aspect.name == aspectName;
         }
     }
 

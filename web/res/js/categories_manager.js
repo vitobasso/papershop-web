@@ -92,14 +92,6 @@ function Categories(ebay) {
             .html(getName);
     }
 
-    function getId(object) {
-        return object.id;
-    }
-
-    function getName(object) {
-        return object.name;
-    }
-
     function getCategoryId(object) {
         return "category" + object.id;
     }

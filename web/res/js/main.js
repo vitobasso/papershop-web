@@ -101,17 +101,9 @@ function Main() {
         return aspectsMap;
     }
 
-    ///////////////////////////////////////////////////////////
-
-    function getId(object) {
-        return object.id;
-    }
-
-    function getName(object) {
-        return object.name;
-    }
-
 }
+
+///////////////////////////////////////////////////////////
 
 function showError(msg) {
     $("#error-msg").html(msg);

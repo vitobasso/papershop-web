@@ -14,3 +14,17 @@ Array.prototype.chunk = function (chunkSize) {
 Array.prototype.pushAll = function (array) {
     this.push.apply(this, array);
 };
+
+Array.prototype.find = function (test, ctx) {
+    var result = null;
+    var array = this;
+    this.some(function (element, i) {
+        if (test(element, i, array, ctx)){
+            result = element;
+            return true;
+        } else {
+            return false;
+        }
+    });
+    return result;
+};
