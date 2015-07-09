@@ -25,7 +25,13 @@ function Chart(yParam, xParam, colorParam, onRenderTooltip) {
     var svg = initSvg();
 
     this.populate = function (data) {
-        refreshAxes(data);
+        renderAxes(data);
+        renderCircles(data);
+        renderLegend();
+        assignTooltips();
+    };
+
+    function renderCircles(data) {
         var circles = svg.selectAll("circle").data(data, getId);
 
         circles.transition()
@@ -49,12 +55,35 @@ function Chart(yParam, xParam, colorParam, onRenderTooltip) {
             .style("fill", function (datum) {
                 return colorScale(colorParam.fun(datum))
             })
+            .attr("data-legend", colorParam.fun)
             .on("click", function (datum) {
                 window.open(datum.link);
             });
 
-        assignTooltips();
-    };
+    }
+
+    function renderLegend() {
+        var initpos = {
+            x: width - margin.right - 120,
+            y: margin.top
+        };
+
+        var sel = svg.select(".legend");
+        if (sel.empty()) {
+            sel = svg.append("g");
+        }
+        sel.attr("class", "legend")
+            .attr("transform", "translate(" + initpos.x + "," + initpos.y + ")")
+            .call(d3.legend)
+            .call(d3.behavior.drag()
+                .on("drag", dragmove));
+
+        function dragmove() {
+            var x = d3.event.x;
+            var y = d3.event.y;
+            sel.attr("transform", "translate(" + x + "," + y + ")");
+        }
+    }
 
     function assignTooltips() {
         $("#chart").find("svg").tooltip({
@@ -63,7 +92,7 @@ function Chart(yParam, xParam, colorParam, onRenderTooltip) {
         });
     }
 
-    function refreshAxes(data) {
+    function renderAxes(data) {
         resetDomain(x, data);
         resetDomain(colorScale, data);
         y.domain(d3.extent(data, yParam.fun)).nice();
