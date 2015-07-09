@@ -8,11 +8,9 @@ function Chart(yParam, xParam, colorParam, renderTooltip) {
         width = 960 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
 
-    var x = initXScale(xParam.getScale());
-
-    var y = yParam.getScale().range([height, 0]);
-
-    var colorScale = d3.scale.category10();
+    var x = setXRange(xParam.getScale());
+    var y = setYRange(yParam.getScale());
+    var colorScale = setColorRange(colorParam.getScale());
 
     var xAxis = d3.svg.axis()
         .scale(x)
@@ -141,12 +139,23 @@ function Chart(yParam, xParam, colorParam, renderTooltip) {
         return typeof scale.rangePoints === "function";
     }
 
-    function initXScale(scale) {
+    function setXRange(scale) {
         if (isOrdinal(scale)) {
             scale.rangePoints([0, width], .5);
         } else {
             scale.range([0, width]);
         }
+        return scale;
+    }
+
+    function setYRange(scale) {
+        scale.range([height, 0]);
+        return scale;
+    }
+
+    function setColorRange(scale) {
+        var range = d3.scale.category10().range();
+        scale.range(range);
         return scale;
     }
 
