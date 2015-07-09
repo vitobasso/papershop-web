@@ -110,7 +110,8 @@ function EbayChart(api, getItems, axisSelectorId, colorSelectorId) {
 
     function getAspectValueIndex(value, aspectName, referenceCategory) {
         var category = categories.get(referenceCategory);
-        var aspectValues = category.aspects.find(byName).values.map(getName);
+        var aspect = category.aspects.find(byName);
+        var aspectValues = aspect.values.map(getName);
         return aspectValues.indexOf(value);
 
         function byName(aspect) {

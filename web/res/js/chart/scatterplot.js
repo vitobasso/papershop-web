@@ -16,7 +16,8 @@ function Chart(yParam, xParam, colorParam, onRenderTooltip) {
 
     var xAxis = d3.svg.axis()
         .scale(x)
-        .orient("bottom");
+        .orient("bottom")
+        .tickFormat(replaceUndefined);
 
     var yAxis = d3.svg.axis()
         .scale(y)
@@ -151,12 +152,21 @@ function Chart(yParam, xParam, colorParam, onRenderTooltip) {
 
     function resetDomain(scale, data) {
         if (isOrdinal(scale)) {
-            var uniqueValues = new Set();
-            uniqueValues.addMap(data, xParam.fun);
-            scale.domain(uniqueValues.toArray());
+            var domainValues = getOrdinalDomain(data, xParam.fun);
+            scale.domain(domainValues);
         } else {
             scale.domain(d3.extent(data, xParam.fun)).nice();
         }
+    }
+
+    function getOrdinalDomain(data, getProperty) {
+        var uniqueValues = new Set();
+        uniqueValues.addMap(data, getProperty);
+        return uniqueValues.toArray().sort(naturalSort);
+    }
+
+    function replaceUndefined(value) {
+        return value ? value : "?";
     }
 
 }
