@@ -2,15 +2,15 @@
  * Created by Victor on 30/06/2015.
  */
 
-function Chart(yParam, xParam, colorParam, onRenderTooltip) {
+function Chart(yParam, xParam, colorParam, renderTooltip) {
 
     var margin = {top: 20, right: 20, bottom: 30, left: 40},
         width = 960 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
 
-    var x = initXScale(xParam.scale());
+    var x = initXScale(xParam.getScale());
 
-    var y = yParam.scale().range([height, 0]);
+    var y = yParam.getScale().range([height, 0]);
 
     var colorScale = d3.scale.category10();
 
@@ -32,15 +32,23 @@ function Chart(yParam, xParam, colorParam, onRenderTooltip) {
         assignTooltips();
     };
 
+    function renderAxes(data) {
+        xParam.updateDomain(x, data);
+        yParam.updateDomain(y, data);
+        colorParam.updateDomain(colorScale, data);
+        svg.selectAll(".axis").filter(".x").call(xAxis);
+        svg.selectAll(".axis").filter(".y").call(yAxis);
+    }
+
     function renderCircles(data) {
         var circles = svg.selectAll("circle").data(data, getId);
 
         circles.transition()
             .attr("cx", function (datum) {
-                return x(xParam.fun(datum))
+                return x(xParam.getProperty(datum))
             })
             .attr("cy", function (datum) {
-                return y(yParam.fun(datum))
+                return y(yParam.getProperty(datum))
             });
 
         circles.enter()
@@ -48,16 +56,15 @@ function Chart(yParam, xParam, colorParam, onRenderTooltip) {
             .attr("class", "dot")
             .attr("r", 3.5)
             .attr("cx", function (datum) {
-                return x(xParam.fun(datum))
+                return x(xParam.getProperty(datum))
             })
             .attr("cy", function (datum) {
-                return y(yParam.fun(datum))
+                return y(yParam.getProperty(datum))
             })
             .style("fill", function (datum) {
-                var fun = colorParam.ifun || colorParam.fun;
-                return colorScale(fun(datum))
+                return colorScale(colorParam.getProperty(datum))
             })
-            .attr("data-legend", colorParam.fun)
+            .attr("data-legend", colorParam.getProperty)
             .on("click", function (datum) {
                 window.open(datum.link);
             });
@@ -90,15 +97,8 @@ function Chart(yParam, xParam, colorParam, onRenderTooltip) {
     function assignTooltips() {
         $("#chart").find("svg").tooltip({
             items: "circle",
-            content: onRenderTooltip
+            content: renderTooltip
         });
-    }
-
-    function renderAxes(data) {
-        resetDomain(x, data);
-        y.domain(d3.extent(data, yParam.fun)).nice();
-        svg.selectAll(".axis").filter(".x").call(xAxis);
-        svg.selectAll(".axis").filter(".y").call(yAxis);
     }
 
     function initSvg() {
@@ -148,21 +148,6 @@ function Chart(yParam, xParam, colorParam, onRenderTooltip) {
             scale.range([0, width]);
         }
         return scale;
-    }
-
-    function resetDomain(scale, data) {
-        if (isOrdinal(scale)) {
-            var domainValues = getOrdinalDomain(data, xParam.fun);
-            scale.domain(domainValues);
-        } else {
-            scale.domain(d3.extent(data, xParam.fun)).nice();
-        }
-    }
-
-    function getOrdinalDomain(data, getProperty) {
-        var uniqueValues = new Set();
-        uniqueValues.addMap(data, getProperty);
-        return uniqueValues.toArray().sort(naturalSort);
     }
 
     function replaceUndefined(value) {

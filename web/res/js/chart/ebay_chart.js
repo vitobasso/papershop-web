@@ -43,9 +43,10 @@ function EbayChart(api, getItems, axisSelectorId, colorSelectorId) {
     }
 
     function populateSelector(selectorId) {
+        var axes = createAxisOptions();
         var selOption = d3.select(selectorId)
             .on("change", rebuildChart)
-            .selectAll("option").data(createAxisOptions());
+            .selectAll("option").data(axes);
         selOption
             .exit().remove();
         selOption.enter().append("option")
@@ -54,34 +55,38 @@ function EbayChart(api, getItems, axisSelectorId, colorSelectorId) {
             });
     }
 
-    var priceAxis = {
-        label: "Current Price (USD)",
-        scale: d3.scale.linear,
-        fun: function (item) {
+    function LinearAxis(label, getProperty, getScale) {
+        this.label = label;
+        this.getProperty = getProperty;
+        this.getScale = getScale;
+        this.updateDomain = updateLinearDomain(this);
+    }
+
+    function OrdinalAxis(label, getProperty) {
+        this.label = label;
+        this.getProperty = getProperty;
+        this.getScale = d3.scale.ordinal;
+        this.updateDomain = updateOrdinalDomain(this);
+    }
+
+    var priceAxis = new LinearAxis("Current Price (USD)",
+        function (item) {
             return item.price.value;
-        }
-    };
-    var listingTimeAxis = {
-        label: "Listing Begin",
-        scale: d3.time.scale,
-        fun: function (item) {
+        },
+        d3.scale.linear);
+    var listingTimeAxis = new LinearAxis("Listing Begin",
+        function (item) {
             return item.listingTime;
-        }
-    };
-    var conditionAxis = {
-        label: "Condition",
-        scale: d3.scale.ordinal,
-        fun: function (item) {
+        },
+        d3.time.scale);
+    var conditionAxis = new OrdinalAxis("Condition",
+        function (item) {
             return item.condition.name;
-        }
-    };
-    var categoryAxis = {
-        label: "Category",
-        scale: d3.scale.ordinal,
-        fun: function (item) {
+        });
+    var categoryAxis = new OrdinalAxis("Category",
+        function (item) {
             return item.category.name;
-        }
-    };
+        });
 
     function createAxisOptions() {
         var result = [conditionAxis, categoryAxis, listingTimeAxis];
@@ -94,29 +99,31 @@ function EbayChart(api, getItems, axisSelectorId, colorSelectorId) {
     }
 
     function createAspectAxis(aspectName) {
-        return {
-            label: aspectName,
-            scale: d3.scale.ordinal,
-            fun: function (item) {
+        return new OrdinalAxis(aspectName,
+            function (item) {
                 var aspect = item.aspects[aspectName] || {};
                 return aspect.value;
-            },
-            ifun: function (item) { //TODO index w/ respect to existing data (so legend always has same colors)
-                var itemAspect = item.aspects[aspectName] || {};
-                return getAspectValueIndex(itemAspect.value, aspectName, item.category);
-            }
+            })
+    }
+
+    function updateLinearDomain(axis) {
+        return function (scale, items) {
+            var domain = d3.extent(items, axis.getProperty);
+            scale.domain(domain).nice();
         }
     }
 
-    function getAspectValueIndex(value, aspectName, referenceCategory) {
-        var category = categories.get(referenceCategory);
-        var aspect = category.aspects.find(byName);
-        var aspectValues = aspect.values.map(getName);
-        return aspectValues.indexOf(value);
-
-        function byName(aspect) {
-            return aspect.name == aspectName;
+    function updateOrdinalDomain(axis) {
+        return function (scale, items) {
+            var domain = getOrdinalDomain(items, axis.getProperty);
+            scale.domain(domain);
         }
+    }
+
+    function getOrdinalDomain(data, getProperty) {
+        var uniqueValues = new Set();
+        uniqueValues.addMap(data, getProperty);
+        return uniqueValues.toArray().sort(naturalSort);
     }
 
     function renderTooltip() {
