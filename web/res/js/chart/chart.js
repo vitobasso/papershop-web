@@ -4,6 +4,7 @@
 
 function EbayChart(api, axisSelectorId, colorSelectorId) {
 
+    var filters = new Filters();
     var categories = new Categories(api);
     var axes = new ChartAxes(categories);
     var tooltip = new ChartTooltip();
@@ -15,6 +16,7 @@ function EbayChart(api, axisSelectorId, colorSelectorId) {
     };
 
     this.update = function (newItems) {
+        filters.populate();
         categories.populate(newItems);
         populateSelectors();
         this.repopulate(newItems);
@@ -26,7 +28,7 @@ function EbayChart(api, axisSelectorId, colorSelectorId) {
     };
 
     function getSelected(selectorId) {
-        var selected = $(selectorId).find("option:selected").get(0)
+        var selected = $(selectorId).find("option:selected").get(0);
         return selected.__data__;
     }
 

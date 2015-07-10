@@ -45,7 +45,7 @@ function Categories(ebay) {
             .on("click", fetchAspects);
         selRoot.selectAll("div").data(categories, getId)
             .enter()
-            .append("div").attr("id", getCategoryId).classed("category_div", true)
+            .append("div").attr("id", getCategoryId).classed("filter-div", true)
             .append("ul");
 
         $("#categories").tabs().tabs("refresh");
@@ -65,6 +65,7 @@ function Categories(ebay) {
         }
     }
 
+    //TODO reuse similar code from filters_manager
     function populateAspects(category, aspects) {
         var selCategory = d3.select("#categories")
             .selectAll("div").filter(selCategoryId(category))
@@ -75,17 +76,15 @@ function Categories(ebay) {
             .enter().append("li");
         selAspect.append("a")
             .attr("href", "#")
-            .html(getName)
-            .on("click", toggleActive);
+            .html(getName);
 
-        // aspect values
         selAspect.append("select")
             .attr("multiple", true)
             .attr("size", function (aspect) {
                 return aspect.values.length;
             })
             .attr("onchange", "main.applyFilters()")
-            .selectAll("option").data(function (aspect) {
+            .selectAll("option").data(function (aspect) { // aspect values
                 return aspect.values;
             }, getName)
             .enter()
@@ -93,16 +92,12 @@ function Categories(ebay) {
             .html(getName);
     }
 
-    function getCategoryId(object) {
-        return "category" + object.id;
-    }
-
     function selCategoryId(object) {
         return "#" + getCategoryId(object);
     }
 
-    function toggleActive() {
-        $(this).toggleClass("active");
+    function getCategoryId(object) {
+        return "category" + object.id;
     }
 
     function mapAspectValues(aspects) {

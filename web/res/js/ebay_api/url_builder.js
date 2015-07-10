@@ -14,11 +14,7 @@ function EbayUrlBuilder(){
             "&RESPONSE-DATA-FORMAT=json" +
             "&keywords=" + params.keywords +
             buildCategory(params.category) +
-            buildItemFilter("ListingType", params.listingType, 0) +
-            buildItemFilter("Condition", params.condition, 0) +
-            buildItemFilter("FreeShippingOnly", params.freeShipping, 0) +
-            buildItemFilter("LocatedIn", params.locatedIn, 0) +
-            buildItemFilter("Seller", params.seller, 0) +
+            buildFilter(params.filters) +
             buildAspectFilter(params.aspects) +
             "&paginationInput.entriesPerPage=" + params.itemsPerPage +
             "&paginationInput.pageNumber=" + params.page;
@@ -32,17 +28,20 @@ function EbayUrlBuilder(){
         return result;
     }
 
-    function buildItemFilter(name, values, i) {
+    function buildFilter(filters) {
         var result = "";
-        if (values) {
-            result = "&itemFilter(" + i + ").name=" + name;
-            values.forEach(function (value, j) {
-                result += "&itemFilter(" + i + ").value(" + j + ")=" + value;
+        if (filters) {
+            filters.forEach(function (filter, i) {
+                result += "&itemFilter(" + i + ").name=" + filter.name;
+                filter.values.forEach(function (value, j) {
+                    result += "&itemFilter(" + i + ").value(" + j + ")=" + value;
+                });
             });
         }
         return result;
     }
 
+    //TODO unify with similar code from buildFilter()
     function buildAspectFilter(filters) {
         var result = "";
         if (filters) {

@@ -32,13 +32,32 @@ function Main() {
     function getUIParams() {
         return {
             keywords: $("#keywords").val(),
-            listingType: ["AuctionWithBIN", "FixedPrice"],
+            filters: getFilters(),
             aspects: getAspectFilters(),
             itemsPerPage: $("#items-per-page").val(),
             page: $("#page").val()
         };
     }
 
+    function getFilters() {
+        var filters = [];
+        $("#filters").find("select").each(function (i, filterNode) {
+            var sel = $(filterNode).find("option").filter(":selected");
+            if (sel.length > 0) {
+                var filterDatum = filterNode.__data__;
+                var filter = {
+                    name: filterDatum.name,
+                    values: sel.toArray().map(function (option) {
+                        return filterDatum.getValueId(option.__data__)
+                    })
+                };
+                filters.push(filter);
+            }
+        });
+        return filters;
+    }
+
+    //TODO unify with similar code from getFilters()
     function getAspectFilters() {
         var filters = [];
         $("#categories").find("select").each(function (i, aspect) {

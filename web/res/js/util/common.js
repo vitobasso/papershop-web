@@ -13,3 +13,7 @@ function getName(object) {
 function noop() {
 
 }
+
+function identity(object){
+    return object;
+}

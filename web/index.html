@@ -18,6 +18,7 @@
     <script src="res/js/ebay_api/api.js"></script>
     <script src="res/js/ebay_api/url_builder.js"></script>
     <script src="res/js/ebay_api/response_parser.js"></script>
+    <script src="res/js/filters_manager.js"></script>
     <script src="res/js/categories_manager.js"></script>
     <script src="res/js/chart/scatterplot.js"></script>
     <script src="res/js/chart/chart.js"></script>
@@ -39,6 +40,9 @@
     <p id="error-msg"></p>
 </div>
 <div id="left">
+    <div id="filters" class="filter-div">
+        <ul></ul>
+    </div>
     <div id="categories">
         <ul></ul>
     </div>
@@ -48,7 +52,9 @@
     <select id="x-axis-select"></select>
     <label for="color-select">Color:</label>
     <select id="color-select"></select>
+
     <p>Total items:<span id="total-count"></span></p>
+
     <div id="chart"></div>
 </div>
 

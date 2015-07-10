@@ -1,6 +1,8 @@
 
 - filters
     - add "ships to", "condition", "auction/buy it now" along w/ aspects
+    - filter on chart too
+    - fix duplicate code in main.js & url_builder.js
 
 - zoom
 
