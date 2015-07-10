@@ -3,10 +3,17 @@
  */
 function ChartAxes(categories){
 
-    function LinearAxis(label, getProperty, getScale) {
+    function LinearAxis(label, getProperty) {
         this.label = label;
         this.getProperty = getProperty;
-        this.getScale = getScale;
+        this.getScale = d3.scale.linear;
+        this.updateDomain = updateLinearDomain(this);
+    }
+
+    function TimeAxis(label, getProperty) {
+        this.label = label;
+        this.getProperty = getProperty;
+        this.getScale = d3.time.scale;
         this.updateDomain = updateLinearDomain(this);
     }
 
@@ -14,20 +21,19 @@ function ChartAxes(categories){
         this.label = label;
         this.getProperty = getProperty;
         this.getScale = d3.scale.ordinal;
-        this.updateDomain = updateOrdinalDomain(this);
+        this.updateDomain = updateOrdinalDomain(this)
+        this.formatTick = replaceUndefined;
     }
 
     this.priceAxis = new LinearAxis("Current Price (USD)",
         function (item) {
             return item.price.value;
-        },
-        d3.scale.linear);
+        });
 
-    var listingTimeAxis = new LinearAxis("Listing Begin",
+    var listingTimeAxis = new TimeAxis("Listing Begin",
         function (item) {
             return item.listingTime;
-        },
-        d3.time.scale);
+        });
     var conditionAxis = new OrdinalAxis("Condition",
         function (item) {
             return item.condition.name;
@@ -73,6 +79,10 @@ function ChartAxes(categories){
         var uniqueValues = new Set();
         uniqueValues.addMap(data, getProperty);
         return uniqueValues.toArray().sort(naturalSort);
+    }
+
+    function replaceUndefined(value) {
+        return value ? value : "?";
     }
 
 }

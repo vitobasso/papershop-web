@@ -9,3 +9,7 @@ function getId(object) {
 function getName(object) {
     return object.name;
 }
+
+function noop() {
+
+}

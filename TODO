@@ -2,10 +2,15 @@
 - filters
     - add "ships to", "condition", "auction/buy it now" along w/ aspects
     - filters act also on chart
+
+- disable guesses
+
 - legend
-    - fix order
+    - find better legend?
     - show "?"
-- transitions
+    - fix order
+    - fix delay
+
 
 - ebay api wrapper
     https://github.com/benbuckman/nodejs-ebay-api

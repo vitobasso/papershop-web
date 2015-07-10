@@ -122,8 +122,10 @@ function Chart(renderTooltip) {
 
         var xAxis = d3.svg.axis()
             .scale(x)
-            .orient("bottom")
-            .tickFormat(replaceUndefined);
+            .orient("bottom");
+        if(xParam.formatTick) {
+            xAxis.tickFormat(xParam.formatTick)
+        }
 
         var yAxis = d3.svg.axis()
             .scale(y)
@@ -184,15 +186,11 @@ function Chart(renderTooltip) {
         return scale;
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////
-
-    function replaceUndefined(value) {
-        return value ? value : "?";
-    }
-
     function isOrdinal(scale) {
         return typeof scale.rangePoints === "function";
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////
 
     //needed only so the legend catches the new values after transition
     //http://stackoverflow.com/a/20773846/2004857
