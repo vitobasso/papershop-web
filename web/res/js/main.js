@@ -3,12 +3,13 @@
  */
 function Main() {
 
-    var items = new Set(getId);
+    var allItems = new Set(getId);
     var api = new EbayApi();
-    var ebayChart = new EbayChart(api, getItems, "#x-axis-select", "#color-select");
+    var ebayChart = new EbayChart(api, "#x-axis-select", "#color-select");
 
-    function getItems() {
-        return items.toArray();
+    function addItems(newItems) {
+        allItems.addMergeAll(newItems, mergeItems);
+        $("#total-count").show().text(allItems.size());
     }
 
     function mergeItems(oldItem, newItem) {
@@ -19,27 +20,24 @@ function Main() {
         }
     }
 
-    function addItems(newItems) {
-        items.addMergeAll(newItems, mergeItems);
-        $("#total-count").show().text(items.size());
-    }
-
     /////////////////////////////////////////////////////////
 
     this.doRequest = function () {
-        var params = {
+        var params = getUIParams();
+        api.find(params, function (response) {
+            updateChart(params, response)
+        });
+    };
+
+    function getUIParams() {
+        return {
             keywords: $("#keywords").val(),
             listingType: ["AuctionWithBIN", "FixedPrice"],
             aspects: getAspectFilters(),
             itemsPerPage: $("#items-per-page").val(),
             page: $("#page").val()
-
         };
-
-        api.find(params, function (response) {
-            populateChart(params, response)
-        });
-    };
+    }
 
     function getAspectFilters() {
         var filters = [];
@@ -60,11 +58,44 @@ function Main() {
 
     /////////////////////////////////////////////////////////
 
-    function populateChart(requestParams, newItems) {
+    this.applyFilters = function () {
+        var items = filterItems();
+        ebayChart.repopulate(items);
+    };
+
+    function updateChart(requestParams, newItems) {
         guessAspectsFromTitle(newItems);
         rememberAspectsFromRequest(requestParams, newItems);
         addItems(newItems);
-        ebayChart.populate(items.toArray());
+        var items = filterItems();
+        ebayChart.update(items);
+    }
+
+    function filterItems() {
+        var filterFunction = createItemFilterFunction();
+        return allItems.filter(filterFunction);
+    }
+
+    function createItemFilterFunction() {
+        var params = getUIParams();
+        return function (item) {
+            return satisfiesAspects(item, params.aspects);
+        };
+    }
+
+    function satisfiesAspects(item, aspectFilters) {
+        for (var i = 0, aspectFilter; aspectFilter = aspectFilters[i]; i++) {
+            if (!satisfiesAspect(item, aspectFilter)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function satisfiesAspect(item, aspectFilter) {
+        var itemAspect = item.aspects[aspectFilter.name] || {};
+        return aspectFilter.values.length == 0 ||
+            aspectFilter.values.contains(itemAspect.value);
     }
 
     function guessAspectsFromTitle(newItems) {

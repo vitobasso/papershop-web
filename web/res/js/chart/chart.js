@@ -2,32 +2,28 @@
  * Created by Victor on 05/07/2015.
  */
 
-function EbayChart(api, getItems, axisSelectorId, colorSelectorId) {
+function EbayChart(api, axisSelectorId, colorSelectorId) {
 
     var categories = new Categories(api);
     var axes = new ChartAxes(categories);
     var tooltip = new ChartTooltip();
     var chart = new Chart(tooltip.render);
+    var items = [];
 
     this.getCategory = function (category) {
         return categories.get(category);
     };
 
-    this.populate = function (items) {
-        categories.populate(items);
+    this.update = function (newItems) {
+        categories.populate(newItems);
         populateSelectors();
-        chart.populate(items);
+        this.repopulate(newItems);
     };
 
-    function rebuildChart() {
-        var xAxis = getSelected(axisSelectorId);
-        var colorAxis = getSelected(colorSelectorId);
-
-        var items = getItems();
-        if (items) {
-            chart.change(items, axes.priceAxis, xAxis, colorAxis);
-        }
-    }
+    this.repopulate = function (newItems) {
+        items = newItems;
+        chart.populate(items);
+    };
 
     function getSelected(selectorId) {
         var selected = $(selectorId).find("option:selected").get(0)
@@ -41,7 +37,7 @@ function EbayChart(api, getItems, axisSelectorId, colorSelectorId) {
 
     function populateSelector(selectorId) {
         var selOption = d3.select(selectorId)
-            .on("change", rebuildChart)
+            .on("change", rebuild)
             .selectAll("option").data(axes.listOptions());
         selOption
             .exit().remove();
@@ -51,8 +47,16 @@ function EbayChart(api, getItems, axisSelectorId, colorSelectorId) {
             });
     }
 
+    function rebuild() {
+        var xAxis = getSelected(axisSelectorId);
+        var colorAxis = getSelected(colorSelectorId);
+
+        if (items) {
+            chart.change(items, axes.priceAxis, xAxis, colorAxis);
+        }
+    }
 
     populateSelectors();
-    rebuildChart();
+    rebuild();
 
 }

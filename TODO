@@ -1,15 +1,24 @@
 
 - filters
     - add "ships to", "condition", "auction/buy it now" along w/ aspects
-    - filters act also on chart
+
+- zoom
 
 - disable guesses
+
+- prevent overlaps
+    http://mbostock.github.io/d3/talk/20111018/collision.html
+    http://bl.ocks.org/mbostock/1748247
+    http://stackoverflow.com/questions/12944024/d3-js-how-can-i-prevent-circles-text-overlapping
+
+- show "waiting animation" when making request
 
 - legend
     - find better legend?
     - show "?"
     - fix order
     - fix delay
+    - legend always on top of circles
 
 
 - ebay api wrapper

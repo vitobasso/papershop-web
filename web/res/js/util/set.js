@@ -72,17 +72,28 @@ Set.prototype = {
     },
 
     each: function (iteratorFunction, thisObj) {
-        for (var value in this._values) {
-            iteratorFunction.call(thisObj, this._values[value]);
+        for (var key in this._values) {
+            iteratorFunction.call(thisObj, this._values[key]);
         }
     },
 
     toArray: function () {
         var array = [];
         var i = 0;
-        for (var value in this._values) {
-            array[i] = this._values[value];
+        for (var key in this._values) {
+            array[i] = this._values[key];
             i++;
+        }
+        return array;
+    },
+
+    filter: function (filterFunction) {
+        var array = [];
+        for (var key in this._values) {
+            var value = this._values[key];
+            if (filterFunction(value)) {
+                array.push(value);
+            }
         }
         return array;
     }

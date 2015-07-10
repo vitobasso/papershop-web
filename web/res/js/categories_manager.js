@@ -84,6 +84,7 @@ function Categories(ebay) {
             .attr("size", function (aspect) {
                 return aspect.values.length;
             })
+            .attr("onchange", "main.applyFilters()")
             .selectAll("option").data(function (aspect) {
                 return aspect.values;
             }, getName)

@@ -28,3 +28,7 @@ Array.prototype.find = function (test, ctx) {
     });
     return result;
 };
+
+Array.prototype.contains = function (element) {
+    return this.indexOf(element) > -1;
+};

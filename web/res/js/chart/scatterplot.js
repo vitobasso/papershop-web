@@ -60,6 +60,9 @@ function Chart(renderTooltip) {
                 window.open(datum.link);
             });
 
+        circles.exit()
+            .remove();
+
         renderLegend();
     }
 
