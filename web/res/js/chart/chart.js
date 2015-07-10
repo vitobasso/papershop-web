@@ -7,7 +7,11 @@ function EbayChart(api, getItems, axisSelectorId, colorSelectorId) {
     var categories = new Categories(api);
     var axes = new ChartAxes(categories);
     var tooltip = new ChartTooltip();
-    var chart;
+    var chart = new Chart(tooltip.render);
+
+    this.getCategory = function (category) {
+        return categories.get(category);
+    };
 
     this.populate = function (items) {
         categories.populate(items);
@@ -15,22 +19,13 @@ function EbayChart(api, getItems, axisSelectorId, colorSelectorId) {
         chart.populate(items);
     };
 
-    this.getCategory = function (category) {
-        return categories.get(category);
-    };
-
     function rebuildChart() {
-        if (chart) {
-            chart.destroy();
-        }
-
         var xAxis = getSelected(axisSelectorId);
         var colorAxis = getSelected(colorSelectorId);
-        chart = new Chart(axes.priceAxis, xAxis, colorAxis, tooltip.render);
 
         var items = getItems();
         if (items) {
-            chart.populate(items);
+            chart.change(items, axes.priceAxis, xAxis, colorAxis);
         }
     }
 
