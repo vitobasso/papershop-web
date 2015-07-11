@@ -2,7 +2,7 @@
  * Created by Victor on 05/07/2015.
  */
 
-function EbayUrlBuilder(){
+function EbayUrlBuilder() {
 
     var APPID = "VictorBa-91f0-4b04-b497-3a5e426e0ece";
 
@@ -14,8 +14,8 @@ function EbayUrlBuilder(){
             "&RESPONSE-DATA-FORMAT=json" +
             "&keywords=" + params.keywords +
             buildCategory(params.category) +
-            buildFilter(params.filters) +
-            buildAspectFilter(params.aspects) +
+            buildFilter(itemBuilder, params.filters) +
+            buildFilter(aspectBuilder, params.aspects) +
             "&paginationInput.entriesPerPage=" + params.itemsPerPage +
             "&paginationInput.pageNumber=" + params.page;
     };
@@ -28,32 +28,36 @@ function EbayUrlBuilder(){
         return result;
     }
 
-    function buildFilter(filters) {
+    function buildFilter(paramBuilder, filters) {
         var result = "";
         if (filters) {
             filters.forEach(function (filter, i) {
-                result += "&itemFilter(" + i + ").name=" + filter.name;
+                result += paramBuilder.nameParam(i, filter.name);
                 filter.values.forEach(function (value, j) {
-                    result += "&itemFilter(" + i + ").value(" + j + ")=" + value;
+                    result += paramBuilder.valueParam(i, j, value);
                 });
             });
         }
         return result;
     }
 
-    //TODO unify with similar code from buildFilter()
-    function buildAspectFilter(filters) {
-        var result = "";
-        if (filters) {
-            filters.forEach(function (filter, i) {
-                result += "&aspectFilter(" + i + ").aspectName=" + filter.name;
-                filter.values.forEach(function (value, j) {
-                    result += "&aspectFilter(" + i + ").aspectValueName(" + j + ")=" + value;
-                });
-            });
+    var itemBuilder = {
+        nameParam: function (i, name) {
+            return "&itemFilter(" + i + ").name=" + name;
+        },
+        valueParam: function (i, j, value) {
+            return "&itemFilter(" + i + ").value(" + j + ")=" + value;
         }
-        return result;
-    }
+    };
+
+    var aspectBuilder = {
+        nameParam: function (i, name) {
+            return "&aspectFilter(" + i + ").aspectName=" + name;
+        },
+        valueParam: function (i, j, value) {
+            return "&aspectFilter(" + i + ").aspectValueName(" + j + ")=" + value;
+        }
+    };
 
     this.buildHistogramsUrl = function (params) {
         return "http://svcs.ebay.com/services/search/FindingService/v1?" +

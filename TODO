@@ -1,12 +1,12 @@
 
 - filters
-    - add "ships to", "condition", "auction/buy it now" along w/ aspects
-    - filter on chart too
-    - fix duplicate code in main.js & url_builder.js
+    - add "ships to"
 
-- zoom
+- count items known vs. items shown
 
 - disable guesses
+
+- zoom (filter by price)
 
 - prevent overlaps
     http://mbostock.github.io/d3/talk/20111018/collision.html
