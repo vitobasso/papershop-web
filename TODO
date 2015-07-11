@@ -6,8 +6,6 @@
     - category
     - price (zoom on chart)
 
-- count items known vs. items shown
-
 - better layout
     - filters in one top row
     - limited list height

@@ -69,6 +69,7 @@ function Main() {
 
     this.applyFilters = function () {
         var items = filterItems();
+        $("#filtered-count").show().text(items.length);
         ebayChart.repopulate(items);
     };
 
@@ -77,6 +78,7 @@ function Main() {
         rememberAspectsFromRequest(requestParams, newItems);
         addItems(newItems);
         var items = filterItems();
+        $("#filtered-count").show().text(items.length);
         ebayChart.update(items);
     }
 
