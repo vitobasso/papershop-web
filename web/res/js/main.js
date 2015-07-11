@@ -125,9 +125,3 @@ function Main() {
     }
 
 }
-
-///////////////////////////////////////////////////////////
-
-function showError(msg) {
-    $("#error-msg").html(msg);
-}

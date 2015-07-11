@@ -31,29 +31,34 @@
 </head>
 <body>
 
-<div id="header">
-    <label for="keywords">Keywords:</label>
-    <input type="text" id="keywords" value="laptop"/>
-    <label for="items-per-page">Items per page:</label>
-    <input type="text" id="items-per-page" value="10" size="1"/>
-    <label for="page">Page:</label>
-    <input type="text" id="page" value="1" size="1"/>
-    <button onclick="main.doRequest()">Fetch</button>
-    <p id="error-msg"></p>
-</div>
-<div id="left">
+<div id="filters-wrapper">
     <div id="filters"></div>
 </div>
-<div id="right">
-    <label for="x-axis-select">X axis:</label>
-    <select id="x-axis-select"></select>
-    <label for="color-select">Color:</label>
-    <select id="color-select"></select>
 
-    <p>Showing <span id="filtered-count"></span> out of <span id="total-count"></span> known items.</p>
+<div id="left">
+    <div>
+        <label for="keywords">Keywords:</label>
+        <input type="text" id="keywords" value="laptop"/>
+        <label for="items-per-page">Items per page:</label>
+        <input type="text" id="items-per-page" value="10" size="1"/>
+        <label for="page">Page:</label>
+        <input type="text" id="page" value="1" size="1"/>
+        <button onclick="main.doRequest()">Fetch</button>
+    </div>
+    <div>
+        <label for="x-axis-select">X axis:</label>
+        <select id="x-axis-select"></select>
+        <label for="color-select">Color:</label>
+        <select id="color-select"></select>
+    </div>
+    <div>
+        <p>Showing <span id="filtered-count"></span> out of <span id="total-count"></span> known items.</p>
 
-    <div id="chart"></div>
+        <p id="error-msg"></p>
+    </div>
 </div>
+
+<div id="chart"></div>
 
 <script>
     var main = new Main();

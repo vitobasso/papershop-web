@@ -35,7 +35,7 @@ function EbayApi() {
     }
 
     function handleError(xhr, msg, err) {
-        showError(msg);
+        $("#error-msg").html(msg);
         throw err;
     }
 

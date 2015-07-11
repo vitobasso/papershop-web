@@ -6,9 +6,9 @@ body {
     color: red;
 }
 
-#left {
+#filters-wrapper {
     width: 100%;
-    height: 200px;
+    height: 205px;
 }
 
 #filters {
@@ -29,6 +29,14 @@ body {
 #filters select {
     width: 10em;
     display: block; /* list box below title, not beside */
+}
+
+#left {
+    float: left;
+}
+
+#chart {
+    float: right;
 }
 
 .chart-tooltip img {
