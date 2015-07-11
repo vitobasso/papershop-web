@@ -4,6 +4,7 @@
 function Categories(ebay) {
 
     var categoriesSet = new Set(getId);
+    var filterUI = new FilterUIBuilder();
 
     this.populate = function (itens) {
         var categoriesArray = uniqueCategories(itens);
@@ -74,31 +75,10 @@ function Categories(ebay) {
         category.fuzzyValues = FuzzySet(values);
     }
 
-    //TODO reuse similar code from filters_manager
     function populateAspects(category, aspects) {
-        var selCategory = d3.select("#categories")
-            .selectAll("div").filter(selCategoryId(category))
-            .select("ul");
-
-        // aspects
-        var selAspect = selCategory.selectAll("li").data(aspects, getName)
-            .enter().append("li");
-        selAspect.append("a")
-            .attr("href", "#")
-            .html(getName);
-
-        selAspect.append("select")
-            .attr("multiple", true)
-            .attr("size", function (aspect) {
-                return aspect.values.length;
-            })
-            .attr("onchange", "main.applyFilters()")
-            .selectAll("option").data(function (aspect) { // aspect values
-                return aspect.values;
-            }, getName)
-            .enter()
-            .append("option")
-            .html(getName);
+        var rootSel = d3.select("#categories")
+            .selectAll("div").filter(selCategoryId(category));
+        filterUI.populate(rootSel, aspects);
     }
 
     function selCategoryId(object) {

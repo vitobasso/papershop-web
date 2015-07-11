@@ -3,6 +3,8 @@
  */
 function Filters() {
 
+    var filterUI = new FilterUIBuilder();
+
     var filters = [
         {
             name: "Condition",
@@ -38,32 +40,8 @@ function Filters() {
     ];
 
     this.populate = function () {
-
-        var selFilter = d3.select("#filters").select("ul")
-            .selectAll("li").data(filters, getName)
-            .enter().append("li");
-
-        // title
-        selFilter.append("a")
-            .attr("href", "#")
-            .html(getName);
-
-        // values list
-        selFilter.append("select")
-            .attr("multiple", true)
-            .attr("size", function (filter) {
-                return filter.values.length;
-            })
-            .attr("onchange", "main.applyFilters()")
-            .each(populateValues);
-
-    };
-
-    function populateValues(filter) {
-        d3.select(this).selectAll("option").data(filter.values, filter.getValueLabel)
-            .enter()
-            .append("option")
-            .html(filter.getValueLabel);
+        var rootSel = d3.select("#filters");
+        filterUI.populate(rootSel, filters);
     }
 
 }
