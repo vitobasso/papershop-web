@@ -32,47 +32,37 @@ function Main() {
     function getUIParams() {
         return {
             keywords: $("#keywords").val(),
-            filters: getFilters(),
-            aspects: getAspectFilters(),
+            filters: getFiltersFromUI("#filters"),
+            aspects: getFiltersFromUI("#categories"),
             itemsPerPage: $("#items-per-page").val(),
             page: $("#page").val()
         };
     }
 
-    function getFilters() {
+    function getFiltersFromUI(rootId) {
         var filters = [];
-        $("#filters").find("select").each(function (i, filterNode) {
+        $(rootId).find("select").each(function (i, filterNode) {
             var sel = $(filterNode).find("option").filter(":selected");
             if (sel.length > 0) {
-                var filterDatum = filterNode.__data__;
-                var filter = {
-                    name: filterDatum.name,
-                    values: sel.toArray().map(function (option) {
-                        return filterDatum.getValueId(option.__data__)
-                    })
-                };
+                var filter = getFilterFromUI(filterNode.__data__, sel);
                 filters.push(filter);
             }
         });
         return filters;
     }
 
-    //TODO unify with similar code from getFilters()
-    function getAspectFilters() {
-        var filters = [];
-        $("#categories").find("select").each(function (i, aspect) {
-            var sel = $(aspect).find("option").filter(":selected");
-            if (sel.length > 0) {
-                var filter = {
-                    name: aspect.__data__.name,
-                    values: sel.toArray().map(function (option) {
-                        return option.__data__.name
-                    })
-                };
-                filters.push(filter);
-            }
-        });
-        return filters;
+    function getFilterFromUI(filter, selectedOptions){
+        return {
+            name: filter.name,
+            values: selectedOptions.toArray().map(function (option) {
+                var getValueId = filterValueIdGetter(filter);
+                return getValueId(option.__data__)
+            })
+        }
+    }
+
+    function filterValueIdGetter(filter) {
+        return filter.getValueId || getName;
     }
 
     /////////////////////////////////////////////////////////
@@ -91,64 +81,12 @@ function Main() {
     }
 
     function filterItems() {
-        var filterFunction = createItemFilterFunction();
+        var params = getUIParams();
+        var filterFunction = new ItemFilter(params).filter;
         return allItems.filter(filterFunction);
     }
 
-    function createItemFilterFunction() {
-        var params = getUIParams();
-        return function (item) {
-            return satisfiesFilters(item, params.filters)
-                && satisfiesAspectFilters(item, params.aspects);
-        };
-    }
-
-    function satisfiesFilters(item, filters) {
-        for (var i = 0, filter; filter = filters[i]; i++) {
-            if (!satisfiesFilter(item, filter)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    function satisfiesAspectFilters(item, filters) {
-        for (var i = 0, filter; filter = filters[i]; i++) {
-            if (!satisfiesAspectFilter(item, filter)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    function satisfiesFilter(item, filter) {
-        if (filter.values.length == 0) {
-            return true;
-        }
-        var getProperty = getItemPropertyByFilter[filter.name];
-        var property = getProperty(item);
-        return filter.values.contains(property);
-    }
-
-    function satisfiesAspectFilter(item, filter) {
-        if (filter.values.length == 0) {
-            return true;
-        }
-        var property = item.aspects[filter.name] || {};
-        return filter.values.contains(property.value);
-    }
-
-    var getItemPropertyByFilter = {
-        Condition: function (item) {
-            return item.condition.id;
-        },
-        ListingType: function (item) {
-            return item.listingType;
-        },
-        Category: function (item) {
-            return item.category.id;
-        }
-    };
+    ////////////////////////////////////////////////////////////
 
     function guessAspectsFromTitle(newItems) {
         newItems.forEach(function (item) {
