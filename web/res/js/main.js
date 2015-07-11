@@ -98,24 +98,57 @@ function Main() {
     function createItemFilterFunction() {
         var params = getUIParams();
         return function (item) {
-            return satisfiesAspects(item, params.aspects);
+            return satisfiesFilters(item, params.filters)
+                && satisfiesAspectFilters(item, params.aspects);
         };
     }
 
-    function satisfiesAspects(item, aspectFilters) {
-        for (var i = 0, aspectFilter; aspectFilter = aspectFilters[i]; i++) {
-            if (!satisfiesAspect(item, aspectFilter)) {
+    function satisfiesFilters(item, filters) {
+        for (var i = 0, filter; filter = filters[i]; i++) {
+            if (!satisfiesFilter(item, filter)) {
                 return false;
             }
         }
         return true;
     }
 
-    function satisfiesAspect(item, aspectFilter) {
-        var itemAspect = item.aspects[aspectFilter.name] || {};
-        return aspectFilter.values.length == 0 ||
-            aspectFilter.values.contains(itemAspect.value);
+    function satisfiesAspectFilters(item, filters) {
+        for (var i = 0, filter; filter = filters[i]; i++) {
+            if (!satisfiesAspectFilter(item, filter)) {
+                return false;
+            }
+        }
+        return true;
     }
+
+    function satisfiesFilter(item, filter) {
+        if (filter.values.length == 0) {
+            return true;
+        }
+        var getProperty = getItemPropertyByFilter[filter.name];
+        var property = getProperty(item);
+        return filter.values.contains(property);
+    }
+
+    function satisfiesAspectFilter(item, filter) {
+        if (filter.values.length == 0) {
+            return true;
+        }
+        var property = item.aspects[filter.name] || {};
+        return filter.values.contains(property.value);
+    }
+
+    var getItemPropertyByFilter = {
+        Condition: function (item) {
+            return item.condition.id;
+        },
+        ListingType: function (item) {
+            return item.listingType;
+        },
+        Category: function (item) {
+            return item.category.id;
+        }
+    };
 
     function guessAspectsFromTitle(newItems) {
         newItems.forEach(function (item) {

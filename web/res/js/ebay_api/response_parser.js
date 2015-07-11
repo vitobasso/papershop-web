@@ -12,18 +12,20 @@ function EbayResponseParser() {
     };
 
     function parseFindItem(item) {
-        var dateStr = item.listingInfo[0].startTime[0];
+        var listing = item.listingInfo[0];
+        var dateStr = listing.startTime[0];
         var category = item.primaryCategory[0];
         var price = item.sellingStatus[0].currentPrice[0];
         return {
             id: item.itemId[0],
             title: item.title[0],
             category: {
-                id: category.categoryId[0],
+                id: +category.categoryId[0],
                 name: category.categoryName[0]
             },
             aspects: {},
             condition: parseCondition(item),
+            listingType: listing.listingType[0],
             listingTime: dateFormat.parse(dateStr),
             price: {
                 currency: price["@currencyId"],
@@ -41,7 +43,7 @@ function EbayResponseParser() {
             var condition = item.condition[0];
             if (condition) {
                 result = {
-                    id: condition.conditionId[0],
+                    id: +condition.conditionId[0],
                     name: condition.conditionDisplayName[0]
                 }
             }
