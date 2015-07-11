@@ -55,14 +55,23 @@ function Categories(ebay) {
     function fetchAspects(category) {
         var categoryFromSet = categoriesSet.get(category);
         if (categoryFromSet.aspects.length == 0) {
-            ebay.histograms({categoryId: category.id}, function (aspects) {
-                categoryFromSet.aspects = aspects;
-                categoryFromSet.aspectValuesMap = mapAspectValues(aspects);
-                var values = Object.keys(category.aspectValuesMap);
-                categoryFromSet.fuzzyValues = FuzzySet(values);
-                populateAspects(category, aspects);
-            });
+            var callback = createHistogramsCallback(categoryFromSet);
+            ebay.histograms({categoryId: category.id}, callback);
         }
+    }
+
+    function createHistogramsCallback(category) {
+        return function (aspects) {
+            rememberAspects(category, aspects);
+            populateAspects(category, aspects);
+        };
+    }
+
+    function rememberAspects(category, aspects) {
+        category.aspects = aspects;
+        category.aspectValuesMap = mapAspectValues(aspects);
+        var values = Object.keys(category.aspectValuesMap);
+        category.fuzzyValues = FuzzySet(values);
     }
 
     //TODO reuse similar code from filters_manager

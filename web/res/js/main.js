@@ -91,7 +91,7 @@ function Main() {
     function guessAspectsFromTitle(newItems) {
         newItems.forEach(function (item) {
             var category = ebayChart.getCategory(item.category);
-            if (category) {
+            if (category && category.fuzzyValues) {
                 guessAspects(item, category);
             }
         });

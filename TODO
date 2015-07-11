@@ -1,12 +1,17 @@
 
 - filters
-    - add "ships to"
+    - listing type (on chart)
+    - ships to
+    - category
+    - price (zoom on chart)
 
 - count items known vs. items shown
 
-- disable guesses
+- better layout
+    - filters in one top row
+    - limited list height
 
-- zoom (filter by price)
+- disable guesses
 
 - prevent overlaps
     http://mbostock.github.io/d3/talk/20111018/collision.html
