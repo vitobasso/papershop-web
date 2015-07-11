@@ -1,14 +1,13 @@
 
 - filters
+    - category (on chart and request)
     - listing type (on chart)
         - add item filters in general to chart
     - ships to
-    - category
     - price (zoom on chart)
 
 - better layout
-    - filters in one top row
-    - limited list height
+    - change aspect filters according to selected category (hide unused ones)
 
 - disable guesses
 
@@ -17,7 +16,7 @@
     http://bl.ocks.org/mbostock/1748247
     http://stackoverflow.com/questions/12944024/d3-js-how-can-i-prevent-circles-text-overlapping
 
-- show "waiting animation" when making request
+- show spinning wheel while making request
 
 - legend
     - find better legend?

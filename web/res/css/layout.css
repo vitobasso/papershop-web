@@ -7,44 +7,27 @@ body {
 }
 
 #left {
-    float: left;
-    width: 600px;
+    width: 100%;
+    height: 200px;
 }
 
-#right {
-    float: right;
+#filters {
+    height: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
 }
 
-.filter-div {
-    -webkit-column-width: 12em;
-    -moz-column-width: 12em;
-    column-width: 12em;
+#filters div {
+    height: 100%;
+    display: inline-block;
 }
 
-.filter-div ul {
-    list-style-position: inside;
-    padding-left: 10px;
-    text-indent: -4px;
-}
-
-.filter-div li a {
+#filters div a {
     text-decoration: none;
 }
 
-.filter-div > ul {
-    margin-top: 0;
-}
-
-.filter-div > ul > li {
-    -webkit-column-break-inside: avoid;
-    page-break-inside: avoid;
-    break-inside: avoid;
-    padding-bottom: 10px;
-}
-
-.filter-div select {
+#filters select {
     width: 10em;
-    overflow: hidden; /* hide scrollbar */
     display: block; /* list box below title, not beside */
 }
 

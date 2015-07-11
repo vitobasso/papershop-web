@@ -23,7 +23,6 @@ function Filters() {
             getValueLabel: getName,
             getValueId: getId
         },
-
         {
             name: "ListingType",
             values: [
@@ -36,12 +35,10 @@ function Filters() {
             getValueLabel: identity,
             getValueId: identity
         }
-
     ];
 
     this.populate = function () {
-        var rootSel = d3.select("#filters");
-        filterUI.populate(rootSel, filters);
+        filterUI.populate(filters);
     }
 
 }

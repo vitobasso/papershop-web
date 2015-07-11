@@ -36,20 +36,15 @@ function Categories(ebay) {
     }
 
     function populateCategories(categories) {
-        var selRoot = d3.select("#categories");
-        selRoot.select("ul").selectAll("li").data(categories, getId)
-            .enter()
-            .append("li")
-            .append("a")
-            .attr("href", selCategoryId)
-            .html(getName)
-            .on("click", fetchAspects);
-        selRoot.selectAll("div").data(categories, getId)
-            .enter()
-            .append("div").attr("id", getCategoryId).classed("filter-div", true)
-            .append("ul");
+        var categoryFilter = {
+            name: "Categories",
+            values: categories
+        };
 
-        $("#categories").tabs().tabs("refresh");
+        filterUI.populate([categoryFilter]);
+        filterUI.selectOptions(categoryFilter)
+            .on("click", fetchAspects);
+
         fetchAspects(categories[0]);
     }
 
@@ -64,7 +59,7 @@ function Categories(ebay) {
     function createHistogramsCallback(category) {
         return function (aspects) {
             rememberAspects(category, aspects);
-            populateAspects(category, aspects);
+            filterUI.populate(aspects);
         };
     }
 
@@ -73,20 +68,6 @@ function Categories(ebay) {
         category.aspectValuesMap = mapAspectValues(aspects);
         var values = Object.keys(category.aspectValuesMap);
         category.fuzzyValues = FuzzySet(values);
-    }
-
-    function populateAspects(category, aspects) {
-        var rootSel = d3.select("#categories")
-            .selectAll("div").filter(selCategoryId(category));
-        filterUI.populate(rootSel, aspects);
-    }
-
-    function selCategoryId(object) {
-        return "#" + getCategoryId(object);
-    }
-
-    function getCategoryId(object) {
-        return "category" + object.id;
     }
 
     function mapAspectValues(aspects) {
