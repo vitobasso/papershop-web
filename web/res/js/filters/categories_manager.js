@@ -37,7 +37,7 @@ function Categories(ebay) {
 
     function populateCategories(categories) {
         var categoryFilter = {
-            name: "Categories",
+            name: "Category",
             values: categories
         };
 

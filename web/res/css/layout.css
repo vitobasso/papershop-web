@@ -2,8 +2,12 @@ body {
     font: 10px sans-serif;
 }
 
-#error-msg {
-    color: red;
+#left {
+    float: left;
+}
+
+#chart {
+    float: right;
 }
 
 #filters-wrapper {
@@ -13,8 +17,12 @@ body {
 
 #filters {
     height: 100%;
-    overflow-x: auto;
     white-space: nowrap;
+    overflow: hidden;
+}
+
+#filters:hover {
+    overflow: auto;
 }
 
 #filters div {
@@ -27,18 +35,37 @@ body {
 }
 
 #filters select {
+    height: 170px;
     width: 10em;
+    border: none;
     display: block; /* list box below title, not beside */
+    overflow: hidden;
 }
 
-#left {
-    float: left;
+#filters select:hover {
+    overflow: auto;
 }
 
-#chart {
-    float: right;
+#filters option{
+    white-space: normal;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: rgba(220, 220, 220, 0.8);
+    -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.5);
 }
 
 .chart-tooltip img {
     float: left;
+}
+
+#error-msg {
+    color: red;
 }

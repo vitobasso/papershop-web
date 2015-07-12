@@ -22,7 +22,6 @@ function FilterUIBuilder() {
         selFilter.append("select")
             .attr("id", getFilterId)
             .attr("multiple", true)
-            .attr("size", 10)
             .attr("onchange", "main.applyFilters()")
             .each(populateOptions);
     }
