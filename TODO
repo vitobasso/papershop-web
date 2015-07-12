@@ -1,15 +1,25 @@
 
 - filters
-    - category (on chart and request)
+    - category (on request)
+        - remove aspects from all but selected category
     - listing type (on chart)
         - add item filters in general to chart
     - ships to
+    - auction end
     - price (zoom on chart)
 
 - better layout
     - change aspect filters according to selected category (hide unused ones)
-
-- disable guesses
+    - flexible chart (fill available space)
+    - kill combo boxes
+        - change x-axis from the axis and/or filter titles
+        - change color axis from legend
+    - kill page
+        - keep track of past requests (by combination of keyword + filters), get next page on repeated request
+            - show list of past requests with item count?
+    - config
+        - items per request
+        - disable guesses
 
 - prevent overlaps
     http://mbostock.github.io/d3/talk/20111018/collision.html
@@ -24,7 +34,6 @@
     - fix order
     - fix delay
     - legend always on top of circles
-
 
 - ebay api wrapper
     https://github.com/benbuckman/nodejs-ebay-api
