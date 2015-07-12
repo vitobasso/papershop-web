@@ -1,0 +1,50 @@
+
+#filters-wrapper {
+    overflow: hidden; /* show scrollbar only on hover */
+}
+
+#filters-wrapper:hover {
+    overflow: auto; /* show scrollbar only on hover */
+}
+
+#filters {
+    height: -moz-calc(100% - 1.4ex - 10px); /* leave space for scrollbar */
+    height: -webkit-calc(100% - 1.4ex - 10px); /* leave space for scrollbar */
+    height: calc(100% - 1.4ex - 10px); /* leave space for scrollbar */
+    white-space: nowrap; /* divs side by side */
+}
+
+#filters div {
+    height: 100%;
+    display: inline-block; /* divs side by side */
+}
+
+#filters select {
+    border: none;
+    display: block; /* list box below title, not beside */
+    overflow: hidden; /* show scrollbar only on hover */
+}
+
+#filters select:hover {
+    border: none;
+    overflow: overlay; /* show scrollbar only on hover */
+}
+
+#filters option {
+    white-space: normal; /* wrap text */
+}
+
+#filters div a {
+    text-decoration: none;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: rgba(150,150,150,0.8);
+}

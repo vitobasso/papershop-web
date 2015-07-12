@@ -1,5 +1,5 @@
 body {
-    font: 10px sans-serif;
+    font: sans-serif;
 }
 
 #left {
@@ -11,55 +11,12 @@ body {
 }
 
 #filters-wrapper {
-    width: 100%;
     height: 205px;
 }
 
-#filters {
-    height: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-}
-
-#filters:hover {
-    overflow: auto;
-}
-
-#filters div {
-    height: 100%;
-    display: inline-block;
-}
-
-#filters div a {
-    text-decoration: none;
-}
-
 #filters select {
-    height: 170px;
+    height: 100%;
     width: 10em;
-    border: none;
-    display: block; /* list box below title, not beside */
-    overflow: hidden;
-}
-
-#filters select:hover {
-    overflow: auto;
-}
-
-#filters option{
-    white-space: normal;
-}
-
-::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-    -webkit-border-radius: 10px;
-    border-radius: 10px;
-    background: rgba(220, 220, 220, 0.8);
-    -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.5);
 }
 
 .chart-tooltip img {
