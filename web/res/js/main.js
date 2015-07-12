@@ -22,12 +22,20 @@ function Main() {
 
     /////////////////////////////////////////////////////////
 
-    this.doRequest = function () {
+    $("#request-button").on("click", fetchItems);
+
+    $("#keywords, #items-per-page, #page").keyup(function (e) {
+        if (e.keyCode == 13) {
+            $("#request-button").click();
+        }
+    });
+
+    function fetchItems() {
         var params = getUIParams();
         api.find(params, function (response) {
             updateChart(params, response)
         });
-    };
+    }
 
     function getUIParams() {
         return {
@@ -51,7 +59,7 @@ function Main() {
         return filters;
     }
 
-    function getFilterFromUI(filter, selectedOptions){
+    function getFilterFromUI(filter, selectedOptions) {
         return {
             name: filter.name,
             values: selectedOptions.toArray().map(function (option) {
