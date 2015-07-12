@@ -40,16 +40,16 @@ function Main() {
     function getUIParams() {
         return {
             keywords: $("#keywords").val(),
-            filters: getFiltersFromUI("#filters"),
-            aspects: getFiltersFromUI("#categories"),
+            filters: getFiltersFromUI(".common-filter"),
+            aspects: getFiltersFromUI(".aspect-filter"),
             itemsPerPage: $("#items-per-page").val(),
             page: $("#page").val()
         };
     }
 
-    function getFiltersFromUI(rootId) {
+    function getFiltersFromUI(filterClass) {
         var filters = [];
-        $(rootId).find("select").each(function (i, filterNode) {
+        $(filterClass).find("select").each(function (i, filterNode) {
             var sel = $(filterNode).find("option").filter(":selected");
             if (sel.length > 0) {
                 var filter = getFilterFromUI(filterNode.__data__, sel);

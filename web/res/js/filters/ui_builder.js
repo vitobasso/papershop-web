@@ -6,11 +6,11 @@ function FilterUIBuilder() {
     this.populate = function (filters) {
         populateFilters(filters);
         updateOptions(filters);
+        return selectDivs(filters);
     };
 
     function populateFilters(filters) {
-        var selFilter = d3.select("#filters")
-            .selectAll("div").data(filters, getName)
+        var selFilter = selectDivs(filters)
             .enter().append("div");
 
         // title
@@ -27,18 +27,10 @@ function FilterUIBuilder() {
     }
 
     function updateOptions(filters){
-        d3.select("#filters")
-            .selectAll("div").data(filters, getName)
+        selectDivs(filters)
             .select("select")
             .each(populateOptions)
     }
-
-    this.selectOptions = function (filter) {
-        return d3.select("#filters")
-            .selectAll("select")
-            .filter("[id=" + getFilterId(filter) + "]")
-            .selectAll("option")
-    };
 
     function populateOptions(filter) {
         var getLabel = labelGetter(filter);
@@ -47,6 +39,11 @@ function FilterUIBuilder() {
             .enter()
             .append("option")
             .html(getLabel);
+    }
+
+    function selectDivs(filters) {
+        return d3.select("#filters")
+            .selectAll("div").data(filters, getName);
     }
 
     function labelGetter(filter) {

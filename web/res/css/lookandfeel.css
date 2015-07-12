@@ -26,7 +26,6 @@
 }
 
 #filters select:hover {
-    border: none;
     overflow: overlay; /* show scrollbar only on hover */
 }
 

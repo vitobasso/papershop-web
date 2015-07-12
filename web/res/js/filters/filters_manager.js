@@ -38,7 +38,8 @@ function Filters() {
     ];
 
     this.populate = function () {
-        filterUI.populate(filters);
+        filterUI.populate(filters)
+            .classed("common-filter", true);
     }
 
 }

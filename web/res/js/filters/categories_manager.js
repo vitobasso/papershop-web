@@ -38,11 +38,14 @@ function Categories(ebay) {
     function populateCategories(categories) {
         var categoryFilter = {
             name: "Category",
-            values: categories
+            values: categories,
+            getValueLabel: getName,
+            getValueId: getId
         };
 
-        filterUI.populate([categoryFilter]);
-        filterUI.selectOptions(categoryFilter)
+        filterUI.populate([categoryFilter])
+            .classed("common-filter", true)
+            .selectAll("option")
             .on("click", fetchAspects);
 
         fetchAspects(categories[0]);
@@ -59,7 +62,8 @@ function Categories(ebay) {
     function createHistogramsCallback(category) {
         return function (aspects) {
             rememberAspects(category, aspects);
-            filterUI.populate(aspects);
+            filterUI.populate(aspects)
+                .classed("aspect-filter", true);
         };
     }
 
