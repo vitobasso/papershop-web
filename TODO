@@ -2,6 +2,7 @@
 - filters
     - category (on request)
         - remove aspects from all but selected category
+        - colapse/expand aspects
     - listing type (on chart)
         - add item filters in general to chart
     - ships to
@@ -20,6 +21,10 @@
     - config
         - items per request
         - disable guesses
+    - colors
+       http://coolors.co/browser
+       http://www.colorcombos.com/color-schemes/7625/ColorCombo7625.html
+
 
 - prevent overlaps
     http://mbostock.github.io/d3/talk/20111018/collision.html
