@@ -1,17 +1,17 @@
-body {
-    font: sans-serif;
+
+#bottom {
+    position: absolute;
+    bottom: 0;
+    height: 205px;
+    width: 99%; /* 200% causes horizontal scroll in body */
 }
 
-#left {
-    float: left;
+#controls {
+    display: inline-block;
 }
 
 #chart {
-    float: right;
-}
-
-#filters-wrapper {
-    height: 205px;
+    display: inline-block;
 }
 
 #filters select {
@@ -21,8 +21,4 @@ body {
 
 .chart-tooltip img {
     float: left;
-}
-
-#error-msg {
-    color: red;
 }

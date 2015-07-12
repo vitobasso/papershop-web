@@ -3,6 +3,7 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
+    <link href='http://fonts.googleapis.com/css?family=PT+Sans|Roboto' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="res/css/layout.css"/>
     <link rel="stylesheet" type="text/css" href="res/css/lookandfeel.css"/>
     <link rel="stylesheet" type="text/css" href="res/css/chart.css"/>
@@ -32,35 +33,43 @@
 </head>
 <body>
 
-<div id="filters-wrapper">
-    <div id="filters">
+<div id="main">
+
+    <div id="top">
+
+        <div id="controls">
+            <div>
+                <label for="keywords">Keywords:</label>
+                <input type="text" id="keywords" value="laptop"/>
+                <label for="items-per-page">Items per page:</label>
+                <input type="text" id="items-per-page" value="10" size="1"/>
+                <label for="page">Page:</label>
+                <input type="text" id="page" value="1" size="1"/>
+                <button id="request-button">Fetch</button>
+            </div>
+            <div>
+                <label for="x-axis-select">X axis:</label>
+                <select id="x-axis-select"></select>
+                <label for="color-select">Color:</label>
+                <select id="color-select"></select>
+            </div>
+            <div>
+                <p>Showing <span id="filtered-count"></span> out of <span id="total-count"></span> known items.</p>
+
+                <p id="error-msg"></p>
+            </div>
+        </div>
+
+        <div id="chart"></div>
+
     </div>
+
+    <div id="bottom">
+        <div id="filters">
+        </div>
+    </div>
+
 </div>
-
-<div id="left">
-    <div>
-        <label for="keywords">Keywords:</label>
-        <input type="text" id="keywords" value="laptop"/>
-        <label for="items-per-page">Items per page:</label>
-        <input type="text" id="items-per-page" value="10" size="1"/>
-        <label for="page">Page:</label>
-        <input type="text" id="page" value="1" size="1"/>
-        <button id="request-button">Fetch</button>
-    </div>
-    <div>
-        <label for="x-axis-select">X axis:</label>
-        <select id="x-axis-select"></select>
-        <label for="color-select">Color:</label>
-        <select id="color-select"></select>
-    </div>
-    <div>
-        <p>Showing <span id="filtered-count"></span> out of <span id="total-count"></span> known items.</p>
-
-        <p id="error-msg"></p>
-    </div>
-</div>
-
-<div id="chart"></div>
 
 <script>
     var main = new Main();

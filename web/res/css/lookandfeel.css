@@ -1,9 +1,20 @@
+body {
+    font: 0.8em 'Roboto', sans-serif;
+}
 
-#filters-wrapper {
+input, select, textarea, button {
+    font: inherit;
+}
+
+.chart-tooltip {
+    font-family: 'Roboto', sans-serif; /* "jquery ui" don't inherit fonts from body */
+}
+
+#bottom {
     overflow: hidden; /* show scrollbar only on hover */
 }
 
-#filters-wrapper:hover {
+#bottom:hover {
     overflow: auto; /* show scrollbar only on hover */
 }
 
@@ -34,6 +45,8 @@
 }
 
 #filters div a {
+    color: black;
+    font-weight: bold;
     text-decoration: none;
 }
 
@@ -45,5 +58,9 @@
 ::-webkit-scrollbar-thumb {
     -webkit-border-radius: 10px;
     border-radius: 10px;
-    background: rgba(150,150,150,0.8);
+    background: rgba(150, 150, 150, 0.8);
+}
+
+#error-msg {
+    color: red;
 }
