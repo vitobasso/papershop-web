@@ -78,7 +78,7 @@ function Main() {
     this.applyFilters = function () {
         var items = filterItems();
         $("#filtered-count").show().text(items.length);
-        ebayChart.repopulate(items);
+        ebayChart.setData(items);
     };
 
     function updateChart(requestParams, newItems) {

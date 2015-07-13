@@ -20,14 +20,24 @@ function EbayChart(api, axisSelectorId, colorSelectorId) {
         filters.populate();
         categories.populate(newItems);
         populateSelectors();
-        this.repopulate(newItems);
+        this.setData(newItems);
     };
 
-    this.repopulate = function (newItems) {
+    this.setData = function (newItems) {
         items = newItems;
         chart.setData(items);
         assignTooltips();
     };
+
+    function buildChart() {
+        var xAxis = getSelected(axisSelectorId);
+        var colorAxis = getSelected(colorSelectorId);
+
+        if (items) {
+            chart.update(items, axes.priceAxis, xAxis, colorAxis);
+            assignTooltips()
+        }
+    }
 
     function getSelected(selectorId) {
         var selected = $(selectorId).find("option:selected").get(0);
@@ -41,7 +51,7 @@ function EbayChart(api, axisSelectorId, colorSelectorId) {
 
     function populateSelector(selectorId) {
         var selOption = d3.select(selectorId)
-            .on("change", rebuild)
+            .on("change", buildChart)
             .selectAll("option").data(axes.listOptions());
         selOption
             .exit().remove();
@@ -49,16 +59,6 @@ function EbayChart(api, axisSelectorId, colorSelectorId) {
             .html(function (axis) {
                 return axis.label;
             });
-    }
-
-    function rebuild() {
-        var xAxis = getSelected(axisSelectorId);
-        var colorAxis = getSelected(colorSelectorId);
-
-        if (items) {
-            chart.update(items, axes.priceAxis, xAxis, colorAxis);
-            assignTooltips()
-        }
     }
 
     function assignTooltips() {
@@ -69,6 +69,6 @@ function EbayChart(api, axisSelectorId, colorSelectorId) {
     }
 
     populateSelectors();
-    rebuild();
+    buildChart();
 
 }
