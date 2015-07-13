@@ -2,33 +2,71 @@
  * Created by Victor on 30/06/2015.
  */
 
-function Chart(renderTooltip) {
+function Chart(parentDivId, renderTooltip) {
 
-    var margin = {top: 20, right: 20, bottom: 30, left: 40},
-        width = 960 - margin.left - margin.right,
-        height = 500 - margin.top - margin.bottom;
+    var margin = {top: 20, right: 20, bottom: 30, left: 40};
+    var svgWidth, svgHeight, width, height;
 
-    var container = renderContainer();
+    var canvas;
     var yParam, xParam, colorParam;
     var x, y, colorScale;
     var axes;
+    var _data;
 
-    this.change = function (data, newYParam, newXParam, newColorParam) {
+    this.setData = function (data) {
+        _data = data;
+        populate();
+    };
+
+    this.update = function (data, newYParam, newXParam, newColorParam) {
         yParam = newYParam;
         xParam = newXParam;
         colorParam = newColorParam;
+        _data = data;
+        render()
+    };
+
+    /////////////////////////////////////////////////////
+
+    createCanvasFillingParent();
+    d3.select(window).on("resize", resize);
+
+    function createCanvasFillingParent() {
+        var parent = d3.select(parentDivId).node();
+        createCanvasWithSize(parent.clientWidth, parent.clientHeight);
+    }
+
+    function createCanvasWithSize(newWidth, newHeight) {
+        svgWidth = newWidth;
+        svgHeight = newHeight;
+        width = svgWidth - margin.left - margin.right;
+        height = svgHeight - margin.top - margin.bottom;
+        canvas = createCanvas();
+    }
+
+    function createCanvas() {
+        d3.select(parentDivId).html("");
+
+        return d3.select(parentDivId).append("svg:svg")
+            .attr("width", svgWidth)
+            .attr("height", svgHeight)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    }
+
+    /////////////////////////////////////////////////////
+
+    function resize() {
+        createCanvasFillingParent();
+        render();
+    }
+
+    function render() {
         createScales();
         axes = new Axes();
         axes.init();
-        this.populate(data)
-    };
-
-    this.populate = function (data) {
-        updateDomains(data);
-        axes.update();
-        renderCircles(data);
-        assignTooltips();
-    };
+        populate();
+    }
 
     function createScales() {
         x = setXRange(xParam.getScale());
@@ -36,16 +74,23 @@ function Chart(renderTooltip) {
         colorScale = setColorRange(colorParam.getScale());
     }
 
-    function updateDomains(data) {
-        xParam.updateDomain(x, data);
-        yParam.updateDomain(y, data);
-        colorParam.updateDomain(colorScale, data);
+    function populate() {
+        updateDomains();
+        axes.update();
+        renderCircles();
+        assignTooltips();
+    }
+
+    function updateDomains() {
+        xParam.updateDomain(x, _data);
+        yParam.updateDomain(y, _data);
+        colorParam.updateDomain(colorScale, _data);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
 
-    function renderCircles(data) {
-        var circles = container.selectAll("circle").data(data, getId);
+    function renderCircles() {
+        var circles = canvas.selectAll("circle").data(_data, getId);
 
         circles.transition()
             .call(positionCircle)
@@ -83,13 +128,13 @@ function Chart(renderTooltip) {
 
     function renderLegend() {
         var initpos = {
-            x: width - margin.right - 120,
+            x: margin.left + 0.7 * width,
             y: margin.top
         };
 
-        var sel = container.select(".legend");
+        var sel = canvas.select(".legend");
         if (sel.empty()) {
-            sel = container.append("g")
+            sel = canvas.append("g")
                 .attr("class", "legend")
                 .attr("transform", "translate(" + initpos.x + "," + initpos.y + ")")
                 .call(d3.behavior.drag()
@@ -105,20 +150,10 @@ function Chart(renderTooltip) {
     }
 
     function assignTooltips() {
-        $("#chart").find("svg").tooltip({
+        $(parentDivId).find("svg").tooltip({
             items: "circle",
             content: renderTooltip
         });
-    }
-
-    function renderContainer() {
-        var w = width + margin.left + margin.right;
-        var h = height + margin.top + margin.bottom;
-        return d3.select("#chart").append("svg:svg")
-            .attr("viewBox", "0 0 " + w + " " + h)
-            .attr("preserveAspectRatio", "none")
-            .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
@@ -128,7 +163,7 @@ function Chart(renderTooltip) {
         var xAxis = d3.svg.axis()
             .scale(x)
             .orient("bottom");
-        if(xParam.formatTick) {
+        if (xParam.formatTick) {
             xAxis.tickFormat(xParam.formatTick)
         }
 
@@ -137,9 +172,9 @@ function Chart(renderTooltip) {
             .orient("left");
 
         this.init = function () {
-            container.selectAll(".axis").remove();
+            canvas.selectAll(".axis").remove();
 
-            container.append("g")
+            canvas.append("g")
                 .attr("class", "x axis")
                 .attr("transform", "translate(0," + height + ")")
                 .call(xAxis)
@@ -150,7 +185,7 @@ function Chart(renderTooltip) {
                 .style("text-anchor", "end")
                 .text(xParam.label);
 
-            container.append("g")
+            canvas.append("g")
                 .attr("class", "y axis")
                 .call(yAxis)
                 .append("text")
@@ -163,8 +198,8 @@ function Chart(renderTooltip) {
         };
 
         this.update = function () {
-            container.selectAll(".axis").filter(".x").call(xAxis);
-            container.selectAll(".axis").filter(".y").call(yAxis);
+            canvas.selectAll(".axis").filter(".x").call(xAxis);
+            canvas.selectAll(".axis").filter(".y").call(yAxis);
         };
 
     }
