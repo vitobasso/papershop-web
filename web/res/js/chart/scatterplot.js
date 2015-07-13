@@ -112,9 +112,11 @@ function Chart(renderTooltip) {
     }
 
     function renderContainer() {
+        var w = width + margin.left + margin.right;
+        var h = height + margin.top + margin.bottom;
         return d3.select("#chart").append("svg:svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
+            .attr("viewBox", "0 0 " + w + " " + h)
+            .attr("preserveAspectRatio", "none")
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
     }

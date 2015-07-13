@@ -1,17 +1,36 @@
+html {
+    height: 100vh;
+}
+
+body {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+#main {
+    height: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+#top {
+    display: flex;
+    flex-flow: row nowrap;
+    flex-grow: 1;
+}
 
 #bottom {
-    position: absolute;
-    bottom: 0;
-    height: 205px;
-    width: 99%; /* 200% causes horizontal scroll in body */
+    height: 200px;
 }
 
 #controls {
-    display: inline-block;
 }
 
 #chart {
-    display: inline-block;
+    flex-grow: 1;
 }
 
 #filters select {
