@@ -2,9 +2,9 @@
  * Created by Victor on 30/06/2015.
  */
 
-function Chart(parentDivId, renderTooltip) {
+function Chart(parentDivId) {
 
-    var margin = {top: 20, right: 20, bottom: 30, left: 40};
+    var margin = {top: 20, right: 20, bottom: 40, left: 40};
     var svgWidth, svgHeight, width, height;
 
     var canvas;
@@ -78,7 +78,6 @@ function Chart(parentDivId, renderTooltip) {
         updateDomains();
         axes.update();
         renderCircles();
-        assignTooltips();
     }
 
     function updateDomains() {
@@ -122,38 +121,6 @@ function Chart(parentDivId, renderTooltip) {
                 return colorScale(colorParam.getProperty(datum))
             })
             .attr("data-legend", colorParam.getProperty);
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////
-
-    function renderLegend() {
-        var initpos = {
-            x: margin.left + 0.7 * width,
-            y: margin.top
-        };
-
-        var sel = canvas.select(".legend");
-        if (sel.empty()) {
-            sel = canvas.append("g")
-                .attr("class", "legend")
-                .attr("transform", "translate(" + initpos.x + "," + initpos.y + ")")
-                .call(d3.behavior.drag()
-                    .on("drag", dragmove));
-        }
-        sel.call(d3.legend);
-
-        function dragmove() {
-            var x = d3.event.x;
-            var y = d3.event.y;
-            sel.attr("transform", "translate(" + x + "," + y + ")");
-        }
-    }
-
-    function assignTooltips() {
-        $(parentDivId).find("svg").tooltip({
-            items: "circle",
-            content: renderTooltip
-        });
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
@@ -231,6 +198,29 @@ function Chart(parentDivId, renderTooltip) {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
+
+    function renderLegend() {
+        var initpos = {
+            x: margin.left + 0.7 * width,
+            y: margin.top
+        };
+
+        var sel = canvas.select(".legend");
+        if (sel.empty()) {
+            sel = canvas.append("g")
+                .attr("class", "legend")
+                .attr("transform", "translate(" + initpos.x + "," + initpos.y + ")")
+                .call(d3.behavior.drag()
+                    .on("drag", dragmove));
+        }
+        sel.call(d3.legend);
+
+        function dragmove() {
+            var x = d3.event.x;
+            var y = d3.event.y;
+            sel.attr("transform", "translate(" + x + "," + y + ")");
+        }
+    }
 
     //needed only so the legend catches the new values after transition
     //http://stackoverflow.com/a/20773846/2004857

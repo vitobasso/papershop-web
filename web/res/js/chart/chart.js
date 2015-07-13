@@ -4,11 +4,12 @@
 
 function EbayChart(api, axisSelectorId, colorSelectorId) {
 
+    var divId = "#chart";
     var filters = new Filters();
     var categories = new Categories(api);
     var axes = new ChartAxes(categories);
+    var chart = new Chart(divId);
     var tooltip = new ChartTooltip();
-    var chart = new Chart("#chart", tooltip.render);
     var items = [];
 
     this.getCategory = function (category) {
@@ -25,6 +26,7 @@ function EbayChart(api, axisSelectorId, colorSelectorId) {
     this.repopulate = function (newItems) {
         items = newItems;
         chart.setData(items);
+        assignTooltips();
     };
 
     function getSelected(selectorId) {
@@ -55,7 +57,15 @@ function EbayChart(api, axisSelectorId, colorSelectorId) {
 
         if (items) {
             chart.update(items, axes.priceAxis, xAxis, colorAxis);
+            assignTooltips()
         }
+    }
+
+    function assignTooltips() {
+        $(divId).find("svg").tooltip({
+            items: "circle",
+            content: tooltip.render
+        });
     }
 
     populateSelectors();
