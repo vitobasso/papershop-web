@@ -2,15 +2,18 @@
  * Created by Victor on 05/07/2015.
  */
 
-function EbayChart(api, axisSelectorId, colorSelectorId) {
+function EbayChart(api) {
 
-    var divId = "#chart";
-    var filters = new Filters();
-    var categories = new Categories(api);
-    var axes = new ChartAxes(categories);
-    var chart = new Chart(divId);
-    var tooltip = new ChartTooltip();
-    var items = [];
+    var chartDivId = "#chart";
+
+    var filters = new Filters(),
+        categories = new Categories(api),
+        axes = new ChartAxes(categories),
+        chart = new Chart(chartDivId),
+        tooltip = new ChartTooltip(),
+        items = [];
+
+    var axisOptions, xAxis, colorAxis;
 
     this.getCategory = function (category) {
         return categories.get(category);
@@ -19,7 +22,7 @@ function EbayChart(api, axisSelectorId, colorSelectorId) {
     this.update = function (newItems) {
         filters.populate();
         categories.populate(newItems);
-        populateSelectors();
+        populateAxisMenu();
         this.setData(newItems);
     };
 
@@ -30,45 +33,45 @@ function EbayChart(api, axisSelectorId, colorSelectorId) {
     };
 
     function buildChart() {
-        var xAxis = getSelected(axisSelectorId);
-        var colorAxis = getSelected(colorSelectorId);
-
         if (items) {
             chart.update(items, axes.priceAxis, xAxis, colorAxis);
             assignTooltips()
         }
     }
 
-    function getSelected(selectorId) {
-        var selected = $(selectorId).find("option:selected").get(0);
-        return selected.__data__;
-    }
-
-    function populateSelectors() {
-        populateSelector(axisSelectorId);
-        populateSelector(colorSelectorId);
-    }
-
-    function populateSelector(selectorId) {
-        var selOption = d3.select(selectorId)
-            .on("change", buildChart)
-            .selectAll("option").data(axes.listOptions());
-        selOption
-            .exit().remove();
-        selOption.enter().append("option")
-            .html(function (axis) {
-                return axis.label;
-            });
-    }
-
     function assignTooltips() {
-        $(divId).find("svg").tooltip({
+        $(chartDivId).find("svg").tooltip({
             items: "circle",
             content: tooltip.render
         });
     }
 
-    populateSelectors();
+    function populateAxisMenu() {  //TODO x or color
+        axisOptions = axes.listOptions();
+        $.contextMenu({
+            selector: '.x.label',
+            trigger: "left",
+            callback: changeAxis,
+            items: getMenuItems()
+        });
+    }
+
+    function getMenuItems() {
+        return axisOptions.map(getMenuItem);
+    }
+
+    function getMenuItem(axis) {
+        return {name: axis.label}
+    }
+
+    function changeAxis(key) {
+        xAxis = axisOptions[key];  //TODO x or color
+        buildChart();
+    }
+
+    populateAxisMenu();
+    xAxis = axisOptions[0];
+    colorAxis = axisOptions[0];
     buildChart();
 
 }

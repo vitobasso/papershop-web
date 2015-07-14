@@ -3,19 +3,25 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
+
+    <!-- libs -->
     <link href='http://fonts.googleapis.com/css?family=PT+Sans|Roboto' rel='stylesheet' type='text/css'>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8"></script>
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="res/css/libs/contextmenu/jquery.contextMenu.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script src="res/js/libs/naturalsort.js"></script>
+    <script src="res/js/libs/fuzzyset.js"></script>
+    <script src="res/js/libs/legend.js"></script>
+    <script src="res/js/libs/jquery.contextMenu.js"></script>
+
+    <!-- project -->
     <link rel="stylesheet" type="text/css" href="res/css/layout.css"/>
     <link rel="stylesheet" type="text/css" href="res/css/lookandfeel.css"/>
     <link rel="stylesheet" type="text/css" href="res/css/chart.css"/>
-    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8"></script>
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
     <script src="res/js/util/lang_util.js"></script>
-    <script src="res/js/util/naturalsort.js"></script>
     <script src="res/js/util/set.js"></script>
-    <script src="res/js/util/fuzzyset.js"></script>
-    <script src="res/js/util/legend.js"></script>
     <script src="res/js/util/common.js"></script>
     <script src="res/js/ebay_api/api.js"></script>
     <script src="res/js/ebay_api/url_builder.js"></script>
@@ -30,6 +36,7 @@
     <script src="res/js/aspect_guess.js"></script>
     <script src="res/js/item_filter.js"></script>
     <script src="res/js/main.js"></script>
+
 </head>
 <body>
 
@@ -43,12 +50,6 @@
                 <input type="text" id="items-per-page" placeholder="Items per page" value="10" size="1"/>
                 <input type="text" id="page" placeholder="Page" value="1" size="1"/>
                 <button id="request-button">Fetch</button>
-            </div>
-            <div>
-                <label for="x-axis-select">X axis:</label>
-                <select id="x-axis-select"></select>
-                <label for="color-select">Color:</label>
-                <select id="color-select"></select>
             </div>
             <div>
                 <p>Showing <span id="filtered-count"></span> out of <span id="total-count"></span> known items.</p>

@@ -10,6 +10,12 @@ input, select, textarea, button {
     font-family: 'Roboto', sans-serif; /* "jquery ui" don't inherit fonts from body */
 }
 
+.context-menu-item { /* jquery.contextMenu.js */
+    font: 13px 'Roboto', sans-serif; /* "jquery ui" don't inherit fonts from body */
+    background-color: white;
+    padding: 2px;
+}
+
 #bottom {
     overflow: hidden; /* show scrollbar only on hover */
 }

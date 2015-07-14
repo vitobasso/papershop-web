@@ -15,6 +15,10 @@ function getName(object) {
     return object.name;
 }
 
+function getLabel(object) {
+    return object.label;
+}
+
 function getValue(object) {
     return object.value;
 }

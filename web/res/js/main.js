@@ -5,7 +5,7 @@ function Main() {
 
     var allItems = new Set(getId);
     var api = new EbayApi();
-    var ebayChart = new EbayChart(api, "#x-axis-select", "#color-select");
+    var ebayChart = new EbayChart(api);
 
     function addItems(newItems) {
         allItems.addMergeAll(newItems, mergeItems);
