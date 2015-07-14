@@ -10,13 +10,17 @@ function ChartLegend(parentDivId, chart) {
     function render(data, colorParam) {
         var legend = getLegend();
         var values = listValues(data, colorParam);
-        renderRow(legend, values);
+        setTitle(legend, colorParam);
+        renderRows(legend, values);
     }
 
-    function renderRow(legend, values) {
+    function renderRows(legend, values) {
         var selItem = legend
-            .selectAll("div").data(values, identity)
-            .enter().append("div")
+            .selectAll("div .row").data(values, identity);
+
+        selItem.exit().remove();
+
+        selItem = selItem.enter().append("div")
             .classed("row", true);
 
         selItem.append("div")
@@ -32,6 +36,11 @@ function ChartLegend(parentDivId, chart) {
             });
     }
 
+    function setTitle(legend, colorParam) {
+        legend.selectAll("div .title")
+            .html(colorParam.label);
+    }
+
     function getLegend() {
         var legend = selParent.select("#chart-legend");
         if (legend.empty()) {
@@ -45,16 +54,19 @@ function ChartLegend(parentDivId, chart) {
 
         var legend = selParent.append("div")
             .attr("id", "chart-legend")
-            .style("left", pos.x+"px")
-            .style("top", pos.y+"px")
+            .style("left", pos.x + "px")
+            .style("top", pos.y + "px")
             .call(d3.behavior.drag()
                 .on("drag", dragmove));
+
+        legend.append("div")
+            .classed("title", true);
 
         function dragmove() {
             var x = legend.node().offsetLeft + d3.event.dx;
             var y = legend.node().offsetTop + d3.event.dy;
-            legend.style("left", x+"px");
-            legend.style("top", y+"px");
+            legend.style("left", x + "px");
+            legend.style("top", y + "px");
         }
 
         return legend;
@@ -70,7 +82,7 @@ function ChartLegend(parentDivId, chart) {
     function initialPosition() {
         var bbox = selParent.node().getBoundingClientRect();
         return {
-            x: bbox.width *.8,
+            x: bbox.width * .8,
             y: 20
         }
     }

@@ -23,8 +23,8 @@ function EbayChart(api) {
     this.update = function (newItems) {
         filters.populate();
         categories.populate(newItems);
-        populateAxisMenu();
         this.setData(newItems);
+        populateAxisMenu();
     };
 
     this.setData = function (newItems) {
@@ -45,7 +45,6 @@ function EbayChart(api) {
         legend.render(items, colorAxis);
     }
 
-
     function assignTooltips() {
         $(chartDivId).find("svg").tooltip({
             items: "circle",
@@ -53,12 +52,17 @@ function EbayChart(api) {
         });
     }
 
-    function populateAxisMenu() {  //TODO x or color
+    function populateAxisMenu() {
         axisOptions = axes.listOptions();
+        addContextMenu(".x.label", changeXAxis);
+        addContextMenu("#chart-legend .title", changeColorAxis);
+    }
+
+    function addContextMenu(selector, callback) {
         $.contextMenu({
-            selector: '.x.label',
+            selector: selector,
             trigger: "left",
-            callback: changeAxis,
+            callback: callback,
             items: getMenuItems()
         });
     }
@@ -71,8 +75,13 @@ function EbayChart(api) {
         return {name: axis.label}
     }
 
-    function changeAxis(key) {
-        xAxis = axisOptions[key];  //TODO x or color
+    function changeXAxis(key) {
+        xAxis = axisOptions[key];
+        buildChart();
+    }
+
+    function changeColorAxis(key) {
+        colorAxis = axisOptions[key];
         buildChart();
     }
 
