@@ -2,9 +2,9 @@
  * Created by Victor on 30/06/2015.
  */
 
-function Chart(parentDivId) {
+function ScatterPlot(parentDivId) {
 
-    var margin = {top: 20, right: 20, bottom: 40, left: 40};
+    var margin = {top: 20, right: 20, bottom: 40, left: 20};
     var svgWidth, svgHeight, width, height;
 
     var svg, canvas;
@@ -24,6 +24,10 @@ function Chart(parentDivId) {
         colorParam = newColorParam;
         _data = data;
         render()
+    };
+
+    this.colorScale = function(datum) {
+        return colorScale(datum);
     };
 
     /////////////////////////////////////////////////////
@@ -108,7 +112,6 @@ function Chart(parentDivId) {
         circles.exit()
             .remove();
 
-        renderLegend();
     }
 
     function positionCircle(sel) {
@@ -193,64 +196,6 @@ function Chart(parentDivId) {
 
     function isOrdinal(scale) {
         return typeof scale.rangePoints === "function";
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////
-
-    function renderLegend() {
-        var initpos = {
-            x: margin.left + 0.8 * width,
-            y: margin.top
-        };
-
-        var uniqueValues = d3.map(_data, function (datum) {
-            return colorParam.getProperty(datum);
-        }).keys();
-
-        var selLegend = svg.select(".legend");
-        if (selLegend.empty()) {
-            selLegend = svg.append("g")
-                .attr("class", "legend")
-                .attr("transform", "translate(" + initpos.x + "," + initpos.y + ")")
-                .call(d3.behavior.drag().on("drag", dragmove));
-
-            selLegend.append("rect")
-                .attr("width", "100")
-                .attr("height", "100")
-                .attr("x", "-10")
-                .attr("y", "-10");
-
-        }
-
-        var selItem = selLegend
-            .selectAll("g").data(uniqueValues, identity)
-            .enter().append("g")
-            .attr("transform", legendRowTransform);
-
-        selItem.append("circle")
-            .attr("cx", 5)
-            .attr("cy", 5)
-            .attr("r", 3.5)
-            .style("fill", function (datum) {
-                return colorScale(datum)
-            });
-
-        selItem.append("text")
-            .attr("x", 14)
-            .attr("y", 9)
-            .html(function (datum) {
-                return datum
-            });
-
-        function legendRowTransform(datum, i) {
-            return "translate(0," + i * 20 + ")";
-        }
-
-        function dragmove() {
-            var x = d3.event.x;
-            var y = d3.event.y;
-            selLegend.attr("transform", "translate(" + x + "," + y + ")");
-        }
     }
 
 }

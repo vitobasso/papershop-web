@@ -9,8 +9,9 @@ function EbayChart(api) {
     var filters = new Filters(),
         categories = new Categories(api),
         axes = new ChartAxes(categories),
-        chart = new Chart(chartDivId),
+        chart = new ScatterPlot(chartDivId),
         tooltip = new ChartTooltip(),
+        legend = new ChartLegend(chartDivId, chart),
         items = [];
 
     var axisOptions, xAxis, colorAxis;
@@ -29,15 +30,21 @@ function EbayChart(api) {
     this.setData = function (newItems) {
         items = newItems;
         chart.setData(items);
-        assignTooltips();
+        updateLegendAndTooltips();
     };
 
     function buildChart() {
         if (items) {
             chart.update(items, axes.priceAxis, xAxis, colorAxis);
-            assignTooltips()
+            updateLegendAndTooltips();
         }
     }
+
+    function updateLegendAndTooltips() {
+        assignTooltips();
+        legend.render(items, colorAxis);
+    }
+
 
     function assignTooltips() {
         $(chartDivId).find("svg").tooltip({
