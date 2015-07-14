@@ -1,11 +1,11 @@
 /**
  * Created by Victor on 14/07/2015.
  */
-function ChartLegend(chartDivId, chart) {
+function ChartLegend(parentDivId, chart) {
 
     this.render = render;
 
-    var svg = d3.select(chartDivId).select("svg");
+    var selParent = d3.select(parentDivId);
 
     function render(data, colorParam) {
         var legend = getLegend();
@@ -15,52 +15,46 @@ function ChartLegend(chartDivId, chart) {
 
     function renderRow(legend, values) {
         var selItem = legend
-            .selectAll("g").data(values, identity)
-            .enter().append("g")
-            .attr("transform", legendRowTransform);
+            .selectAll("div").data(values, identity)
+            .enter().append("div")
+            .classed("row", true);
 
-        selItem.append("circle")
-            .attr("cx", 5)
-            .attr("cy", 5)
-            .attr("r", 3.5)
-            .style("fill", function (datum) {
+        selItem.append("div")
+            .classed("color", true)
+            .style("background", function (datum) {
                 return chart.colorScale(datum)
             });
 
-        selItem.append("text")
-            .attr("x", 14)
-            .attr("y", 9)
+        selItem.append("div")
+            .classed("text", true)
             .html(function (datum) {
                 return datum
             });
     }
 
     function getLegend() {
-        var legend = svg.select(".legend");
+        var legend = selParent.select("#chart-legend");
         if (legend.empty()) {
-            legend = create();
+            legend = createLegend();
         }
         return legend;
     }
 
-    function create() {
+    function createLegend() {
         var pos = initialPosition();
 
-        var legend = svg.append("g")
-            .attr("class", "legend")
-            .attr("transform", "translate(" + pos.x + "," + pos.y + ")")
-            .call(d3.behavior.drag().on("drag", dragmove));
-
-        legend.append("rect")
-            .attr("width", "100")
-            .attr("height", "100")
-            .attr("x", "-10")
-            .attr("y", "-10");
+        var legend = selParent.append("div")
+            .attr("id", "chart-legend")
+            .style("left", pos.x+"px")
+            .style("top", pos.y+"px")
+            .call(d3.behavior.drag()
+                .on("drag", dragmove));
 
         function dragmove() {
-            var x = d3.event.x;
-            var y = d3.event.y;
-            legend.attr("transform", "translate(" + x + "," + y + ")");
+            var x = legend.node().offsetLeft + d3.event.dx;
+            var y = legend.node().offsetTop + d3.event.dy;
+            legend.style("left", x+"px");
+            legend.style("top", y+"px");
         }
 
         return legend;
@@ -73,12 +67,8 @@ function ChartLegend(chartDivId, chart) {
         return d3.map(data, getColorAxisProperty).keys();
     }
 
-    function legendRowTransform(datum, i) {
-        return "translate(0," + i * 20 + ")";
-    }
-
     function initialPosition() {
-        var bbox = svg.node().getBoundingClientRect();
+        var bbox = selParent.node().getBoundingClientRect();
         return {
             x: bbox.width *.8,
             y: 20

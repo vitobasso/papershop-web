@@ -11,7 +11,7 @@ function EbayChart(api) {
         axes = new ChartAxes(categories),
         chart = new ScatterPlot(chartDivId),
         tooltip = new ChartTooltip(),
-        legend = new ChartLegend(chartDivId, chart),
+        legend = new ChartLegend("#top", chart),
         items = [];
 
     var axisOptions, xAxis, colorAxis;
