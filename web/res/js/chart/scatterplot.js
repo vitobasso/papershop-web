@@ -4,7 +4,7 @@
 
 function ScatterPlot(parentDivId) {
 
-    var margin = {top: 20, right: 20, bottom: 40, left: 20};
+    var margin = {top: 20, right: 20, bottom: 40, left: 40};
     var svgWidth, svgHeight, width, height;
 
     var svg, canvas;

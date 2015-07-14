@@ -8,30 +8,14 @@ function ChartLegend(chartDivId, chart) {
     var svg = d3.select(chartDivId).select("svg");
 
     function render(data, colorParam) {
+        var legend = getLegend();
+        var values = listValues(data, colorParam);
+        renderRow(legend, values);
+    }
 
-        var uniqueValues = d3.map(data, function (datum) {
-            return colorParam.getProperty(datum);
-        }).keys();
-
-        var legend = svg.select(".legend");
-        if (legend.empty()) {
-
-            var pos = initialPosition();
-
-            legend = svg.append("g")
-                .attr("class", "legend")
-                .attr("transform", "translate(" + pos.x + "," + pos.y + ")")
-                .call(d3.behavior.drag().on("drag", dragmove));
-
-            legend.append("rect")
-                .attr("width", "100")
-                .attr("height", "100")
-                .attr("x", "-10")
-                .attr("y", "-10");
-        }
-
+    function renderRow(legend, values) {
         var selItem = legend
-            .selectAll("g").data(uniqueValues, identity)
+            .selectAll("g").data(values, identity)
             .enter().append("g")
             .attr("transform", legendRowTransform);
 
@@ -49,16 +33,48 @@ function ChartLegend(chartDivId, chart) {
             .html(function (datum) {
                 return datum
             });
+    }
 
-        function legendRowTransform(datum, i) {
-            return "translate(0," + i * 20 + ")";
+    function getLegend() {
+        var legend = svg.select(".legend");
+        if (legend.empty()) {
+            legend = create();
         }
+        return legend;
+    }
+
+    function create() {
+        var pos = initialPosition();
+
+        var legend = svg.append("g")
+            .attr("class", "legend")
+            .attr("transform", "translate(" + pos.x + "," + pos.y + ")")
+            .call(d3.behavior.drag().on("drag", dragmove));
+
+        legend.append("rect")
+            .attr("width", "100")
+            .attr("height", "100")
+            .attr("x", "-10")
+            .attr("y", "-10");
 
         function dragmove() {
             var x = d3.event.x;
             var y = d3.event.y;
             legend.attr("transform", "translate(" + x + "," + y + ")");
         }
+
+        return legend;
+    }
+
+    function listValues(data, colorParam) {
+        var getColorAxisProperty = function (datum) {
+            return colorParam.getProperty(datum);
+        };
+        return d3.map(data, getColorAxisProperty).keys();
+    }
+
+    function legendRowTransform(datum, i) {
+        return "translate(0," + i * 20 + ")";
     }
 
     function initialPosition() {
