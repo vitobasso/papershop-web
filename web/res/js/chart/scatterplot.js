@@ -7,7 +7,7 @@ function Chart(parentDivId) {
     var margin = {top: 20, right: 20, bottom: 40, left: 40};
     var svgWidth, svgHeight, width, height;
 
-    var canvas;
+    var svg, canvas;
     var yParam, xParam, colorParam;
     var x, y, colorScale;
     var axes;
@@ -41,17 +41,19 @@ function Chart(parentDivId) {
         svgHeight = newHeight;
         width = svgWidth - margin.left - margin.right;
         height = svgHeight - margin.top - margin.bottom;
-        canvas = createCanvas();
+        createCanvas();
     }
 
     function createCanvas() {
         d3.select(parentDivId).html("");
 
-        return d3.select(parentDivId).append("svg:svg")
+        svg = d3.select(parentDivId).append("svg")
             .attr("width", svgWidth)
-            .attr("height", svgHeight)
-            .append("g")
+            .attr("height", svgHeight);
+
+        canvas = svg.append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
     }
 
     /////////////////////////////////////////////////////
@@ -92,11 +94,10 @@ function Chart(parentDivId) {
         var circles = canvas.selectAll("circle").data(_data, getId);
 
         circles.transition()
-            .call(positionCircle)
-            .call(endAll, renderLegend);
+            .call(positionCircle);
 
         circles.enter()
-            .append("svg:circle")
+            .append("circle")
             .attr("class", "dot")
             .attr("r", 3.5)
             .call(positionCircle)
@@ -119,8 +120,7 @@ function Chart(parentDivId) {
             })
             .style("fill", function (datum) {
                 return colorScale(colorParam.getProperty(datum))
-            })
-            .attr("data-legend", colorParam.getProperty);
+            });
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
@@ -149,7 +149,6 @@ function Chart(parentDivId) {
                 .attr("class", "x label")
                 .attr("x", width)
                 .attr("y", -6)
-                .style("text-anchor", "end")
                 .text(xParam.label);
 
             canvas.append("g")
@@ -160,7 +159,6 @@ function Chart(parentDivId) {
                 .attr("transform", "rotate(-90)")
                 .attr("y", 6)
                 .attr("dy", ".71em")
-                .style("text-anchor", "end")
                 .text(yParam.label);
         };
 
@@ -201,42 +199,58 @@ function Chart(parentDivId) {
 
     function renderLegend() {
         var initpos = {
-            x: margin.left + 0.7 * width,
+            x: margin.left + 0.8 * width,
             y: margin.top
         };
 
-        var sel = canvas.select(".legend");
-        if (sel.empty()) {
-            sel = canvas.append("g")
+        var uniqueValues = d3.map(_data, function (datum) {
+            return colorParam.getProperty(datum);
+        }).keys();
+
+        var selLegend = svg.select(".legend");
+        if (selLegend.empty()) {
+            selLegend = svg.append("g")
                 .attr("class", "legend")
                 .attr("transform", "translate(" + initpos.x + "," + initpos.y + ")")
-                .call(d3.behavior.drag()
-                    .on("drag", dragmove));
+                .call(d3.behavior.drag().on("drag", dragmove));
+
+            selLegend.append("rect")
+                .attr("width", "100")
+                .attr("height", "100")
+                .attr("x", "-10")
+                .attr("y", "-10");
+
         }
-        sel.call(d3.legend);
+
+        var selItem = selLegend
+            .selectAll("g").data(uniqueValues, identity)
+            .enter().append("g")
+            .attr("transform", legendRowTransform);
+
+        selItem.append("circle")
+            .attr("cx", 5)
+            .attr("cy", 5)
+            .attr("r", 3.5)
+            .style("fill", function (datum) {
+                return colorScale(datum)
+            });
+
+        selItem.append("text")
+            .attr("x", 14)
+            .attr("y", 9)
+            .html(function (datum) {
+                return datum
+            });
+
+        function legendRowTransform(datum, i) {
+            return "translate(0," + i * 20 + ")";
+        }
 
         function dragmove() {
             var x = d3.event.x;
             var y = d3.event.y;
-            sel.attr("transform", "translate(" + x + "," + y + ")");
+            selLegend.attr("transform", "translate(" + x + "," + y + ")");
         }
-    }
-
-    //needed only so the legend catches the new values after transition
-    //http://stackoverflow.com/a/20773846/2004857
-    //TODO find a better legend
-    function endAll(transition, callback) {
-        if (transition.size() === 0) {
-            callback()
-        }
-        var n = 0;
-        transition
-            .each(function () {
-                ++n;
-            })
-            .each("end", function () {
-                if (!--n) callback.apply(this, arguments);
-            });
     }
 
 }
