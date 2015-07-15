@@ -1,23 +1,16 @@
 
 - filters
     - category (on request)
-        - remove aspects from all but selected category
-        - colapse/expand aspects
     - listing type (on chart)
         - add item filters in general to chart
+    - listing end
     - ships to
-    - auction end
     - price (zoom on chart)
 
-- better layout
+- ui
+    - collapse/expand aspects
     - change aspect filters according to selected category (hide unused ones)
-    - flexible chart (fill available space)
-    - kill combo boxes
-        - change x-axis from the axis and/or filter titles
-        - change color axis from legend
-    - kill page
-        - keep track of past requests (by combination of keyword + filters), get next page on repeated request
-            - show list of past requests with item count?
+    - change x-axis from filter titles
     - config
         - items per request
         - disable guesses
@@ -25,28 +18,29 @@
        http://coolors.co/browser
        http://www.colorcombos.com/color-schemes/7625/ColorCombo7625.html
 
-
 - prevent overlaps
     http://mbostock.github.io/d3/talk/20111018/collision.html
     http://bl.ocks.org/mbostock/1748247
     http://stackoverflow.com/questions/12944024/d3-js-how-can-i-prevent-circles-text-overlapping
 
-- show spinning wheel while making request
+- kill page
+    - keep track of past requests (by combination of keyword + filters), get next page on repeated request
+        - show list of past requests with item count?
+    - show spinning wheel while waiting request
 
 - legend
-    - find better legend?
     - show "?"
     - fix order
-    - fix delay
-    - legend always on top of circles
+
+- tooltip
+    - simplify: just photo & price
+
+- bugs
+    - tooltip get stuck
+
 
 - ebay api wrapper
     https://github.com/benbuckman/nodejs-ebay-api
     . needs node.js?
     . node.js for web requires "express"?
     . no problem w/ "same origin policy"?
-
-- minimal tooltip: photo & price
-
-- bugs
-    - tooltip get stuck
