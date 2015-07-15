@@ -2,7 +2,6 @@
  * Created by Victor on 08/07/2015.
  */
 
-
 function identity(object){
     return object;
 }
@@ -25,4 +24,15 @@ function getValue(object) {
 
 function noop() {
 
+}
+
+//////////////////////////////////////////////////////////////////
+
+function mapAsObject(array, keyFunction) {
+    var result = {};
+    for(var i= 0, elm; elm = array[i]; i++) {
+        var key = keyFunction(elm);
+        result[key] = elm;
+    }
+    return result;
 }

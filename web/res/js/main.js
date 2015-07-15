@@ -5,6 +5,7 @@ function Main() {
 
     var allItems = new Set(getId);
     var api = new EbayApi();
+    var requests = new RequestLog();
     var ebayChart = new EbayChart(api);
 
     function addItems(newItems) {
@@ -31,7 +32,7 @@ function Main() {
     });
 
     function fetchItems() {
-        var params = getUIParams();
+        var params = requests.createNextPageParams(getUIParams());
         api.find(params, function (response) {
             updateChart(params, response)
         });
@@ -41,9 +42,7 @@ function Main() {
         return {
             keywords: $("#keywords").val(),
             filters: getFiltersFromUI(".common-filter"),
-            aspects: getFiltersFromUI(".aspect-filter"),
-            itemsPerPage: $("#items-per-page").val(),
-            page: $("#page").val()
+            aspects: getFiltersFromUI(".aspect-filter")
         };
     }
 

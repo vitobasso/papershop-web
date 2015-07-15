@@ -17,6 +17,7 @@
     - colors
        http://coolors.co/browser
        http://www.colorcombos.com/color-schemes/7625/ColorCombo7625.html
+    - list undo select w/o ctrl
 
 - prevent overlaps
     http://mbostock.github.io/d3/talk/20111018/collision.html
@@ -24,8 +25,7 @@
     http://stackoverflow.com/questions/12944024/d3-js-how-can-i-prevent-circles-text-overlapping
 
 - kill page
-    - keep track of past requests (by combination of keyword + filters), get next page on repeated request
-        - show list of past requests with item count?
+    - show list of past requests with item count?
     - show spinning wheel while waiting request
 
 - legend
@@ -34,9 +34,12 @@
 - tooltip
     - simplify: just photo & price
 
+- proper starting screen/sequence
+    . no empty legend
+    . no need to click request twice
+
 - bugs
     - tooltip get stuck
-
 
 - ebay api wrapper
     https://github.com/benbuckman/nodejs-ebay-api
