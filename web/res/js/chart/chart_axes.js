@@ -3,6 +3,8 @@
  */
 function ChartAxes(categories){
 
+    this.listOptions = listOptions;
+
     function LinearAxis(label, getProperty) {
         this.label = label;
         this.getProperty = getProperty;
@@ -22,7 +24,7 @@ function ChartAxes(categories){
         this.getProperty = getProperty;
         this.getScale = d3.scale.ordinal;
         this.updateDomain = updateOrdinalDomain(this)
-        this.formatTick = replaceUndefined;
+        this.formatTick = EbayChart.replaceUndefined;
     }
 
     this.priceAxis = new LinearAxis("Current Price (USD)",
@@ -43,7 +45,7 @@ function ChartAxes(categories){
             return item.category.name;
         });
 
-    this.listOptions = function () {
+    function listOptions() {
         var result = [conditionAxis, categoryAxis, listingTimeAxis];
         categories.each(function (category) {
             category.aspects.forEach(function (aspect) {
@@ -51,7 +53,7 @@ function ChartAxes(categories){
             });
         });
         return result;
-    };
+    }
 
     function createAspectAxis(aspectName) {
         return new OrdinalAxis(aspectName,
@@ -70,19 +72,9 @@ function ChartAxes(categories){
 
     function updateOrdinalDomain(axis) {
         return function (scale, items) {
-            var domain = getOrdinalDomain(items, axis.getProperty);
-            scale.domain(domain);
+            var values = EbayChart.findOrdinalDomain(items, axis.getProperty);
+            scale.domain(values);
         }
-    }
-
-    function getOrdinalDomain(data, getProperty) {
-        var uniqueValues = new Set();
-        uniqueValues.addMap(data, getProperty);
-        return uniqueValues.toArray().sort(naturalSort);
-    }
-
-    function replaceUndefined(value) {
-        return value ? value : "?";
     }
 
 }

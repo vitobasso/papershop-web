@@ -16,7 +16,7 @@ function ChartLegend(parentDivId, chart) {
 
     function renderRows(legend, values) {
         var selItem = legend
-            .selectAll("div .row").data(values, identity);
+            .selectAll("div .row").data(values, getValue);
 
         selItem.exit().remove();
 
@@ -25,15 +25,11 @@ function ChartLegend(parentDivId, chart) {
 
         selItem.append("div")
             .classed("color", true)
-            .style("background", function (datum) {
-                return chart.colorScale(datum)
-            });
+            .style("background", getColor);
 
         selItem.append("div")
             .classed("text", true)
-            .html(function (datum) {
-                return datum
-            });
+            .html(getLabel);
     }
 
     function setTitle(legend, colorParam) {
@@ -73,10 +69,19 @@ function ChartLegend(parentDivId, chart) {
     }
 
     function listValues(data, colorParam) {
-        var getColorAxisProperty = function (datum) {
-            return colorParam.getProperty(datum);
+        var values = EbayChart.findOrdinalDomain(data, colorParam.getProperty);
+        return values.map(labelDomain);
+    }
+
+    function labelDomain(value) {
+        return {
+            label: EbayChart.replaceUndefined(value),
+            value: value
         };
-        return d3.map(data, getColorAxisProperty).keys();
+    }
+
+    function getColor(domain) {
+        return chart.colorScale(domain.value)
     }
 
     function initialPosition() {

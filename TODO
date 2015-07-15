@@ -29,8 +29,7 @@
     - show spinning wheel while waiting request
 
 - legend
-    - show "?"
-    - fix order
+    - insert in order when new values appear
 
 - tooltip
     - simplify: just photo & price

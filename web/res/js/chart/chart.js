@@ -92,3 +92,13 @@ function EbayChart(api) {
     buildChart();
 
 }
+
+EbayChart.findOrdinalDomain = function (data, getProperty) {
+    var uniqueValues = new Set();
+    uniqueValues.addMap(data, getProperty);
+    return uniqueValues.toArray().sort(naturalSort);
+};
+
+EbayChart.replaceUndefined = function(value) {
+    return value ? value : "?";
+};
