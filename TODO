@@ -45,3 +45,8 @@
     . needs node.js?
     . node.js for web requires "express"?
     . no problem w/ "same origin policy"?
+
+- minimal tooltip: photo & price
+
+- bugs
+    - tooltip get stuck

@@ -54,11 +54,12 @@ function EbayChart(api) {
 
     function populateAxisMenu() {
         axisOptions = axes.listOptions();
-        addContextMenu(".x.label", changeXAxis);
-        addContextMenu("#chart-legend .title", changeColorAxis);
+        setContextMenu(".x.label", changeXAxis);
+        setContextMenu("#chart-legend .title", changeColorAxis);
     }
 
-    function addContextMenu(selector, callback) {
+    function setContextMenu(selector, callback) {
+        $.contextMenu("destroy", {selector: selector});
         $.contextMenu({
             selector: selector,
             trigger: "left",
