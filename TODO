@@ -9,7 +9,7 @@
 
 - ui
     - collapse/expand aspects
-    - change aspect filters according to selected category (hide unused ones)
+    ? change aspect filters according to selected category (hide unused ones)
     - change x-axis from filter titles
     - config
         - items per request
@@ -17,16 +17,15 @@
     - colors
        http://coolors.co/browser
        http://www.colorcombos.com/color-schemes/7625/ColorCombo7625.html
-    - list undo select w/o ctrl
+
+- usability
+    ? list undo select w/o ctrl
+        . bad for request on double click though
 
 - prevent overlaps
     http://mbostock.github.io/d3/talk/20111018/collision.html
     http://bl.ocks.org/mbostock/1748247
     http://stackoverflow.com/questions/12944024/d3-js-how-can-i-prevent-circles-text-overlapping
-
-- kill page
-    - show list of past requests with item count?
-    - show spinning wheel while waiting request
 
 - legend
     - insert in order when new values appear
@@ -40,6 +39,7 @@
 
 - bugs
     - tooltip get stuck
+    - sync requests get status animation stuck
 
 - ebay api wrapper
     https://github.com/benbuckman/nodejs-ebay-api

@@ -27,3 +27,7 @@
 #request-log td.description {
     width: 100%;
 }
+
+#request-log .status {
+    width: 6px;
+}

@@ -1,14 +1,17 @@
 /**
  * Created by Victor on 15/07/2015.
  */
-function RequestLog() {
+function RequestLog(divId) {
 
     var pageSize = 20;
     var requestHistory = new Set(stringifyIdFields);
+    var ui = new RequestLogUI(divId, this);
 
     this.getHistory = getHistory;
 
-    this.createNextPageParams = createNextPageParams;
+    this.notifyNewRequestAndGetPaging = notifyNewRequestAndGetPaging;
+
+    this.notifyRequestSuccessful = notifyRequestSuccessful;
 
     this.getHashKey = stringifyIdFields;
 
@@ -16,37 +19,46 @@ function RequestLog() {
         return requestHistory.toArray();
     }
 
-    function createNextPageParams(uiParams) {
-        // given keyword and filters, generate paging params based on request history
-        var stdParams = standardizeParams(uiParams);
-        var oldParams = requestHistory.get(stdParams);
-        var result;
-        if(oldParams) {
-            result = getParamsForRepeatedRequest(oldParams);
-        } else {
-            result = getParamsForNewRequest(stdParams);
-        }
-        updateSet(result);
+    function notifyNewRequestAndGetPaging(paramsFromUI) {
+        var result = setPagingOnParams(paramsFromUI);
+        result.isPending = true;
+        requestHistory.add(result);
+        ui.update();
         return result;
     }
 
-    function getParamsForNewRequest(rawParams) {
-        rawParams.itemsPerPage = pageSize;
-        rawParams.page = 1;
-        return rawParams;
+    function notifyRequestSuccessful(params) {
+        delete params.isPending;
+        params.lastItem = params.itemsPerPage * params.page;
+        requestHistory.add(params);
+        ui.update();
     }
 
-    function getParamsForRepeatedRequest(oldParams) {
-        var lastItem = oldParams.lastItem; // last item requested
+    function setPagingOnParams(paramsFromUI) {
+        // given keyword and filters, generate paging params based on request history
+        var stdParams = standardizeParams(paramsFromUI);
+        var storedParams = requestHistory.get(stdParams);
+        var result;
+        if(storedParams) {
+            result = setPagingForRecurrentParams(storedParams);
+        } else {
+            result = setPagingForNewParams(stdParams);
+        }
+        return result;
+    }
+
+    function setPagingForNewParams(params) {
+        params.itemsPerPage = pageSize;
+        params.page = 1;
+        return params;
+    }
+
+    function setPagingForRecurrentParams(params) {
+        var lastItem = params.lastItem; // last item requested
         var lastPage = Math.floor(lastItem / pageSize); // regarding current pageSize (we can repeat but not mess items)
-        oldParams.itemsPerPage = pageSize;
-        oldParams.page = lastPage + 1;
-        return oldParams;
-    }
-
-    function updateSet(newParams) {
-        newParams.lastItem = newParams.itemsPerPage * newParams.page;
-        requestHistory.add(newParams);
+        params.itemsPerPage = pageSize;
+        params.page = lastPage + 1;
+        return params;
     }
 
     function standardizeParams(params){

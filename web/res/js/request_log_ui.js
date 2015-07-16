@@ -3,7 +3,7 @@
  */
 function RequestLogUI(divId, requestLog) {
 
-    this.render = render;
+    this.update = render;
 
     function render() {
         var history = requestLog.getHistory();
@@ -25,12 +25,11 @@ function RequestLogUI(divId, requestLog) {
             .classed("description", true)
             .html(getParamsString);
         selection.append("td")
-            .html(function (params) {
-                return params.lastItem;
-            });
+            .html(getLastItem);
         selection.append("td")
             .append("div")
-            .classed("loading-anim", true);
+            .classed("status", true)
+            .classed("loading-anim", isPending);
 
     }
 
@@ -51,6 +50,14 @@ function RequestLogUI(divId, requestLog) {
 
     function getFilterString(filter) {
         return filter.values.join(", ");
+    }
+
+    function isPending(params) {
+        return params.isPending == true;
+    }
+
+    function getLastItem(params) {
+        return params.lastItem;
     }
 
 }
