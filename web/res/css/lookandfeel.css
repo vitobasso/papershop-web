@@ -6,54 +6,10 @@ input, select, textarea, button {
     font: inherit;
 }
 
-.chart-tooltip {
-    font-family: 'Roboto', sans-serif; /* "jquery ui" don't inherit fonts from body */
-}
-
 .context-menu-item { /* jquery.contextMenu.js */
     font: 13px 'Roboto', sans-serif; /* "jquery ui" don't inherit fonts from body */
     background-color: white;
     padding: 2px;
-}
-
-#bottom {
-    overflow: hidden; /* show scrollbar only on hover */
-}
-
-#bottom:hover {
-    overflow: auto; /* show scrollbar only on hover */
-}
-
-#filters {
-    height: -moz-calc(100% - 1.4ex - 10px); /* leave space for scrollbar */
-    height: -webkit-calc(100% - 1.4ex - 10px); /* leave space for scrollbar */
-    height: calc(100% - 1.4ex - 10px); /* leave space for scrollbar */
-    white-space: nowrap; /* divs side by side */
-}
-
-#filters div {
-    height: 100%;
-    display: inline-block; /* divs side by side */
-}
-
-#filters select {
-    border: none;
-    display: block; /* list box below title, not beside */
-    overflow: hidden; /* show scrollbar only on hover */
-}
-
-#filters select:hover {
-    overflow: overlay; /* show scrollbar only on hover */
-}
-
-#filters option {
-    white-space: normal; /* wrap text */
-}
-
-#filters div a {
-    color: black;
-    font-weight: bold;
-    text-decoration: none;
 }
 
 ::-webkit-scrollbar {
@@ -72,8 +28,4 @@ input, select, textarea, button {
     border-radius: 10px;
     background: rgba(220, 220, 220, 0.8);;
     -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.5);
-}
-
-#error-msg {
-    color: red;
 }

@@ -1,0 +1,8 @@
+
+.chart-tooltip {
+    font-family: 'Roboto', sans-serif; /* "jquery ui" don't inherit fonts from body */
+}
+
+.chart-tooltip img {
+    float: left;
+}

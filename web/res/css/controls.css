@@ -1,0 +1,29 @@
+
+#keyword-div {
+    display: flex;
+}
+
+#keyword-div input {
+    flex-grow: 1;
+}
+
+#request-log {
+    flex-grow: 1;
+    overflow: auto;
+}
+
+#request-log table {
+    border-collapse: collapse;
+}
+
+#request-log tr:nth-child(even) {
+    background-color: rgb(242, 242, 242);
+}
+
+#request-log td {
+    padding: 4px;
+}
+
+#request-log td.description {
+    width: 100%;
+}
