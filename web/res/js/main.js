@@ -6,6 +6,7 @@ function Main() {
     var allItems = new Set(getId);
     var api = new EbayApi();
     var requests = new RequestLog();
+    var requestLogUI = new RequestLogUI("#request-log", requests);
     var ebayChart = new EbayChart(api);
 
     function addItems(newItems) {
@@ -35,6 +36,7 @@ function Main() {
         var params = requests.createNextPageParams(getUIParams());
         api.find(params, function (response) {
             updateChart(params, response)
+            requestLogUI.render();
         });
     }
 

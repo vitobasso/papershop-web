@@ -26,6 +26,10 @@ function noop() {
 
 }
 
+function notEmpty(array) {
+    return array && array.length > 0;
+}
+
 //////////////////////////////////////////////////////////////////
 
 function mapAsObject(array, keyFunction) {

@@ -10,6 +10,8 @@ function RequestLog() {
 
     this.createNextPageParams = createNextPageParams;
 
+    this.getHashKey = stringifyIdFields;
+
     function getHistory() {
         return requestHistory.toArray();
     }
