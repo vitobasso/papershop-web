@@ -20,6 +20,7 @@
     <link rel="stylesheet" type="text/css" href="res/css/lookandfeel.css"/>
     <link rel="stylesheet" type="text/css" href="res/css/chart.css"/>
     <link rel="stylesheet" type="text/css" href="res/css/chart_legend.css"/>
+    <link rel="stylesheet" type="text/css" href="res/css/loading_anim.css"/>
     <script src="res/js/util/lang_util.js"></script>
     <script src="res/js/util/set.js"></script>
     <script src="res/js/util/common.js"></script>
@@ -48,16 +49,14 @@
     <div id="top">
 
         <div id="controls">
-            <div>
+            <div id="keyword-div">
                 <input type="text" id="keywords" placeholder="Keywords" value="laptop"/>
-                <button id="request-button">Fetch</button>
+                <button id="request-button">Search</button>
             </div>
-            <div>
-                <table id="request-log"></table>
-                <p>Showing <span id="filtered-count"></span> out of <span id="total-count"></span> known items.</p>
-
-                <p id="error-msg"></p>
+            <div id="request-log">
+                <table></table>
             </div>
+            <p>Showing <span id="filtered-count"></span> out of <span id="total-count"></span> known items.</p>
         </div>
 
         <div id="chart"></div>

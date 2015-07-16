@@ -1,13 +1,13 @@
 /**
  * Created by Victor on 15/07/2015.
  */
-function RequestLogUI(tableId, requestLog) {
+function RequestLogUI(divId, requestLog) {
 
     this.render = render;
 
     function render() {
         var history = requestLog.getHistory();
-        var selEntries = d3.select(tableId)
+        var selEntries = d3.select(divId).select("table")
             .selectAll("tr").data(history, requestLog.getHashKey);
         selEntries.call(renderRequestRow);
         selEntries.enter().append("tr")
@@ -22,16 +22,15 @@ function RequestLogUI(tableId, requestLog) {
 
         selection.html("");
         selection.append("td")
-            .classed("request-filters", true)
+            .classed("description", true)
             .html(getParamsString);
         selection.append("td")
-            .classed("request-count", true)
             .html(function (params) {
                 return params.lastItem;
             });
         selection.append("td")
-            .classed("request-state", true)
-            .html("*");
+            .append("div")
+            .classed("loading-anim", true);
 
     }
 

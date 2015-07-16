@@ -21,6 +21,7 @@ body {
     display: flex;
     flex-flow: row nowrap;
     flex-grow: 1;
+    height: 400px;
 }
 
 #bottom {
@@ -28,11 +29,15 @@ body {
 }
 
 #controls {
+    display: flex;
+    flex-flow: column nowrap;
     width: 300px;
+    padding: 12px;
 }
 
 #chart {
     flex-grow: 1;
+    width: 800px;
 }
 
 #filters select {
@@ -42,4 +47,33 @@ body {
 
 .chart-tooltip img {
     float: left;
+}
+
+#keyword-div {
+    display: flex;
+}
+
+#keyword-div input {
+    flex-grow: 1;
+}
+
+#request-log {
+    flex-grow: 1;
+    overflow: auto;
+}
+
+#request-log table {
+    border-collapse: collapse;
+}
+
+#request-log tr:nth-child(even) {
+    background-color: rgb(237, 237, 237);
+}
+
+#request-log td {
+    padding: 4px;
+}
+
+#request-log td.description {
+    width: 100%;
 }
