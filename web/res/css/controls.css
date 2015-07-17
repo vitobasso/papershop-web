@@ -1,6 +1,7 @@
 
 #keyword-div {
     display: flex;
+    margin-bottom: 8px;
 }
 
 #keyword-div input {
@@ -16,8 +17,8 @@
     border-collapse: collapse;
 }
 
-#request-log tr:nth-child(even) {
-    background-color: rgb(242, 242, 242);
+#request-log thead td {
+    border-bottom: 1px solid black;
 }
 
 #request-log td {

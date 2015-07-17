@@ -7,7 +7,9 @@ function RequestLogUI(divId, requestLog) {
 
     function render() {
         var history = requestLog.getHistory();
-        var selEntries = d3.select(divId).select("table")
+        var selEntries = d3.select(divId)
+            .select("table")
+            .select("tbody")
             .selectAll("tr").data(history, requestLog.getHashKey);
         selEntries.call(renderRequestRow);
         selEntries.enter().append("tr")
