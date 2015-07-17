@@ -29,6 +29,6 @@
     width: 100%;
 }
 
-#request-log .status {
-    width: 6px;
+#request-log td.count {
+    text-align: right;
 }

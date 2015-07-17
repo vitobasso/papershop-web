@@ -22,16 +22,14 @@ function RequestLogUI(divId, requestLog) {
             return;
         }
 
+        selection.classed("flashing-bg", isPending)
         selection.html("");
         selection.append("td")
             .classed("description", true)
             .html(getParamsString);
         selection.append("td")
+            .classed("count", true)
             .html(getLastItem);
-        selection.append("td")
-            .append("div")
-            .classed("status", true)
-            .classed("loading-anim", isPending);
 
     }
 
