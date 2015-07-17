@@ -8,8 +8,8 @@ function EbayChart(api) {
 
     var filters = new Filters(),
         categories = new Categories(api),
-        axes = new ChartAxes(categories),
-        chart = new ScatterPlot(chartDivId),
+        axes = new AxisFactory(categories),
+        chart = new ChartRenderer(chartDivId),
         tooltip = new ChartTooltip(),
         legend = new ChartLegend("#top", chart),
         items = [];

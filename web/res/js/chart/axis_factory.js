@@ -1,7 +1,7 @@
 /**
  * Created by Victor on 09/07/2015.
  */
-function ChartAxes(categories){
+function AxisFactory(categories){
 
     this.listOptions = listOptions;
 
