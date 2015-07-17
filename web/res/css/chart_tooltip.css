@@ -3,6 +3,14 @@
     font-family: 'Roboto', sans-serif; /* "jquery ui" don't inherit fonts from body */
 }
 
-.chart-tooltip img {
-    float: left;
+.chart-tooltip {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+
+.chart-tooltip p{
+    margin: 0;
+    max-width: 200px;
+    text-align: center;
 }

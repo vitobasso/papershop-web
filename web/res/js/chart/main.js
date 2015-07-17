@@ -10,7 +10,6 @@ function EbayChart(api) {
         categories = new Categories(api),
         axes = new AxisFactory(categories),
         chart = new ChartRenderer(chartDivId),
-        tooltip = new ChartTooltip(),
         legend = new ChartLegend("#top", chart),
         items = [];
 
@@ -48,8 +47,18 @@ function EbayChart(api) {
     function assignTooltips() {
         $(chartDivId).find("svg").tooltip({
             items: "circle",
-            content: tooltip.render
+            content: buildTooltip
         });
+    }
+
+    function buildTooltip() {
+        var item = this.__data__;
+        var priceStr = item.price.currency + " " + item.price.value;
+        return "<div class='chart-tooltip'>" +
+            "<p>" + item.title + "</p>" +
+            "<img src='" + item.image + "'/>" +
+            "<p>" + priceStr + "</p>" +
+            "</div>";
     }
 
     function populateAxisMenu() {

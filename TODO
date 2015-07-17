@@ -25,16 +25,8 @@
     ? list undo select w/o ctrl
         . bad for request on double click though
 
-- prevent overlaps
-    http://mbostock.github.io/d3/talk/20111018/collision.html
-    http://bl.ocks.org/mbostock/1748247
-    http://stackoverflow.com/questions/12944024/d3-js-how-can-i-prevent-circles-text-overlapping
-
 - legend
     - insert in order when new values appear
-
-- tooltip
-    - simplify: just photo & price
 
 - proper starting screen/sequence
     . no empty legend
