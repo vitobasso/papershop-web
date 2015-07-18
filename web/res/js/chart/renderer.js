@@ -11,7 +11,7 @@ function ChartRenderer() {
     var svg, canvas;
     var yParam, xParam, colorParam;
     var xScale, yScale, colorScale;
-    var axes, renderer;
+    var axes, dataRenderer;
     var _data;
 
     this.setData = function (data) {
@@ -80,14 +80,23 @@ function ChartRenderer() {
     function populate() {
         updateDomains();
         axes.update();
-        //renderer = new CircleDataRenderer(canvas, _data, colorScale, colorParam);
-        renderer = new ImageDataRenderer(canvas, _data);
-        layoutData(_data, getTargetPosition, renderer);
+        //dataRenderer = new CircleDataRenderer(canvas, _data, colorScale, colorParam);
+        dataRenderer = new ImageDataRenderer(canvas, _data, getDataBounds());
+        layoutData(_data, getTargetPosition, dataRenderer, getDataBounds());
         assignTooltips();
     }
 
+    function getDataBounds() {
+        return {
+            x: margin.left,
+            y: margin.top,
+            width: width,
+            height: height
+        }
+    }
+
     function assignTooltips() {
-        $(chartDivId).find("svg").tooltip(renderer.getTooltipParams());
+        $(chartDivId).find("svg").tooltip(dataRenderer.getTooltipParams());
     }
 
     function updateDomains() {

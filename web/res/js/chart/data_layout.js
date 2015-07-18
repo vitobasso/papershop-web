@@ -1,9 +1,9 @@
 /**
  * Created by Victor on 17/07/2015.
  */
-function layoutData(data, getTargetPosition, renderer) {
+function layoutData(data, getTargetPosition, dataRenderer, bounds) {
 
-    var radius = renderer.radius;
+    var radius = dataRenderer.getRadius();
     startLayout();
 
     function startLayout() {
@@ -18,7 +18,8 @@ function layoutData(data, getTargetPosition, renderer) {
         force.on("tick", function (e) {
             moveTorwardsTarget(e);
             avoidCollisions(points);
-            renderer.render();
+            respectBounds(points);
+            dataRenderer.render();
         });
 
         force.start();
@@ -69,6 +70,17 @@ function layoutData(data, getTargetPosition, renderer) {
             }
             return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
         };
+    }
+
+    function  respectBounds(points){
+        points.forEach(function(point) {
+            point.x = fitNumber(point.x, bounds.x + radius, bounds.width - radius);
+            point.y = fitNumber(point.y, bounds.y + radius, bounds.height - radius);
+        });
+    }
+
+    function fitNumber(value, min, max) {
+        return Math.max(min, Math.min(max, value))
     }
 
     function getPoint(datum) {

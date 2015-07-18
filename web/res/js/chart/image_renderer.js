@@ -1,17 +1,18 @@
 /**
  * Created by Victor on 17/07/2015.
  */
-function ImageDataRenderer(canvas, data) {
+function ImageDataRenderer(canvas, data, bounds) {
 
-    var size = 50;
-
-    this.radius = size/2;
+    this.getRadius = getRadius;
     this.render = render;
     this.getTooltipParams = getTooltipParams;
+
+    var radius;
 
     ////////////////////////////////////////////////////////////////////////////////////
 
     function render() {
+        radius = getRadius();
         var images = canvas.selectAll("image").data(data, getId);
 
         images
@@ -20,8 +21,6 @@ function ImageDataRenderer(canvas, data) {
         images.enter()
             .append("image")
             .attr("class", "dot")
-            .attr("width", size)
-            .attr("height", size)
             .attr("xlink:href", getImage)
             .call(updatePosition)
             .on("click", function (datum) {
@@ -33,20 +32,28 @@ function ImageDataRenderer(canvas, data) {
     }
 
     function updatePosition(sel) {
-        sel.attr("x", getX)
+        sel.attr("width", radius*2)
+            .attr("height", radius*2)
+            .attr("x", getX)
             .attr("y", getY);
     }
 
     function getX(datum) {
-        return datum.point.x - size/2;
+        return datum.point.x - radius;
     }
 
     function getY(datum) {
-        return datum.point.y - size/2;
+        return datum.point.y - radius;
     }
 
     function getImage(datum) {
         return datum.image;
+    }
+
+    function getRadius() {
+        var space = bounds.width * bounds.height;
+        var n = data.length;
+        return Math.sqrt(space/(10*n))/2; // such that n images take 10% of space
     }
 
 ////////////////////////////////////////////////////////////////////////////////////

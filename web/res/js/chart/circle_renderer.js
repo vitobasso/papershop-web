@@ -6,7 +6,7 @@ function CircleDataRenderer(canvas, data, colorScale, colorParam) {
     var radius = 3.5;
     var legend = new ChartLegend("#top", colorScale);
 
-    this.radius = radius;
+    this.getRadius = function(){return radius};
     this.render = render;
     this.getTooltipParams = getTooltipParams;
 
