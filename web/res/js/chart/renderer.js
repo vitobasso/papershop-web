@@ -26,10 +26,6 @@ function ChartRenderer(parentDivId) {
         render()
     };
 
-    this.colorScale = function (datum) {
-        return colorScale(datum);
-    };
-
     /////////////////////////////////////////////////////
 
     createCanvasFillingParent();
@@ -83,8 +79,8 @@ function ChartRenderer(parentDivId) {
     function populate() {
         updateDomains();
         axes.update();
-        var renderer = new CircleDataRenderer(canvas, _data, getColor);
-        //var renderer = new ImageDataRenderer(canvas, _data);
+        //var renderer = new CircleDataRenderer(canvas, _data, colorScale, colorParam);
+        var renderer = new ImageDataRenderer(canvas, _data);
         layoutData(_data, getTargetPosition, renderer);
     }
 
@@ -109,10 +105,6 @@ function ChartRenderer(parentDivId) {
 
     function getTargetY(datum) {
         return yScale(yParam.getProperty(datum))
-    }
-
-    function getColor(datum) {
-        return colorScale(colorParam.getProperty(datum))
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////

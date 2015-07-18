@@ -10,7 +10,6 @@ function EbayChart(api) {
         categories = new Categories(api),
         axes = new AxisFactory(categories),
         renderer = new ChartRenderer(chartDivId),
-        legend = new ChartLegend("#top", renderer),
         items = [];
 
     var axisOptions, xAxis, colorAxis;
@@ -29,19 +28,14 @@ function EbayChart(api) {
     this.setData = function (newItems) {
         items = newItems;
         renderer.setData(items);
-        updateLegendAndTooltips();
+        assignTooltips();
     };
 
     function buildChart() {
         if (items) {
             renderer.update(items, axes.priceAxis, xAxis, colorAxis);
-            updateLegendAndTooltips();
+            assignTooltips();
         }
-    }
-
-    function updateLegendAndTooltips() {
-        assignTooltips();
-        legend.render(items, colorAxis);
     }
 
     function assignTooltips() {

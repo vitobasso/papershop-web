@@ -1,12 +1,15 @@
 /**
  * Created by Victor on 17/07/2015.
  */
-function CircleDataRenderer(canvas, data, getColor) {
+function CircleDataRenderer(canvas, data, colorScale, colorParam) {
 
     var radius = 3.5;
+    var legend = new ChartLegend("#top", colorScale);
 
     this.radius = radius;
     this.render = render;
+
+    legend.render(data, colorParam);
 
     function render() {
         var circles = canvas.selectAll("circle").data(data, getId);
@@ -39,6 +42,10 @@ function CircleDataRenderer(canvas, data, getColor) {
 
     function getY(datum) {
         return datum.point.y;
+    }
+
+    function getColor(datum) {
+        return colorScale(colorParam.getProperty(datum));
     }
 
 }

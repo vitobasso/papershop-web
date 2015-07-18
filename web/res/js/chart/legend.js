@@ -1,7 +1,7 @@
 /**
  * Created by Victor on 14/07/2015.
  */
-function ChartLegend(parentDivId, chart) {
+function ChartLegend(parentDivId, colorScale) {
 
     this.render = render;
 
@@ -81,7 +81,7 @@ function ChartLegend(parentDivId, chart) {
     }
 
     function getColor(domain) {
-        return chart.colorScale(domain.value)
+        return colorScale(domain.value)
     }
 
     function initialPosition() {
