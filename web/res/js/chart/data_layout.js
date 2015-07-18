@@ -13,7 +13,7 @@ function DataLayout(getTargetPosition) {
 
     function startLayout(data, dataRenderer, bounds) {
         initPositions(data);
-        radius = dataRenderer.getRadius();
+        radius = dataRenderer.radius;
         var points = data.map(getPoint);
 
         force.stop();
@@ -96,7 +96,12 @@ function DataLayout(getTargetPosition) {
     function initPosition(datum) {
         if (!datum.point) {
             datum.point = getTargetPosition(datum);
+            displaceRandomly(datum.point); // avoid getting stuck in a vertical stack
         }
+    }
+
+    function displaceRandomly(point) {
+        point.x += Math.random() * 2 * radius - radius; // between -radius and +radius
     }
 
 }

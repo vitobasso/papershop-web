@@ -3,16 +3,15 @@
  */
 function ImageDataRenderer(canvas, data, bounds) {
 
-    this.getRadius = getRadius;
+    var radius = calcRadius();
+
+    this.radius = radius;
     this.render = render;
     this.getTooltipParams = getTooltipParams;
-
-    var radius;
 
     ////////////////////////////////////////////////////////////////////////////////////
 
     function render() {
-        radius = getRadius();
         var images = canvas.selectAll("image").data(data, getId);
 
         images
@@ -50,9 +49,9 @@ function ImageDataRenderer(canvas, data, bounds) {
         return datum.image;
     }
 
-    function getRadius() {
+    function calcRadius() {
         var space = bounds.width * bounds.height;
-        var n = data.length;
+        var n = Math.max(1, data.length);
         return Math.sqrt(space/(10*n))/2; // such that n images take 10% of space
     }
 
