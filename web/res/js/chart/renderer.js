@@ -2,15 +2,16 @@
  * Created by Victor on 30/06/2015.
  */
 
-function ChartRenderer(parentDivId) {
+function ChartRenderer() {
 
+    var chartDivId = "#chart";
     var margin = {top: 20, right: 20, bottom: 40, left: 40};
     var svgWidth, svgHeight, width, height;
 
     var svg, canvas;
     var yParam, xParam, colorParam;
     var xScale, yScale, colorScale;
-    var axes;
+    var axes, renderer;
     var _data;
 
     this.setData = function (data) {
@@ -32,7 +33,7 @@ function ChartRenderer(parentDivId) {
     d3.select(window).on("resize", resize);
 
     function createCanvasFillingParent() {
-        var parent = d3.select(parentDivId).node();
+        var parent = d3.select(chartDivId).node();
         createCanvasWithSize(parent.clientWidth, parent.clientHeight);
     }
 
@@ -45,9 +46,9 @@ function ChartRenderer(parentDivId) {
     }
 
     function createCanvas() {
-        d3.select(parentDivId).html("");
+        d3.select(chartDivId).html("");
 
-        svg = d3.select(parentDivId).append("svg")
+        svg = d3.select(chartDivId).append("svg")
             .attr("width", svgWidth)
             .attr("height", svgHeight);
 
@@ -79,9 +80,14 @@ function ChartRenderer(parentDivId) {
     function populate() {
         updateDomains();
         axes.update();
-        //var renderer = new CircleDataRenderer(canvas, _data, colorScale, colorParam);
-        var renderer = new ImageDataRenderer(canvas, _data);
+        //renderer = new CircleDataRenderer(canvas, _data, colorScale, colorParam);
+        renderer = new ImageDataRenderer(canvas, _data);
         layoutData(_data, getTargetPosition, renderer);
+        assignTooltips();
+    }
+
+    function assignTooltips() {
+        $(chartDivId).find("svg").tooltip(renderer.getTooltipParams());
     }
 
     function updateDomains() {

@@ -4,12 +4,10 @@
 
 function EbayChart(api) {
 
-    var chartDivId = "#chart";
-
     var filters = new Filters(),
         categories = new Categories(api),
         axes = new AxisFactory(categories),
-        renderer = new ChartRenderer(chartDivId),
+        renderer = new ChartRenderer(),
         items = [];
 
     var axisOptions, xAxis, colorAxis;
@@ -28,31 +26,12 @@ function EbayChart(api) {
     this.setData = function (newItems) {
         items = newItems;
         renderer.setData(items);
-        assignTooltips();
     };
 
     function buildChart() {
         if (items) {
             renderer.update(items, axes.priceAxis, xAxis, colorAxis);
-            assignTooltips();
         }
-    }
-
-    function assignTooltips() {
-        $(chartDivId).find("svg").tooltip({
-            items: "circle",
-            content: buildTooltip
-        });
-    }
-
-    function buildTooltip() {
-        var item = this.__data__;
-        var priceStr = item.price.currency + " " + item.price.value;
-        return "<div class='chart-tooltip'>" +
-            "<p>" + item.title + "</p>" +
-            "<img src='" + item.image + "'/>" +
-            "<p>" + priceStr + "</p>" +
-            "</div>";
     }
 
     function populateAxisMenu() {

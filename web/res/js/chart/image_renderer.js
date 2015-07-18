@@ -7,6 +7,9 @@ function ImageDataRenderer(canvas, data) {
 
     this.radius = size/2;
     this.render = render;
+    this.getTooltipParams = getTooltipParams;
+
+    ////////////////////////////////////////////////////////////////////////////////////
 
     function render() {
         var images = canvas.selectAll("image").data(data, getId);
@@ -44,6 +47,25 @@ function ImageDataRenderer(canvas, data) {
 
     function getImage(datum) {
         return datum.image;
+    }
+
+////////////////////////////////////////////////////////////////////////////////////
+
+    function getTooltipParams() {
+        return {
+            items: "image",
+            content: buildTooltip
+        }
+    }
+
+    function buildTooltip() {
+        var item = this.__data__;
+        var priceStr = item.price.currency + " " + item.price.value;
+        return "<div class='chart-tooltip'>" +
+            "<p>" + item.title + "</p>" +
+            "<img src='" + item.image + "'/>" +
+            "<p>" + priceStr + "</p>" +
+            "</div>";
     }
 
 }

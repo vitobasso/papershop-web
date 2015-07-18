@@ -8,8 +8,11 @@ function CircleDataRenderer(canvas, data, colorScale, colorParam) {
 
     this.radius = radius;
     this.render = render;
+    this.getTooltipParams = getTooltipParams;
 
     legend.render(data, colorParam);
+
+////////////////////////////////////////////////////////////////////////////////////
 
     function render() {
         var circles = canvas.selectAll("circle").data(data, getId);
@@ -46,6 +49,25 @@ function CircleDataRenderer(canvas, data, colorScale, colorParam) {
 
     function getColor(datum) {
         return colorScale(colorParam.getProperty(datum));
+    }
+
+////////////////////////////////////////////////////////////////////////////////////
+
+    function getTooltipParams() {
+        return {
+            items: "circle",
+            content: buildTooltip
+        }
+    }
+
+    function buildTooltip() {
+        var item = this.__data__;
+        var priceStr = item.price.currency + " " + item.price.value;
+        return "<div class='chart-tooltip'>" +
+            "<p>" + item.title + "</p>" +
+            "<img src='" + item.image + "'/>" +
+            "<p>" + priceStr + "</p>" +
+            "</div>";
     }
 
 }
