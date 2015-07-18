@@ -3,10 +3,6 @@
  */
 function RequestLog(divId) {
 
-    var pageSize = 20;
-    var requestHistory = new Set(stringifyIdFields);
-    var ui = new RequestLogUI(divId, this);
-
     this.getHistory = getHistory;
 
     this.notifyNewRequestAndGetPaging = notifyNewRequestAndGetPaging;
@@ -14,6 +10,11 @@ function RequestLog(divId) {
     this.notifyRequestSuccessful = notifyRequestSuccessful;
 
     this.getHashKey = stringifyIdFields;
+
+    var pageSize = 20;
+    var requestHistory = new Set(stringifyIdFields);
+    var ui = new RequestLogUI(divId, this);
+    ui.update(); //init hidden
 
     function getHistory() {
         return requestHistory.toArray();

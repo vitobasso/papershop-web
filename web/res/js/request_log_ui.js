@@ -3,10 +3,19 @@
  */
 function RequestLogUI(divId, requestLog) {
 
-    this.update = render;
+    this.update = update;
 
-    function render() {
+    function update() {
         var history = requestLog.getHistory();
+        if (history.length > 0) {
+            $(divId).show();
+            render(history);
+        } else {
+            hide();
+        }
+    }
+
+    function render(history) {
         var selEntries = d3.select(divId)
             .select("table")
             .select("tbody")
@@ -30,7 +39,10 @@ function RequestLogUI(divId, requestLog) {
         selection.append("td")
             .classed("count", true)
             .html(getLastItem);
+    }
 
+    function hide() {
+        $(divId).hide();
     }
 
     function getParamsString(params) {

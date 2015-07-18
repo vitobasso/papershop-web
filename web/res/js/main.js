@@ -5,12 +5,13 @@ function Main() {
 
     var allItems = new Set(getId);
     var api = new EbayApi();
+    var itemCount = new ItemCountUI();
     var requests = new RequestLog("#request-log");
     var ebayChart = new EbayChart(api);
 
     function addItems(newItems) {
         allItems.addMergeAll(newItems, mergeItems);
-        $("#total-count").show().text(allItems.size());
+        itemCount.setTotal(allItems.size());
     }
 
     function mergeItems(oldItem, newItem) {
@@ -77,7 +78,7 @@ function Main() {
 
     this.applyFilters = function () {
         var items = filterItems();
-        $("#filtered-count").show().text(items.length);
+        itemCount.setFiltered(items.length);
         ebayChart.setData(items);
     };
 
@@ -86,7 +87,7 @@ function Main() {
         rememberAspectsFromRequest(requestParams, newItems);
         addItems(newItems);
         var items = filterItems();
-        $("#filtered-count").show().text(items.length);
+        itemCount.setFiltered(items.length);
         ebayChart.update(items);
     }
 

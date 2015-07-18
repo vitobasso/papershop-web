@@ -44,6 +44,7 @@
     <script src="res/js/item_filter.js"></script>
     <script src="res/js/request_log.js"></script>
     <script src="res/js/request_log_ui.js"></script>
+    <script src="res/js/item_count_ui.js"></script>
     <script src="res/js/main.js"></script>
 
 </head>
@@ -58,13 +59,13 @@
                 <input type="text" id="keywords" placeholder="Keywords" value="laptop"/>
                 <button id="request-button">Search</button>
             </div>
-            <p>Showing <span id="filtered-count"></span> out of <span id="total-count"></span> known items.</p>
+            <p id="item-count"></p>
             <div id="request-log">
                 <table>
                     <thead>
                     <tr>
-                        <td>Filter</td>
-                        <td>#Items</td>
+                        <td class="description">Filter</td>
+                        <td class="count">#Items</td>
                     </tr>
                     </thead>
                     <tbody>

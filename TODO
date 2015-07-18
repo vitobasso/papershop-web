@@ -16,16 +16,15 @@
        http://www.colorcombos.com/color-schemes/7625/ColorCombo7625.html
 
 - config
-    - images vs circles
-        - image size
+    ? images vs circles
     - items per request
     - disable guesses
 
-- legend
-    - insert in order when new values appear
+? legend
+    ? insert in order when new values appear
 
 - proper starting screen/sequence
-    . no empty legend
+    ? no empty legend
     . no need to click request twice
 
 - bugs
