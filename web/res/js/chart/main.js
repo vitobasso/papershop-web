@@ -10,7 +10,7 @@ function EbayChart(api) {
         renderer = new ChartRenderer(),
         items = [];
 
-    var axisOptions, xAxis, colorAxis;
+    var axisOptions, xAxis;
 
     this.getCategory = function (category) {
         return categories.get(category);
@@ -29,7 +29,7 @@ function EbayChart(api) {
 
     function buildChart() {
         if (items) {
-            renderer.update(items, axes.priceAxis, xAxis, colorAxis);
+            renderer.update(items, axes.priceAxis, xAxis);
         }
     }
 
@@ -44,11 +44,11 @@ function EbayChart(api) {
     function setFilterTitleClickListener() {
         $("#filters").find("> .filter").on("click", function (e) {
             var filterName = this.__data__.name;
-            changeXAxisByName(filterName);
+            changeAxisByName(filterName);
         });
     }
 
-    function changeXAxisByName(name) {
+    function changeAxisByName(name) {
         var axis = axisOptions.find(labelEquals(name));
         if(axis) {
             xAxis = axis;
@@ -66,8 +66,7 @@ function EbayChart(api) {
 
     function populateAxisMenu() {
         axisOptions = axes.listOptions();
-        setContextMenu(".x.label", changeXAxis);
-        setContextMenu("#chart-legend .title", changeColorAxis);
+        setContextMenu(".x.label", changeAxisByIndex);
     }
 
     function setContextMenu(selector, callback) {
@@ -88,22 +87,15 @@ function EbayChart(api) {
         return {name: axis.label}
     }
 
-    function changeXAxis(index) {
+    function changeAxisByIndex(index) {
         xAxis = axisOptions[index];
         buildChart();
     }
-
-    function changeColorAxis(index) {
-        colorAxis = axisOptions[index];
-        buildChart();
-    }
-
 
     ////////////////////////////////////////////////////////////////////////
 
     populateAxisMenu();
     xAxis = axisOptions[0];
-    colorAxis = axisOptions[0];
     buildChart();
 
 }

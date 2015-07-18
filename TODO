@@ -10,7 +10,6 @@
 - ui
     - collapse/expand aspects
     ? change aspect filters according to selected category (hide unused ones)
-    - change x-axis from filter titles
     - colors
        http://coolors.co/browser
        http://www.colorcombos.com/color-schemes/7625/ColorCombo7625.html
@@ -20,11 +19,7 @@
     - items per request
     - disable guesses
 
-? legend
-    ? insert in order when new values appear
-
 - proper starting screen/sequence
-    ? no empty legend
     . no need to click request twice
 
 - bugs
@@ -32,7 +27,7 @@
     - sync requests get status animation stuck
 
 - usability
-    ? list undo select w/o ctrl
+    ? undo select filters w/o ctrl
         . bad for request on double click though
 
 - ebay api wrapper

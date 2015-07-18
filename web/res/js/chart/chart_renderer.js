@@ -9,8 +9,8 @@ function ChartRenderer() {
     var svgWidth, svgHeight, width, height;
 
     var svg, canvas;
-    var yParam, xParam, colorParam;
-    var xScale, yScale, colorScale;
+    var yParam, xParam;
+    var xScale, yScale;
     var axes, dataRenderer;
     var dataLayout = new DataLayout(getTargetPosition);
     var _data;
@@ -20,10 +20,9 @@ function ChartRenderer() {
         populate();
     };
 
-    this.update = function (data, newYParam, newXParam, newColorParam) {
+    this.update = function (data, newYParam, newXParam) {
         yParam = newYParam;
         xParam = newXParam;
-        colorParam = newColorParam;
         _data = data;
         render()
     };
@@ -75,14 +74,12 @@ function ChartRenderer() {
     function createScales() {
         xScale = setXRange(xParam.getScale());
         yScale = setYRange(yParam.getScale());
-        colorScale = setColorRange(colorParam.getScale());
     }
 
     function populate() {
         updateDomains();
         axes.update();
-        //dataRenderer = new CircleDataRenderer(canvas, _data, colorScale, colorParam);
-        dataRenderer = new ImageDataRenderer(canvas, _data, getDataBounds());
+        dataRenderer = new DataRenderer(canvas, _data, getDataBounds());
         dataLayout.startLayout(_data, dataRenderer, getDataBounds());
         assignTooltips();
     }
@@ -103,7 +100,6 @@ function ChartRenderer() {
     function updateDomains() {
         xParam.updateDomain(xScale, _data);
         yParam.updateDomain(yScale, _data);
-        colorParam.updateDomain(colorScale, _data);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
@@ -182,12 +178,6 @@ function ChartRenderer() {
 
     function setYRange(scale) {
         scale.range([height, 0]);
-        return scale;
-    }
-
-    function setColorRange(scale) {
-        var range = d3.scale.category10().range();
-        scale.range(range);
         return scale;
     }
 

@@ -13,12 +13,6 @@ svg {
     text-anchor: end;
 }
 
-.legend rect {
-    fill: yellow;
-    stroke: black;
-    opacity: 0.8;
-}
-
 .dot {
     cursor: pointer;
 }

@@ -1,7 +1,7 @@
 /**
  * Created by Victor on 17/07/2015.
  */
-function ImageDataRenderer(canvas, data, bounds) {
+function DataRenderer(canvas, data, bounds) {
 
     var radius = calcRadius();
 
