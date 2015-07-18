@@ -3,7 +3,7 @@
  */
 function Filters() {
 
-    var filterUI = new FilterUIBuilder();
+    var filterUI = new FilterUI();
 
     var filters = [
         {

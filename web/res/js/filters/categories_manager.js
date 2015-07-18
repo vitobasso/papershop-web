@@ -4,7 +4,7 @@
 function Categories(ebay) {
 
     var categoriesSet = new Set(getId);
-    var filterUI = new FilterUIBuilder();
+    var filterUI = new FilterUI();
 
     this.populate = function (itens) {
         var categoriesArray = uniqueCategories(itens);

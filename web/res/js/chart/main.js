@@ -17,8 +17,7 @@ function EbayChart(api) {
     };
 
     this.update = function (newItems) {
-        filters.populate();
-        categories.populate(newItems);
+        populateFilters(newItems);
         this.setData(newItems);
         populateAxisMenu();
     };
@@ -33,6 +32,37 @@ function EbayChart(api) {
             renderer.update(items, axes.priceAxis, xAxis, colorAxis);
         }
     }
+
+    ////////////////////////////////////////////////////////////////////////
+
+    function populateFilters(newItems) {
+        filters.populate();
+        categories.populate(newItems);
+        setFilterTitleClickListener();
+    }
+
+    function setFilterTitleClickListener() {
+        $("#filters").find("> .filter").on("click", function (e) {
+            var filterName = this.__data__.name;
+            changeXAxisByName(filterName);
+        });
+    }
+
+    function changeXAxisByName(name) {
+        var axis = axisOptions.find(labelEquals(name));
+        if(axis) {
+            xAxis = axis;
+            buildChart();
+        }
+    }
+
+    function labelEquals(name) {
+        return function(axis) {
+            return axis.label == name
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////
 
     function populateAxisMenu() {
         axisOptions = axes.listOptions();
@@ -58,15 +88,18 @@ function EbayChart(api) {
         return {name: axis.label}
     }
 
-    function changeXAxis(key) {
-        xAxis = axisOptions[key];
+    function changeXAxis(index) {
+        xAxis = axisOptions[index];
         buildChart();
     }
 
-    function changeColorAxis(key) {
-        colorAxis = axisOptions[key];
+    function changeColorAxis(index) {
+        colorAxis = axisOptions[index];
         buildChart();
     }
+
+
+    ////////////////////////////////////////////////////////////////////////
 
     populateAxisMenu();
     xAxis = axisOptions[0];
@@ -81,6 +114,6 @@ EbayChart.findOrdinalDomain = function (data, getProperty) {
     return uniqueValues.toArray().sort(naturalSort);
 };
 
-EbayChart.replaceUndefined = function(value) {
+EbayChart.replaceUndefined = function (value) {
     return value ? value : "?";
 };

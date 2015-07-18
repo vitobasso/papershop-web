@@ -6,7 +6,7 @@
     white-space: nowrap; /* divs side by side */
 }
 
-#filters div {
+#filters > div {
     height: 100%;
     display: inline-block; /* divs side by side */
 }
@@ -25,10 +25,9 @@
     white-space: normal; /* wrap text */
 }
 
-#filters div a {
-    color: black;
+#filters .title {
     font-weight: bold;
-    text-decoration: none;
+    cursor: pointer;
 }
 
 #filters select {

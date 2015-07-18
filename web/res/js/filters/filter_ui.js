@@ -1,7 +1,7 @@
 /**
  * Created by Victor on 11/07/2015.
  */
-function FilterUIBuilder() {
+function FilterUI() {
 
     this.populate = function (filters) {
         populateFilters(filters);
@@ -11,11 +11,12 @@ function FilterUIBuilder() {
 
     function populateFilters(filters) {
         var selFilter = selectDivs(filters)
-            .enter().append("div");
+            .enter().append("div")
+            .classed("filter", true);
 
         // title
-        selFilter.append("a")
-            .attr("href", "#")
+        selFilter.append("div")
+            .classed("title", true)
             .html(getName);
 
         // values list
@@ -43,7 +44,7 @@ function FilterUIBuilder() {
 
     function selectDivs(filters) {
         return d3.select("#filters")
-            .selectAll("div").data(filters, getName);
+            .selectAll("div.filter").data(filters, getName);
     }
 
     function labelGetter(filter) {
