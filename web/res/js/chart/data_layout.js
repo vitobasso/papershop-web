@@ -1,31 +1,33 @@
 /**
  * Created by Victor on 17/07/2015.
  */
-function layoutData(data, getTargetPosition, dataRenderer, bounds) {
+function DataLayout(getTargetPosition) {
 
-    var radius = dataRenderer.getRadius();
-    startLayout();
+    this.startLayout = startLayout;
 
-    function startLayout() {
+    var force = d3.layout.force()
+        .gravity(0)
+        .charge(0);
+
+    var radius;
+
+    function startLayout(data, dataRenderer, bounds) {
         initPositions(data);
+        radius = dataRenderer.getRadius();
         var points = data.map(getPoint);
 
-        var force = d3.layout.force()
-            .gravity(0)
-            .charge(0)
-            .nodes(points);
-
+        force.stop();
+        force.nodes(points);
         force.on("tick", function (e) {
-            moveTorwardsTarget(e);
+            moveTorwardsTarget(data, e);
             avoidCollisions(points);
-            respectBounds(points);
+            respectBounds(points, bounds);
             dataRenderer.render();
         });
-
         force.start();
     }
 
-    function moveTorwardsTarget(e) {
+    function moveTorwardsTarget(data, e) {
         var cooling = 0.1 * e.alpha;
         data.forEach(function (datum) {
             var target = getTargetPosition(datum);
@@ -72,7 +74,7 @@ function layoutData(data, getTargetPosition, dataRenderer, bounds) {
         };
     }
 
-    function  respectBounds(points){
+    function  respectBounds(points, bounds){
         points.forEach(function(point) {
             point.x = fitNumber(point.x, bounds.x + radius, bounds.width - radius);
             point.y = fitNumber(point.y, bounds.y + radius, bounds.height - radius);

@@ -12,6 +12,7 @@ function ChartRenderer() {
     var yParam, xParam, colorParam;
     var xScale, yScale, colorScale;
     var axes, dataRenderer;
+    var dataLayout = new DataLayout(getTargetPosition);
     var _data;
 
     this.setData = function (data) {
@@ -82,7 +83,7 @@ function ChartRenderer() {
         axes.update();
         //dataRenderer = new CircleDataRenderer(canvas, _data, colorScale, colorParam);
         dataRenderer = new ImageDataRenderer(canvas, _data, getDataBounds());
-        layoutData(_data, getTargetPosition, dataRenderer, getDataBounds());
+        dataLayout.startLayout(_data, dataRenderer, getDataBounds());
         assignTooltips();
     }
 
