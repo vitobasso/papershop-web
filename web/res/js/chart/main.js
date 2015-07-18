@@ -19,7 +19,7 @@ function EbayChart(api) {
     this.update = function (newItems) {
         populateFilters(newItems);
         this.setData(newItems);
-        populateAxisMenu();
+        axisOptions = axes.listOptions();
     };
 
     this.setData = function (newItems) {
@@ -64,37 +64,7 @@ function EbayChart(api) {
 
     ////////////////////////////////////////////////////////////////////////
 
-    function populateAxisMenu() {
-        axisOptions = axes.listOptions();
-        setContextMenu(".x.label", changeAxisByIndex);
-    }
-
-    function setContextMenu(selector, callback) {
-        $.contextMenu("destroy", {selector: selector});
-        $.contextMenu({
-            selector: selector,
-            trigger: "left",
-            callback: callback,
-            items: getMenuItems()
-        });
-    }
-
-    function getMenuItems() {
-        return axisOptions.map(getMenuItem);
-    }
-
-    function getMenuItem(axis) {
-        return {name: axis.label}
-    }
-
-    function changeAxisByIndex(index) {
-        xAxis = axisOptions[index];
-        buildChart();
-    }
-
-    ////////////////////////////////////////////////////////////////////////
-
-    populateAxisMenu();
+    axisOptions = axes.listOptions();
     xAxis = axisOptions[0];
     buildChart();
 
