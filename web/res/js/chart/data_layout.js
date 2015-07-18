@@ -1,39 +1,10 @@
 /**
  * Created by Victor on 17/07/2015.
  */
-function layoutData(canvas, data, getTargetPosition, getColor) {
+function layoutData(data, getTargetPosition, renderer) {
 
-    var radius = 3.5;
+    var radius = renderer.radius;
     startLayout();
-
-////////////////////////////////////////////////////////////////////////////////////////////
-
-    function renderCircles() {
-        var circles = canvas.selectAll("circle").data(data, getId);
-
-        circles
-            .call(positionCircle);
-
-        circles.enter()
-            .append("circle")
-            .attr("class", "dot")
-            .attr("r", radius)
-            .call(positionCircle)
-            .on("click", function (datum) {
-                window.open(datum.link);
-            });
-
-        circles.exit()
-            .remove();
-    }
-
-    function positionCircle(sel) {
-        sel.attr("cx", getX)
-            .attr("cy", getY)
-            .style("fill", getColor);
-    }
-
-////////////////////////////////////////////////////////////////////////////////////////////
 
     function startLayout() {
         initPositions(data);
@@ -47,7 +18,7 @@ function layoutData(canvas, data, getTargetPosition, getColor) {
         force.on("tick", function (e) {
             moveTorwardsTarget(e);
             avoidCollisions(points);
-            renderCircles();
+            renderer.render();
         });
 
         force.start();
@@ -104,8 +75,6 @@ function layoutData(canvas, data, getTargetPosition, getColor) {
         return datum.point;
     }
 
-////////////////////////////////////////////////////////////////////////////////////////////
-
     function initPositions(data) {
         data.forEach(initPosition);
     }
@@ -114,14 +83,6 @@ function layoutData(canvas, data, getTargetPosition, getColor) {
         if (!datum.point) {
             datum.point = getTargetPosition(datum);
         }
-    }
-
-    function getX(datum) {
-        return datum.point.x;
-    }
-
-    function getY(datum) {
-        return datum.point.y;
     }
 
 }

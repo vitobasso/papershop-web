@@ -83,7 +83,9 @@ function ChartRenderer(parentDivId) {
     function populate() {
         updateDomains();
         axes.update();
-        layoutData(canvas, _data, getTargetPosition, getColor);
+        var renderer = new CircleDataRenderer(canvas, _data, getColor);
+        //var renderer = new ImageDataRenderer(canvas, _data);
+        layoutData(_data, getTargetPosition, renderer);
     }
 
     function updateDomains() {
