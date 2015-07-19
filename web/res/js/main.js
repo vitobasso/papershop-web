@@ -4,10 +4,10 @@
 function Main() {
 
     var allItems = new Set(getId);
-    var api = new EbayApi();
     var itemCount = new ItemCountUI();
-    var requests = new RequestLog("#request-log");
-    var ebayChart = new EbayChart(api);
+    var ebayChart = new EbayChart();
+    var input = new UIParamsInput();
+    var itemFinder = new ItemFinder(updateChart);
 
     function addItems(newItems) {
         allItems.addMergeAll(newItems, mergeItems);
@@ -24,7 +24,7 @@ function Main() {
 
     /////////////////////////////////////////////////////////
 
-    $("#request-button").on("click", fetchItems);
+    $("#request-button").on("click", itemFinder.find);
 
     $("#keywords, #items-per-page, #page").keyup(function (e) {
         if (e.keyCode == 13) {
@@ -32,47 +32,6 @@ function Main() {
         }
     });
 
-    function fetchItems() {
-        var params = requests.notifyNewRequestAndGetPaging(getUIParams());
-        api.find(params, function (response) {
-            updateChart(params, response);
-            requests.notifyRequestSuccessful(params);
-        });
-    }
-
-    function getUIParams() {
-        return {
-            keywords: $("#keywords").val(),
-            filters: getFiltersFromUI(".common-filter"),
-            aspects: getFiltersFromUI(".aspect-filter")
-        };
-    }
-
-    function getFiltersFromUI(filterClass) {
-        var filters = [];
-        $(filterClass).find("select").each(function (i, filterNode) {
-            var sel = $(filterNode).find("option").filter(":selected");
-            if (sel.length > 0) {
-                var filter = getFilterFromUI(filterNode.__data__, sel);
-                filters.push(filter);
-            }
-        });
-        return filters;
-    }
-
-    function getFilterFromUI(filter, selectedOptions) {
-        return {
-            name: filter.name,
-            values: selectedOptions.toArray().map(function (option) {
-                var getValueId = filterValueIdGetter(filter);
-                return getValueId(option.__data__)
-            })
-        }
-    }
-
-    function filterValueIdGetter(filter) {
-        return filter.getValueId || getName;
-    }
 
     /////////////////////////////////////////////////////////
 
@@ -89,12 +48,17 @@ function Main() {
         var items = filterItems();
         itemCount.setFiltered(items.length);
         ebayChart.update(items);
+        addFilterOptionDbClickListener();
     }
 
     function filterItems() {
-        var params = getUIParams();
+        var params = input.getParams();
         var filterFunction = new ItemFilter(params).filter;
         return allItems.filter(filterFunction);
+    }
+
+    function addFilterOptionDbClickListener() {
+        $("#filters").find("div.filter option").dblclick(itemFinder.find);
     }
 
     ////////////////////////////////////////////////////////////

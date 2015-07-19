@@ -4,7 +4,7 @@
 
 function EbayApi() {
 
-    var urlBuilder = new EbayUrlBuilder()
+    var urlBuilder = new EbayUrlBuilder();
     var parser = new EbayResponseParser();
 
     this.find = function (params, callback) {

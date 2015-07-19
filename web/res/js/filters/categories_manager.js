@@ -1,8 +1,9 @@
 /**
  * Created by Victor on 01/07/2015.
  */
-function Categories(ebay) {
+function Categories() {
 
+    var api = new EbayApi();
     var categoriesSet = new Set(getId);
     var filterUI = new FilterUI();
 
@@ -55,7 +56,7 @@ function Categories(ebay) {
         var categoryFromSet = categoriesSet.get(category);
         if (categoryFromSet.aspects.length == 0) {
             var callback = createHistogramsCallback(categoryFromSet);
-            ebay.histograms({categoryId: category.id}, callback);
+            api.histograms({categoryId: category.id}, callback);
         }
     }
 

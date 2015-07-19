@@ -2,10 +2,10 @@
  * Created by Victor on 05/07/2015.
  */
 
-function EbayChart(api) {
+function EbayChart() {
 
     var filters = new Filters(),
-        categories = new Categories(api),
+        categories = new Categories(),
         axes = new AxisFactory(categories),
         renderer = new ChartRenderer(),
         items = [];
