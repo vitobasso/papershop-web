@@ -1,6 +1,5 @@
 
 - filters
-    - category (on request)
     - listing type (on chart)
         - add item filters in general to chart
     - listing end
@@ -15,12 +14,8 @@
        http://www.colorcombos.com/color-schemes/7625/ColorCombo7625.html
 
 - config
-    ? images vs circles
     - items per request
     - disable guesses
-
-- proper starting screen/sequence
-    . no need to click request twice
 
 - messages
     - empty keywords

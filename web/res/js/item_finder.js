@@ -15,8 +15,10 @@ var ItemFinder = (function () {
         if (uiParams.keywords) {
             var params = RequestLog.notifyNewRequestAndGetPaging(uiParams);
             api.find(params, function(response) {
-                Main.updateChart(params, response);
-                RequestLog.notifyRequestSuccessful(params);
+                if(response.length > 0){
+                    Main.updateChart(params, response);
+                    RequestLog.notifyRequestSuccessful(params);
+                }//TODO message when response empty?
             });
         }//TODO message when keywords empty?
     };

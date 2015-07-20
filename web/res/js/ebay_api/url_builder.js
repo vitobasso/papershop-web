@@ -13,22 +13,43 @@ function EbayUrlBuilder() {
             "&SECURITY-APPNAME=" + APPID +
             "&RESPONSE-DATA-FORMAT=json" +
             "&keywords=" + params.keywords +
-            buildCategory(params.category) +
-            buildFilter(itemBuilder, params.filters) +
-            buildFilter(aspectBuilder, params.aspects) +
+            buildCategoryFilters(params) +
+            buildCommonFilters(params) +
+            buildAspectFilters(params) +
             "&paginationInput.entriesPerPage=" + params.itemsPerPage +
             "&paginationInput.pageNumber=" + params.page;
     };
 
-    function buildCategory(categoryId) {
+    function isCategoryFilter(filter) {
+        return filter.name == "Category";
+    }
+
+    function buildCategoryFilters(params) {
         var result = "";
-        if (categoryId) {
-            result = "&categoryId=" + categoryId;
+        var categoryFilter = params.filters.find(isCategoryFilter);
+        if (categoryFilter) {
+            var categoryIds = categoryFilter.values;
+            categoryIds.forEach(function (categoryId, i) {
+                result += "&categoryId(" + i + ")=" + categoryId;
+            });
         }
         return result;
     }
 
-    function buildFilter(paramBuilder, filters) {
+    function buildCommonFilters(params) {
+        var commonFilters = params.filters.filter(isCommonFilter); // remove "Category"
+        return buildFilters(itemBuilder, commonFilters);
+    }
+
+    function isCommonFilter(filter) {
+        return filter.name != "Category";
+    }
+
+    function buildAspectFilters(params) {
+        return buildFilters(aspectBuilder, params.aspects);
+    }
+
+    function buildFilters(paramBuilder, filters) {
         var result = "";
         if (filters) {
             filters.forEach(function (filter, i) {
