@@ -1,17 +1,19 @@
 /**
  * Created by Victor on 01/07/2015.
  */
-function Main() {
+var Main = (function () {
+    var module = {};
 
-    var allItems = new Set(getId);
-    var itemCount = new ItemCountUI();
-    var chartManager = new ChartManager();
-    var input = new UIParamsInput();
-    var itemFinder = new ItemFinder(updateChart);
+    var allItems;
+
+    module.init = function() {
+        allItems = new Set(getId);
+        setSearchFieldListeners();
+    };
 
     function addItems(newItems) {
         allItems.addMergeAll(newItems, mergeItems);
-        itemCount.setTotal(allItems.size());
+        ItemCountUI.setTotal(allItems.size());
     }
 
     function mergeItems(oldItem, newItem) {
@@ -24,39 +26,40 @@ function Main() {
 
     /////////////////////////////////////////////////////////
 
-    $("#request-button").on("click", itemFinder.find);
+    function setSearchFieldListeners() {
+        $("#request-button").on("click", ItemFinder.find);
 
-    $("#keywords, #items-per-page, #page").keyup(function (e) {
-        if (e.keyCode == 13) {
-            $("#request-button").click();
-        }
-    });
-
+        $("#keywords, #items-per-page, #page").keyup(function (e) {
+            if (e.keyCode == 13) {
+                $("#request-button").click();
+            }
+        });
+    }
 
     /////////////////////////////////////////////////////////
 
-    this.applyFilters = function () {
+    module.applyFilters = function () {
         var items = filterItems();
-        itemCount.setFiltered(items.length);
-        chartManager.setData(items);
+        ItemCountUI.setFiltered(items.length);
+        ChartManager.setData(items);
     };
 
-    function updateChart(requestParams, newItems) {
+    module.updateChart = function(requestParams, newItems) {
         guessAspectsFromTitle(newItems);
         rememberAspectsFromRequest(requestParams, newItems);
         addItems(newItems);
         var items = filterItems();
-        itemCount.setFiltered(items.length);
-        chartManager.update(items);
+        ItemCountUI.setFiltered(items.length);
+        ChartManager.update(items);
         addFilterOptionDbClickListener();
-    }
+    };
 
     function addFilterOptionDbClickListener() {
-        $("#filters").find("div.filter option").dblclick(itemFinder.find);
+        $("#filters").find("div.filter option").dblclick(ItemFinder.find);
     }
 
     function filterItems() {
-        var params = input.getParams();
+        var params = UIParamsInput.getParams();
         var filterFunction = new ItemFilter(params).filter;
         return allItems.filter(filterFunction);
     }
@@ -65,7 +68,7 @@ function Main() {
 
     function guessAspectsFromTitle(newItems) {
         newItems.forEach(function (item) {
-            var category = chartManager.getCategory(item.category);
+            var category = ChartManager.getCategory(item.category);
             if (category && category.fuzzyValues) {
                 guessAspects(item, category);
             }
@@ -97,4 +100,5 @@ function Main() {
         return aspectsMap;
     }
 
-}
+    return module;
+}());

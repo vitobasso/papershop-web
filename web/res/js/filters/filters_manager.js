@@ -1,9 +1,10 @@
 /**
  * Created by Victor on 10/07/2015.
  */
-function Filters() {
+var Filters = (function() {
+    var module = {};
 
-    var filterUI = new FilterUI();
+    var filterUI;
 
     var filters = [
         {
@@ -37,9 +38,14 @@ function Filters() {
         }
     ];
 
-    this.populate = function () {
+    module.init = function(){
+        filterUI = new FilterUI();
+    };
+
+    module.populate = function () {
         filterUI.populate(filters)
             .classed("common-filter", true);
-    }
+    };
 
-}
+    return module;
+}());

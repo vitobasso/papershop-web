@@ -23,7 +23,7 @@ function FilterUI() {
         selFilter.append("select")
             .attr("id", getFilterId)
             .attr("multiple", true)
-            .attr("onchange", "main.applyFilters()")
+            .on("change", Main.applyFilters)
             .each(populateOptions);
     }
 

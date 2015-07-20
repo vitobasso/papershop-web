@@ -1,46 +1,45 @@
 /**
  * Created by Victor on 15/07/2015.
  */
-function RequestLog(divId) {
+var RequestLog = (function () {
+    var module = {};
 
-    this.getHistory = getHistory;
-
-    this.notifyNewRequestAndGetPaging = notifyNewRequestAndGetPaging;
-
-    this.notifyRequestSuccessful = notifyRequestSuccessful;
-
-    this.getHashKey = stringifyIdFields;
+    module.divId = "#request-log";
+    module.getHashKey = stringifyIdFields;
 
     var pageSize = 20;
-    var requestHistory = new Set(stringifyIdFields);
-    var ui = new RequestLogUI(divId, this);
-    ui.update(); //init hidden
+    var requestHistory;
 
-    function getHistory() {
+    module.init = function () {
+        requestHistory = new Set(stringifyIdFields);
+        RequestLogUI.update(); //init hidden
+    };
+
+    module.getHistory = function () {
         return requestHistory.toArray();
-    }
+    };
 
-    function notifyNewRequestAndGetPaging(paramsFromUI) {
+    module.notifyNewRequestAndGetPaging = function (paramsFromUI) {
         var result = setPagingOnParams(paramsFromUI);
         result.isPending = true;
         requestHistory.add(result);
-        ui.update();
+        RequestLogUI.update();
         return result;
-    }
+    };
 
-    function notifyRequestSuccessful(params) {
+    module.notifyRequestSuccessful = function (params) {
         delete params.isPending;
         params.lastItem = params.itemsPerPage * params.page;
         requestHistory.add(params);
-        ui.update();
-    }
+        RequestLogUI.update();
+    };
 
     function setPagingOnParams(paramsFromUI) {
         // given keyword and filters, generate paging params based on request history
         var stdParams = standardizeParams(paramsFromUI);
         var storedParams = requestHistory.get(stdParams);
         var result;
-        if(storedParams) {
+        if (storedParams) {
             result = setPagingForRecurrentParams(storedParams);
         } else {
             result = setPagingForNewParams(stdParams);
@@ -62,7 +61,7 @@ function RequestLog(divId) {
         return params;
     }
 
-    function standardizeParams(params){
+    function standardizeParams(params) {
         // sort filters & their values so hash functions have same results regardless of order
         params.filters = sortFilters(params.filters);
         params.aspects = sortFilters(params.aspects);
@@ -73,7 +72,7 @@ function RequestLog(divId) {
         filters.forEach(sortValues);
         var names = filters.map(getName).sort(naturalSort);
         var map = mapAsObject(filters, getName);
-        return names.map(function(name) {
+        return names.map(function (name) {
             return map[name];
         })
     }
@@ -90,4 +89,5 @@ function RequestLog(divId) {
         return JSON.stringify(idFields);
     }
 
-}
+    return module;
+}());

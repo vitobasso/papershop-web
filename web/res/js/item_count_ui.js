@@ -2,25 +2,26 @@
  * Created by Victor on 18/07/2015.
  */
 
-function ItemCountUI() {
-
-    this.setFiltered = setFiltered;
-    this.setTotal = setTotal;
+var ItemCountUI = (function () {
+    var module = {};
 
     var total = 0, filtered = 0;
-    hide();
 
-    function setTotal(newTotal) {
+    module.init = function () {
+        hide();
+    };
+
+    module.setTotal = function (newTotal) {
         total = newTotal;
-        render();
-    }
+        show();
+    };
 
-    function setFiltered(newFiltered) {
+    module.setFiltered = function (newFiltered) {
         filtered = newFiltered;
-        render();
-    }
+        show();
+    };
 
-    function render() {
+    function show() {
         var text = "Showing " + filtered + " out of " + total + " known items.";
         $("#item-count").show().text(text);
     }
@@ -29,4 +30,5 @@ function ItemCountUI() {
         $("#item-count").hide();
     }
 
-}
+    return module;
+}());

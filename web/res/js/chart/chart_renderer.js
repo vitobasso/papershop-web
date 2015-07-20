@@ -1,8 +1,8 @@
 /**
  * Created by Victor on 30/06/2015.
  */
-
-function ChartRenderer() {
+var ChartRenderer = (function() {
+    var module = {};
 
     var chartDivId = "#chart";
     var margin = {top: 20, right: 20, bottom: 40, left: 40};
@@ -12,15 +12,22 @@ function ChartRenderer() {
     var yParam, xParam;
     var xScale, yScale;
     var axes, dataRenderer;
-    var dataLayout = new DataLayout(getTargetPosition);
+    var dataLayout;
     var _data;
 
-    this.setData = function (data) {
+    module.init = function() {
+        dataLayout = new DataLayout(getTargetPosition);
+
+        createCanvasFillingParent();
+        d3.select(window).on("resize", resize);
+    };
+
+    module.setData = function (data) {
         _data = data;
         populate();
     };
 
-    this.update = function (data, newYParam, newXParam) {
+    module.update = function (data, newYParam, newXParam) {
         yParam = newYParam;
         xParam = newXParam;
         _data = data;
@@ -28,9 +35,6 @@ function ChartRenderer() {
     };
 
     /////////////////////////////////////////////////////
-
-    createCanvasFillingParent();
-    d3.select(window).on("resize", resize);
 
     function createCanvasFillingParent() {
         var parent = d3.select(chartDivId).node();
@@ -185,4 +189,5 @@ function ChartRenderer() {
         return typeof scale.rangePoints === "function";
     }
 
-}
+    return module;
+}());

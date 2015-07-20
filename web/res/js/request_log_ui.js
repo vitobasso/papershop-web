@@ -1,25 +1,26 @@
 /**
  * Created by Victor on 15/07/2015.
  */
-function RequestLogUI(divId, requestLog) {
+var RequestLogUI = (function () {
+    var module = {};
 
-    this.update = update;
+    var divId = RequestLog.divId;
 
-    function update() {
-        var history = requestLog.getHistory();
+    module.update = function () {
+        var history = RequestLog.getHistory();
         if (history.length > 0) {
             $(divId).show();
             render(history);
         } else {
             hide();
         }
-    }
+    };
 
     function render(history) {
         var selEntries = d3.select(divId)
             .select("table")
             .select("tbody")
-            .selectAll("tr").data(history, requestLog.getHashKey);
+            .selectAll("tr").data(history, RequestLog.getHashKey);
         selEntries.call(renderRequestRow);
         selEntries.enter().append("tr")
             .call(renderRequestRow);
@@ -72,4 +73,5 @@ function RequestLogUI(divId, requestLog) {
         return params.lastItem;
     }
 
-}
+    return module;
+}());

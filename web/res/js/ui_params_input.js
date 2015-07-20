@@ -1,17 +1,16 @@
 /**
  * Created by Victor on 19/07/2015.
  */
-function UIParamsInput() {
+var UIParamsInput = (function() {
+    var module = {};
 
-    this.getParams = getParams;
-
-    function getParams() {
+    module.getParams = function () {
         return {
             keywords: $("#keywords").val(),
             filters: getFiltersFromUI(".common-filter"),
             aspects: getFiltersFromUI(".aspect-filter")
         };
-    }
+    };
 
     function getFiltersFromUI(filterClass) {
         var filters = [];
@@ -39,4 +38,5 @@ function UIParamsInput() {
         return filter.getValueId || getName;
     }
 
-}
+    return module;
+}());

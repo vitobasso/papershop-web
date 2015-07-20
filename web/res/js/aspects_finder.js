@@ -1,20 +1,24 @@
 /**
  * Created by Victor on 19/07/2015.
  */
-function AspectsFinder(categories) {
+var AspectsFinder = (function() {
+    var module = {};
 
-    this.find = find;
+    var api;
+    var filterUI;
 
-    var api = new EbayApi();
-    var filterUI = new FilterUI();
+    module.init = function () {
+        api = new EbayApi();
+        filterUI = new FilterUI();
+    };
 
-    function find(category) {
-        var categoryFromSet = categories.get(category);
+    module.find = function (category) {
+        var categoryFromSet = Categories.get(category);
         if (categoryFromSet.aspects.length == 0) {
             var callback = createHistogramsCallback(categoryFromSet);
             api.histograms({categoryId: category.id}, callback);
         }
-    }
+    };
 
     function createHistogramsCallback(category) {
         return function (aspects) {
@@ -41,4 +45,5 @@ function AspectsFinder(categories) {
         return map;
     }
 
-}
+    return module;
+}());

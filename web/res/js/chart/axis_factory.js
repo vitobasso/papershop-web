@@ -1,7 +1,7 @@
 /**
  * Created by Victor on 09/07/2015.
  */
-function AxisFactory(categories){
+function AxisFactory(){
 
     this.listOptions = listOptions;
 
@@ -23,8 +23,8 @@ function AxisFactory(categories){
         this.label = label;
         this.getProperty = getProperty;
         this.getScale = d3.scale.ordinal;
-        this.updateDomain = updateOrdinalDomain(this)
-        this.formatTick = ChartManager.replaceUndefined;
+        this.updateDomain = updateOrdinalDomain(this);
+        this.formatTick = ChartCommon.replaceUndefined;
     }
 
     this.priceAxis = new LinearAxis("Current Price (USD)",
@@ -47,7 +47,7 @@ function AxisFactory(categories){
 
     function listOptions() {
         var result = [conditionAxis, categoryAxis, listingTimeAxis];
-        categories.each(function (category) {
+        Categories.each(function (category) {
             category.aspects.forEach(function (aspect) {
                 result.push(createAspectAxis(aspect.name));
             });
@@ -72,7 +72,7 @@ function AxisFactory(categories){
 
     function updateOrdinalDomain(axis) {
         return function (scale, items) {
-            var values = ChartManager.findOrdinalDomain(items, axis.getProperty);
+            var values = ChartCommon.findOrdinalDomain(items, axis.getProperty);
             scale.domain(values);
         }
     }

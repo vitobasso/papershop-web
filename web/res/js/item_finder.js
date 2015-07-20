@@ -1,20 +1,22 @@
 /**
  * Created by Victor on 19/07/2015.
  */
-function ItemFinder(callback) {
+var ItemFinder = (function(){
+    var module = {};
 
-    this.find = find;
+    var api;
 
-    var input = new UIParamsInput();
-    var api = new EbayApi();
-    var requests = new RequestLog("#request-log");
+    module.init = function(){
+        api = new EbayApi();
+    };
 
-    function find() {
-        var params = requests.notifyNewRequestAndGetPaging(input.getParams());
+    module.find = function() {
+        var params = RequestLog.notifyNewRequestAndGetPaging(UIParamsInput.getParams());
         api.find(params, function (response) {
-            callback(params, response);
-            requests.notifyRequestSuccessful(params);
+            Main.updateChart(params, response);
+            RequestLog.notifyRequestSuccessful(params);
         });
-    }
+    };
 
-}
+    return module;
+}());

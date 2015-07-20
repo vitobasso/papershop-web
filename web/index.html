@@ -30,17 +30,18 @@
     <script src="res/js/ebay_api/url_builder.js"></script>
     <script src="res/js/ebay_api/response_parser.js"></script>
     <script src="res/js/filters/filter_ui.js"></script>
+    <script src="res/js/aspects_finder.js"></script>
     <script src="res/js/filters/filters_manager.js"></script>
     <script src="res/js/filters/categories_manager.js"></script>
-    <script src="res/js/chart/manager.js"></script>
+    <script src="res/js/chart/chart_common.js"></script>
     <script src="res/js/chart/chart_renderer.js"></script>
     <script src="res/js/chart/data_layout.js"></script>
     <script src="res/js/chart/data_renderer.js"></script>
     <script src="res/js/chart/axis_factory.js"></script>
+    <script src="res/js/chart/manager.js"></script>
     <script src="res/js/ui_params_input.js"></script>
     <script src="res/js/aspect_guess.js"></script>
     <script src="res/js/item_finder.js"></script>
-    <script src="res/js/aspects_finder.js"></script>
     <script src="res/js/item_filter.js"></script>
     <script src="res/js/request_log.js"></script>
     <script src="res/js/request_log_ui.js"></script>
@@ -86,7 +87,15 @@
 </div>
 
 <script>
-    var main = new Main();
+    Main.init();
+    ChartRenderer.init();
+    Categories.init();
+    ChartManager.init(); //FIXME depends on ChartRenderer & Categories
+    ItemCountUI.init();
+    ItemFinder.init();
+    RequestLog.init();
+    Filters.init();
+    AspectsFinder.init();
 </script>
 
 </body>

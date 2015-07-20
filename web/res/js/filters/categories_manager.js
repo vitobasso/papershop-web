@@ -1,23 +1,28 @@
 /**
  * Created by Victor on 01/07/2015.
  */
-function Categories() {
+var Categories = (function() {
+    var module = {};
 
-    var categoriesSet = new Set(getId);
-    var aspectsFinder = new AspectsFinder(this);
-    var filterUI = new FilterUI();
+    var categoriesSet;
+    var filterUI;
 
-    this.populate = function (items) {
+    module.init = function() {
+        categoriesSet = new Set(getId);
+        filterUI = new FilterUI();
+    };
+
+    module.populate = function (items) {
         var categoriesArray = uniqueCategories(items);
         categoriesSet.addAll(categoriesArray);
         populateCategories(categoriesArray);
     };
 
-    this.each = function (fun) {
+    module.each = function (fun) {
         categoriesSet.each(fun);
     };
 
-    this.get = function(category) {
+    module.get = function(category) {
         return categoriesSet.get(category);
     };
 
@@ -47,9 +52,10 @@ function Categories() {
         filterUI.populate([categoryFilter])
             .classed("common-filter", true)
             .selectAll("option")
-            .on("click", aspectsFinder.find);
+            .on("click", AspectsFinder.find);
 
-        aspectsFinder.find(categories[0]);
+        AspectsFinder.find(categories[0]);
     }
 
-}
+    return module;
+}());

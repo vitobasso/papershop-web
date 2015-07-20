@@ -1,43 +1,47 @@
 /**
  * Created by Victor on 05/07/2015.
  */
+var ChartManager = (function () {
+    var module = {};
 
-function ChartManager() {
-
-    var filters = new Filters(),
-        categories = new Categories(),
-        axes = new AxisFactory(categories),
-        renderer = new ChartRenderer(),
-        items = [];
+    var axes, items;
 
     var axisOptions, xAxis;
 
-    this.getCategory = function (category) {
-        return categories.get(category);
+    module.init = function() {
+        items = [];
+        axes = new AxisFactory();
+        axisOptions = axes.listOptions(); //FIXME depends on ChartRendere
+        xAxis = axisOptions[0];
+        buildChart(); //FIXME depends on ChartRenderer
     };
 
-    this.update = function (newItems) {
+    module.getCategory = function (category) {
+        return Categories.get(category);
+    };
+
+    module.update = function (newItems) {
         populateFilters(newItems);
-        this.setData(newItems);
+        module.setData(newItems);
         axisOptions = axes.listOptions();
     };
 
-    this.setData = function (newItems) {
+    module.setData = function (newItems) {
         items = newItems;
-        renderer.setData(items);
+        ChartRenderer.setData(items);
     };
 
     function buildChart() {
         if (items) {
-            renderer.update(items, axes.priceAxis, xAxis);
+            ChartRenderer.update(items, axes.priceAxis, xAxis);
         }
     }
 
     ////////////////////////////////////////////////////////////////////////
 
     function populateFilters(newItems) {
-        filters.populate();
-        categories.populate(newItems);
+        Filters.populate();
+        Categories.populate(newItems);
         setFilterTitleClickListener();
     }
 
@@ -50,32 +54,17 @@ function ChartManager() {
 
     function changeAxisByName(name) {
         var axis = axisOptions.find(labelEquals(name));
-        if(axis) {
+        if (axis) {
             xAxis = axis;
             buildChart();
         }
     }
 
     function labelEquals(name) {
-        return function(axis) {
+        return function (axis) {
             return axis.label == name
         }
     }
 
-    ////////////////////////////////////////////////////////////////////////
-
-    axisOptions = axes.listOptions();
-    xAxis = axisOptions[0];
-    buildChart();
-
-}
-
-ChartManager.findOrdinalDomain = function (data, getProperty) {
-    var uniqueValues = new Set();
-    uniqueValues.addMap(data, getProperty);
-    return uniqueValues.toArray().sort(naturalSort);
-};
-
-ChartManager.replaceUndefined = function (value) {
-    return value ? value : "?";
-};
+    return module;
+}());

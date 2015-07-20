@@ -1,7 +1,7 @@
 /**
  * Created by Victor on 08/07/2015.
  */
-function guessAspects(item, category) { //TODO create global name space?
+function guessAspects(item, category) { //FIXME module pattern
 
     var guesses = generateGuesses(item, category);
     setAspectGuessesToItem(guesses, item);
