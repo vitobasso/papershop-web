@@ -4,12 +4,9 @@
 var Main = (function () {
     var module = {};
 
-
     module.init = function() {
         ListenerAssigner.bindSearchFieldEvents();
     };
-
-    /////////////////////////////////////////////////////////
 
     module.applyFilters = function () {
         var items = Items.filter();

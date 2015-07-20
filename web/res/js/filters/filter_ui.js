@@ -25,7 +25,6 @@ var FilterUI = (function() {
         selFilter.append("select")
             .attr("id", getFilterId)
             .attr("multiple", true)
-            .on("change", Main.applyFilters)
             .each(populateOptions);
     }
 

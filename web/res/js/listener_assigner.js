@@ -26,6 +26,7 @@ var ListenerAssigner = (function () {
     module.bindFilterListeners = function () {
         bindFilterTitleClick();
         bindFilterOptionDblclick();
+        bindFilterSelectChange();
     };
 
     function bindFilterTitleClick() {
@@ -33,14 +34,17 @@ var ListenerAssigner = (function () {
             .off().on("click", function () {
                 var filterName = this.__data__.name;
                 ChartManager.changeAxisByName(filterName);
-        })
+            })
     }
 
     function bindFilterOptionDblclick() {
         $("#filters").find("div.filter option")
-            .off().on("dblclick",
-                ItemFinder.find
-        )
+            .off("dblclick").on("dblclick", ItemFinder.find);
+    }
+
+    function bindFilterSelectChange() {
+        $("#filters").find("div.filter select")
+            .off("change").on("change", Main.applyFilters);
     }
 
     return module;
