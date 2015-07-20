@@ -74,7 +74,7 @@ function DataLayout(getTargetPosition) {
         };
     }
 
-    function  respectBounds(points, bounds){
+    function respectBounds(points, bounds){
         points.forEach(function(point) {
             point.x = fitNumber(point.x, bounds.x + radius, bounds.width - radius);
             point.y = fitNumber(point.y, bounds.y + radius, bounds.height - radius);

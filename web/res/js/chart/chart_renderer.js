@@ -90,8 +90,8 @@ var ChartRenderer = (function() {
 
     function getDataBounds() {
         return {
-            x: margin.left,
-            y: margin.top,
+            x: 0,
+            y: 0,
             width: width,
             height: height
         }
