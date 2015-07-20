@@ -3,12 +3,12 @@
  */
 function Categories() {
 
-    var api = new EbayApi();
     var categoriesSet = new Set(getId);
+    var aspectsFinder = new AspectsFinder(this);
     var filterUI = new FilterUI();
 
-    this.populate = function (itens) {
-        var categoriesArray = uniqueCategories(itens);
+    this.populate = function (items) {
+        var categoriesArray = uniqueCategories(items);
         categoriesSet.addAll(categoriesArray);
         populateCategories(categoriesArray);
     };
@@ -47,42 +47,9 @@ function Categories() {
         filterUI.populate([categoryFilter])
             .classed("common-filter", true)
             .selectAll("option")
-            .on("click", fetchAspects);
+            .on("click", aspectsFinder.find);
 
-        fetchAspects(categories[0]);
-    }
-
-    function fetchAspects(category) {
-        var categoryFromSet = categoriesSet.get(category);
-        if (categoryFromSet.aspects.length == 0) {
-            var callback = createHistogramsCallback(categoryFromSet);
-            api.histograms({categoryId: category.id}, callback);
-        }
-    }
-
-    function createHistogramsCallback(category) {
-        return function (aspects) {
-            rememberAspects(category, aspects);
-            filterUI.populate(aspects)
-                .classed("aspect-filter", true);
-        };
-    }
-
-    function rememberAspects(category, aspects) {
-        category.aspects = aspects;
-        category.aspectValuesMap = mapAspectValues(aspects);
-        var values = Object.keys(category.aspectValuesMap);
-        category.fuzzyValues = FuzzySet(values);
-    }
-
-    function mapAspectValues(aspects) {
-        var map = {};
-        for (var i = 0, aspect; aspect = aspects[i]; i++) {
-            for (var j = 0, partition; partition = aspect.values[j]; j++) {
-                map[partition.name] = aspect;
-            }
-        }
-        return map;
+        aspectsFinder.find(categories[0]);
     }
 
 }

@@ -1,7 +1,7 @@
 /**
  * Created by Victor on 19/07/2015.
  */
-function ItemFinder(updateChart) {
+function ItemFinder(callback) {
 
     this.find = find;
 
@@ -12,7 +12,7 @@ function ItemFinder(updateChart) {
     function find() {
         var params = requests.notifyNewRequestAndGetPaging(input.getParams());
         api.find(params, function (response) {
-            updateChart(params, response);
+            callback(params, response);
             requests.notifyRequestSuccessful(params);
         });
     }

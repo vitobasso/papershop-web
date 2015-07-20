@@ -5,7 +5,7 @@ function Main() {
 
     var allItems = new Set(getId);
     var itemCount = new ItemCountUI();
-    var ebayChart = new EbayChart();
+    var chartManager = new EbayChart();
     var input = new UIParamsInput();
     var itemFinder = new ItemFinder(updateChart);
 
@@ -38,7 +38,7 @@ function Main() {
     this.applyFilters = function () {
         var items = filterItems();
         itemCount.setFiltered(items.length);
-        ebayChart.setData(items);
+        chartManager.setData(items);
     };
 
     function updateChart(requestParams, newItems) {
@@ -47,8 +47,12 @@ function Main() {
         addItems(newItems);
         var items = filterItems();
         itemCount.setFiltered(items.length);
-        ebayChart.update(items);
+        chartManager.update(items);
         addFilterOptionDbClickListener();
+    }
+
+    function addFilterOptionDbClickListener() {
+        $("#filters").find("div.filter option").dblclick(itemFinder.find);
     }
 
     function filterItems() {
@@ -57,15 +61,11 @@ function Main() {
         return allItems.filter(filterFunction);
     }
 
-    function addFilterOptionDbClickListener() {
-        $("#filters").find("div.filter option").dblclick(itemFinder.find);
-    }
-
     ////////////////////////////////////////////////////////////
 
     function guessAspectsFromTitle(newItems) {
         newItems.forEach(function (item) {
-            var category = ebayChart.getCategory(item.category);
+            var category = chartManager.getCategory(item.category);
             if (category && category.fuzzyValues) {
                 guessAspects(item, category);
             }
