@@ -31,13 +31,21 @@ var AxisFactory = (function (){
             return item.price.value;
         });
 
-    var listingTimeAxis = new TimeAxis("Listing Begin",
+    var startAxis = new TimeAxis("Start",
         function (item) {
-            return item.listingTime;
+            return item.start;
+        });
+    var endAxis = new TimeAxis("End",
+        function (item) {
+            return item.end;
         });
     var conditionAxis = new OrdinalAxis("Condition",
         function (item) {
             return item.condition.name;
+        });
+    var listingTypeAxis = new OrdinalAxis("ListingType",
+        function (item) {
+            return item.listingType;
         });
     var categoryAxis = new OrdinalAxis("Category",
         function (item) {
@@ -45,7 +53,7 @@ var AxisFactory = (function (){
         });
 
     module.listOptions = function() {
-        var result = [conditionAxis, categoryAxis, listingTimeAxis];
+        var result = [conditionAxis, listingTypeAxis, startAxis, endAxis, categoryAxis];
         Categories.each(function (category) {
             category.aspects.forEach(function (aspect) {
                 result.push(createAspectAxis(aspect.name));
