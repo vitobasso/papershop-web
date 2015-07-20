@@ -2,7 +2,7 @@
  * Created by Victor on 05/07/2015.
  */
 
-function EbayChart() {
+function ChartManager() {
 
     var filters = new Filters(),
         categories = new Categories(),
@@ -70,12 +70,12 @@ function EbayChart() {
 
 }
 
-EbayChart.findOrdinalDomain = function (data, getProperty) {
+ChartManager.findOrdinalDomain = function (data, getProperty) {
     var uniqueValues = new Set();
     uniqueValues.addMap(data, getProperty);
     return uniqueValues.toArray().sort(naturalSort);
 };
 
-EbayChart.replaceUndefined = function (value) {
+ChartManager.replaceUndefined = function (value) {
     return value ? value : "?";
 };

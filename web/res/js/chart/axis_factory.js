@@ -24,7 +24,7 @@ function AxisFactory(categories){
         this.getProperty = getProperty;
         this.getScale = d3.scale.ordinal;
         this.updateDomain = updateOrdinalDomain(this)
-        this.formatTick = EbayChart.replaceUndefined;
+        this.formatTick = ChartManager.replaceUndefined;
     }
 
     this.priceAxis = new LinearAxis("Current Price (USD)",
@@ -72,7 +72,7 @@ function AxisFactory(categories){
 
     function updateOrdinalDomain(axis) {
         return function (scale, items) {
-            var values = EbayChart.findOrdinalDomain(items, axis.getProperty);
+            var values = ChartManager.findOrdinalDomain(items, axis.getProperty);
             scale.domain(values);
         }
     }

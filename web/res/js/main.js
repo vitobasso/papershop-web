@@ -5,7 +5,7 @@ function Main() {
 
     var allItems = new Set(getId);
     var itemCount = new ItemCountUI();
-    var chartManager = new EbayChart();
+    var chartManager = new ChartManager();
     var input = new UIParamsInput();
     var itemFinder = new ItemFinder(updateChart);
 
