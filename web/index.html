@@ -30,7 +30,7 @@
     <script src="res/js/ebay_api/url_builder.js"></script>
     <script src="res/js/ebay_api/response_parser.js"></script>
     <script src="res/js/filters/filter_ui.js"></script>
-    <script src="res/js/aspects_finder.js"></script>
+    <script src="res/js/filters/aspects_finder.js"></script>
     <script src="res/js/filters/filters_manager.js"></script>
     <script src="res/js/filters/categories_manager.js"></script>
     <script src="res/js/chart/chart_common.js"></script>
@@ -46,6 +46,7 @@
     <script src="res/js/request_log.js"></script>
     <script src="res/js/request_log_ui.js"></script>
     <script src="res/js/item_count_ui.js"></script>
+    <script src="res/js/listener_assigner.js"></script>
     <script src="res/js/main.js"></script>
 
 </head>
@@ -57,8 +58,8 @@
 
         <div id="controls">
             <div id="keyword-div">
-                <input type="text" id="keywords" placeholder="Keywords" value="laptop"/>
-                <button id="request-button">Search</button>
+                <input type="text" id="search-field" placeholder="Keywords"/>
+                <button id="search-button">Search</button>
             </div>
             <p id="item-count"></p>
             <div id="request-log">

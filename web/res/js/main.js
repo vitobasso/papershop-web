@@ -8,7 +8,7 @@ var Main = (function () {
 
     module.init = function() {
         allItems = new Set(getId);
-        setSearchFieldListeners();
+        ListenerAssigner.assignSearchFieldListeners();
     };
 
     function addItems(newItems) {
@@ -26,18 +26,6 @@ var Main = (function () {
 
     /////////////////////////////////////////////////////////
 
-    function setSearchFieldListeners() {
-        $("#request-button").on("click", ItemFinder.find);
-
-        $("#keywords, #items-per-page, #page").keyup(function (e) {
-            if (e.keyCode == 13) {
-                $("#request-button").click();
-            }
-        });
-    }
-
-    /////////////////////////////////////////////////////////
-
     module.applyFilters = function () {
         var items = filterItems();
         ItemCountUI.setFiltered(items.length);
@@ -51,12 +39,7 @@ var Main = (function () {
         var items = filterItems();
         ItemCountUI.setFiltered(items.length);
         ChartManager.update(items);
-        addFilterOptionDbClickListener();
     };
-
-    function addFilterOptionDbClickListener() {
-        $("#filters").find("div.filter option").dblclick(ItemFinder.find);
-    }
 
     function filterItems() {
         var params = UIParamsInput.getParams();

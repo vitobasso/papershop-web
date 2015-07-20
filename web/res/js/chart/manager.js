@@ -40,23 +40,15 @@ var ChartManager = (function () {
     function populateFilters(newItems) {
         Filters.populate();
         Categories.populate(newItems);
-        setFilterTitleClickListener();
     }
 
-    function setFilterTitleClickListener() {
-        $("#filters").find("> .filter").on("click", function (e) {
-            var filterName = this.__data__.name;
-            changeAxisByName(filterName);
-        });
-    }
-
-    function changeAxisByName(name) {
+    module.changeAxisByName = function(name) {
         var axis = axisOptions.find(labelEquals(name));
         if (axis) {
             xAxis = axis;
             buildChart();
         }
-    }
+    };
 
     function labelEquals(name) {
         return function (axis) {

@@ -6,7 +6,7 @@ var UIParamsInput = (function() {
 
     module.getParams = function () {
         return {
-            keywords: $("#keywords").val(),
+            keywords: $("#search-field").val(),
             filters: getFiltersFromUI(".common-filter"),
             aspects: getFiltersFromUI(".aspect-filter")
         };
