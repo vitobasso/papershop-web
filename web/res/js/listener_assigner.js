@@ -4,40 +4,42 @@
 var ListenerAssigner = (function () {
     var module = {};
 
-    module.assignSearchFieldListeners = function () {
-        onSearchButtonClick();
-        onSearchFieldKeyup();
+    module.bindSearchFieldEvents = function () {
+        bindSearchButtonClick();
+        bindSearchFieldKeyup();
     };
 
-    function onSearchButtonClick() {
-        $("#search-button").click(
+    function bindSearchButtonClick() {
+        $("#search-button").off().on("click",
             ItemFinder.find
         );
     }
 
-    function onSearchFieldKeyup() {
-        $("#search-field").keyup(function (e) {
+    function bindSearchFieldKeyup() {
+        $("#search-field").off().on("keyup", function (e) {
             if (e.keyCode == 13) {
-                $("#request-button").click();
+                $("#search-button").click();
             }
         });
     }
 
-    module.assignFilterListeners = function () {
-        onFilterTitleClick();
-        onFilterOptionDblclick();
+    module.bindFilterListeners = function () {
+        bindFilterTitleClick();
+        bindFilterOptionDblclick();
     };
 
-    function onFilterTitleClick() {
-        $("#filters").find("> .filter").find("> .title").click(function () {
-            var filterName = this.__data__.name;
-            ChartManager.changeAxisByName(filterName);
+    function bindFilterTitleClick() {
+        $("#filters").find("> .filter").find("> .title")
+            .off().on("click", function () {
+                var filterName = this.__data__.name;
+                ChartManager.changeAxisByName(filterName);
         })
     }
 
-    function onFilterOptionDblclick() {
-        $("#filters").find("div.filter option").dblclick(
-            ItemFinder.find
+    function bindFilterOptionDblclick() {
+        $("#filters").find("div.filter option")
+            .off().on("dblclick",
+                ItemFinder.find
         )
     }
 

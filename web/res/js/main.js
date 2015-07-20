@@ -8,7 +8,7 @@ var Main = (function () {
 
     module.init = function() {
         allItems = new Set(getId);
-        ListenerAssigner.assignSearchFieldListeners();
+        ListenerAssigner.bindSearchFieldEvents();
     };
 
     function addItems(newItems) {

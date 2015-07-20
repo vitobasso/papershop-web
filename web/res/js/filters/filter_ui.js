@@ -7,7 +7,7 @@ var FilterUI = (function() {
     module.populate = function (filters) {
         populateFilters(filters);
         updateOptions(filters);
-        ListenerAssigner.assignFilterListeners();
+        ListenerAssigner.bindFilterListeners();
         return selectDivs(filters);
     };
 
