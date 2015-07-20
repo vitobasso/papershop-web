@@ -22,7 +22,7 @@ var AspectsFinder = (function() {
         return function (aspects) {
             rememberAspects(category, aspects);
             ChartManager.updateAxisOptions();
-            //TODO guess aspects for all items in category
+            guessAspectsForOldItems(category);
             FilterUI.populate(aspects)
                 .classed("aspect-filter", true);
         };
@@ -43,6 +43,11 @@ var AspectsFinder = (function() {
             }
         }
         return map;
+    }
+
+    function guessAspectsForOldItems(category) {
+        var items = Items.getByCategory(category);
+        AspectGuesser.guessAspectsFromTitle(items);
     }
 
     return module;

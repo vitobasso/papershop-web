@@ -29,5 +29,15 @@ var Items = (function () {
         return allItems.filter(filterFunction);
     };
 
+    module.getByCategory = function (category){
+        return allItems.filter(isCategoryEqual(category))
+    };
+
+    function isCategoryEqual(category) {
+        return function(item) {
+            return item.category.id == category.id;
+        };
+    }
+
     return module;
 }());

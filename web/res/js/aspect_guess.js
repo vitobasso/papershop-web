@@ -66,7 +66,11 @@ var AspectGuesser = (function () {
     function setAspectGuessesToItem(guesses, item) {
         for (var aspectName in guesses) {
             if (guesses.hasOwnProperty(aspectName)) {
-                item.aspects[aspectName] = guesses[aspectName];
+                var newGuess = guesses[aspectName];
+                var previous = item.aspects[aspectName];
+                if(!previous || previous.confidence < newGuess.confidence) {
+                    item.aspects[aspectName] = newGuess;
+                }
             }
         }
     }
