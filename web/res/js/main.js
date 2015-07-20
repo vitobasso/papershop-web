@@ -4,59 +4,29 @@
 var Main = (function () {
     var module = {};
 
-    var allItems;
 
     module.init = function() {
-        allItems = new Set(getId);
         ListenerAssigner.bindSearchFieldEvents();
     };
-
-    function addItems(newItems) {
-        allItems.addMergeAll(newItems, mergeItems);
-        ItemCountUI.setTotal(allItems.size());
-    }
-
-    function mergeItems(oldItem, newItem) {
-        for (var key in  newItem.aspects) {
-            if (newItem.aspects.hasOwnProperty(key)) {
-                oldItem.aspects[key] = newItem.aspects[key];
-            }
-        }
-    }
 
     /////////////////////////////////////////////////////////
 
     module.applyFilters = function () {
-        var items = filterItems();
+        var items = Items.filter();
         ItemCountUI.setFiltered(items.length);
         ChartManager.setData(items);
     };
 
     module.updateChart = function(requestParams, newItems) {
-        guessAspectsFromTitle(newItems);
+        AspectGuesser.guessAspectsFromTitle(newItems);
         rememberAspectsFromRequest(requestParams, newItems);
-        addItems(newItems);
-        var items = filterItems();
+        Items.add(newItems);
+        var items = Items.filter();
         ItemCountUI.setFiltered(items.length);
-        ChartManager.update(items);
+        ChartManager.onNewItems(items);
     };
 
-    function filterItems() {
-        var params = UIParamsInput.getParams();
-        var filterFunction = new ItemFilter(params).filter;
-        return allItems.filter(filterFunction);
-    }
-
     ////////////////////////////////////////////////////////////
-
-    function guessAspectsFromTitle(newItems) {
-        newItems.forEach(function (item) {
-            var category = ChartManager.getCategory(item.category);
-            if (category && category.fuzzyValues) {
-                guessAspects(item, category);
-            }
-        });
-    }
 
     function rememberAspectsFromRequest(requestParams, newItems) {
         var requestAspects = getAspectsFromRequest(requestParams);

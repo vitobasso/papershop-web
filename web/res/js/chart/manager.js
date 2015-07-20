@@ -9,24 +9,24 @@ var ChartManager = (function () {
 
     module.init = function() {
         items = [];
-        axisOptions = AxisFactory.listOptions(); //FIXME depends on Categories
+        module.updateAxisOptions(); //FIXME depends on Categories
         xAxis = axisOptions[0];
         buildChart(); //FIXME depends on ChartRenderer
     };
 
-    module.getCategory = function (category) {
-        return Categories.get(category);
-    };
-
-    module.update = function (newItems) {
+    module.onNewItems = function (newItems) {
         populateFilters(newItems);
+        module.updateAxisOptions();
         module.setData(newItems);
-        axisOptions = AxisFactory.listOptions();
     };
 
     module.setData = function (newItems) {
         items = newItems;
         ChartRenderer.setData(items);
+    };
+
+    module.updateAxisOptions = function() {
+        axisOptions = AxisFactory.listOptions();
     };
 
     function buildChart() {

@@ -21,6 +21,8 @@ var AspectsFinder = (function() {
     function createHistogramsCallback(category) {
         return function (aspects) {
             rememberAspects(category, aspects);
+            ChartManager.updateAxisOptions();
+            //TODO guess aspects for all items in category
             FilterUI.populate(aspects)
                 .classed("aspect-filter", true);
         };

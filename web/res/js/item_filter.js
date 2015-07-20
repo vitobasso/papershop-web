@@ -1,11 +1,16 @@
 /**
  * Created by Victor on 11/07/2015.
  */
-function ItemFilter(params) {
+var ItemFilter = (function () {
+    var module = {};
 
-    this.filter = filterItem;
+    module.createFilter = function (params) {
+        return function(item) {
+            return filterItem(item, params);
+        }
+    };
 
-    function filterItem(item) {
+    function filterItem(item, params) {
         return satisfiesFilters(item, params.filters)
             && satisfiesFilters(item, params.aspects);
     }
@@ -52,4 +57,5 @@ function ItemFilter(params) {
         }
     }
 
-}
+    return module;
+}());

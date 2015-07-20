@@ -1,10 +1,22 @@
 /**
  * Created by Victor on 08/07/2015.
  */
-function guessAspects(item, category) { //FIXME module pattern
+var AspectGuesser = (function () {
+    var module = {};
 
-    var guesses = generateGuesses(item, category);
-    setAspectGuessesToItem(guesses, item);
+    module.guessAspectsFromTitle = function (newItems) {
+        newItems.forEach(function (item) {
+            var category = Categories.get(item.category);
+            if (category && category.fuzzyValues) {
+                guessAspects(item, category);
+            }
+        });
+    };
+
+    function guessAspects(item, category) {
+        var guesses = generateGuesses(item, category);
+        setAspectGuessesToItem(guesses, item);
+    }
 
     function generateGuesses(item, category) {
         var bestGuesses = {};
@@ -59,4 +71,5 @@ function guessAspects(item, category) { //FIXME module pattern
         }
     }
 
-}
+    return module;
+}());
