@@ -5,11 +5,9 @@ var Categories = (function() {
     var module = {};
 
     var categoriesSet;
-    var filterUI;
 
     module.init = function() {
         categoriesSet = new Set(getId);
-        filterUI = new FilterUI();
     };
 
     module.populate = function (items) {
@@ -49,7 +47,7 @@ var Categories = (function() {
             getValueId: getId
         };
 
-        filterUI.populate([categoryFilter])
+        FilterUI.populate([categoryFilter])
             .classed("common-filter", true)
             .selectAll("option")
             .on("click", AspectsFinder.find);

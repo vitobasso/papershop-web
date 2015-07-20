@@ -5,11 +5,9 @@ var AspectsFinder = (function() {
     var module = {};
 
     var api;
-    var filterUI;
 
     module.init = function () {
         api = new EbayApi();
-        filterUI = new FilterUI();
     };
 
     module.find = function (category) {
@@ -23,7 +21,7 @@ var AspectsFinder = (function() {
     function createHistogramsCallback(category) {
         return function (aspects) {
             rememberAspects(category, aspects);
-            filterUI.populate(aspects)
+            FilterUI.populate(aspects)
                 .classed("aspect-filter", true);
         };
     }

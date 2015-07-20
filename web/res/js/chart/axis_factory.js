@@ -1,9 +1,8 @@
 /**
  * Created by Victor on 09/07/2015.
  */
-function AxisFactory(){
-
-    this.listOptions = listOptions;
+var AxisFactory = (function (){
+    var module = {};
 
     function LinearAxis(label, getProperty) {
         this.label = label;
@@ -27,7 +26,7 @@ function AxisFactory(){
         this.formatTick = ChartCommon.replaceUndefined;
     }
 
-    this.priceAxis = new LinearAxis("Current Price (USD)",
+    module.priceAxis = new LinearAxis("Current Price (USD)",
         function (item) {
             return item.price.value;
         });
@@ -45,7 +44,7 @@ function AxisFactory(){
             return item.category.name;
         });
 
-    function listOptions() {
+    module.listOptions = function() {
         var result = [conditionAxis, categoryAxis, listingTimeAxis];
         Categories.each(function (category) {
             category.aspects.forEach(function (aspect) {
@@ -53,7 +52,7 @@ function AxisFactory(){
             });
         });
         return result;
-    }
+    };
 
     function createAspectAxis(aspectName) {
         return new OrdinalAxis(aspectName,
@@ -77,4 +76,5 @@ function AxisFactory(){
         }
     }
 
-}
+    return module;
+}());

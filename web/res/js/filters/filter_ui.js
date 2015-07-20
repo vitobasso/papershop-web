@@ -1,9 +1,10 @@
 /**
  * Created by Victor on 11/07/2015.
  */
-function FilterUI() {
+var FilterUI = (function() {
+    var module = {};
 
-    this.populate = function (filters) {
+    module.populate = function (filters) {
         populateFilters(filters);
         updateOptions(filters);
         return selectDivs(filters);
@@ -55,4 +56,5 @@ function FilterUI() {
         return "filter-" + filter.name;
     }
 
-}
+    return module;
+}());

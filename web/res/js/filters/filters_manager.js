@@ -4,8 +4,6 @@
 var Filters = (function() {
     var module = {};
 
-    var filterUI;
-
     var filters = [
         {
             name: "Condition",
@@ -38,12 +36,8 @@ var Filters = (function() {
         }
     ];
 
-    module.init = function(){
-        filterUI = new FilterUI();
-    };
-
     module.populate = function () {
-        filterUI.populate(filters)
+        FilterUI.populate(filters)
             .classed("common-filter", true);
     };
 

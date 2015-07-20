@@ -12,7 +12,6 @@ var RequestLog = (function () {
 
     module.init = function () {
         requestHistory = new Set(stringifyIdFields);
-        RequestLogUI.update(); //init hidden
     };
 
     module.getHistory = function () {

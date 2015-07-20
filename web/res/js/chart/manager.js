@@ -4,14 +4,12 @@
 var ChartManager = (function () {
     var module = {};
 
-    var axes, items;
-
+    var items;
     var axisOptions, xAxis;
 
     module.init = function() {
         items = [];
-        axes = new AxisFactory();
-        axisOptions = axes.listOptions(); //FIXME depends on ChartRendere
+        axisOptions = AxisFactory.listOptions(); //FIXME depends on Categories
         xAxis = axisOptions[0];
         buildChart(); //FIXME depends on ChartRenderer
     };
@@ -23,7 +21,7 @@ var ChartManager = (function () {
     module.update = function (newItems) {
         populateFilters(newItems);
         module.setData(newItems);
-        axisOptions = axes.listOptions();
+        axisOptions = AxisFactory.listOptions();
     };
 
     module.setData = function (newItems) {
@@ -33,7 +31,7 @@ var ChartManager = (function () {
 
     function buildChart() {
         if (items) {
-            ChartRenderer.update(items, axes.priceAxis, xAxis);
+            ChartRenderer.update(items, AxisFactory.priceAxis, xAxis);
         }
     }
 

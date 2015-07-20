@@ -6,6 +6,10 @@ var RequestLogUI = (function () {
 
     var divId = RequestLog.divId;
 
+    module.init = function() {
+        module.update(); //hide if empty
+    };
+
     module.update = function () {
         var history = RequestLog.getHistory();
         if (history.length > 0) {
