@@ -42,3 +42,11 @@ function EbayApi() {
 }
 
 EbayApi.dateFormat = d3.time.format("%Y-%m-%dT%H:%M:%S.%LZ");
+
+EbayApi.dateToString = function(date) {
+    return EbayApi.dateFormat(toUTC(date))
+};
+
+EbayApi.stringToDate = function(string) {
+    return toLocal(EbayApi.dateFormat.parse(string));
+};

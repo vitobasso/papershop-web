@@ -39,6 +39,17 @@ Array.prototype.count = function(predicate) {
 
 //////////////////////////////////////////////////////////////////
 
+toUTC = function(datetime) {
+    var millis = datetime.getTime() + (datetime.getTimezoneOffset() * 60000);
+    return new Date(millis);
+};
+
+toLocal = function(utc) {
+    var localOffset = new Date().getTimezoneOffset() * 60000;
+    var millis = utc.getTime() - localOffset;
+    return new Date(millis);
+};
+
 getDate = function(datetime) {
     return datetime.setHours(0,0,0,0);
 };

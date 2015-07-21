@@ -25,7 +25,7 @@ function EbayResponseParser() {
             aspects: {},
             condition: parseCondition(item),
             listingType: listing.listingType[0],
-            end: EbayApi.dateFormat.parse(endStr),
+            end: EbayApi.stringToDate(endStr),
             price: {
                 currency: price["@currencyId"],
                 value: +price.__value__

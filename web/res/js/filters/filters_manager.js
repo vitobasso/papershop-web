@@ -71,7 +71,7 @@ var Filters = (function () {
             var selected = param.selected[0];
             var now = new Date();
             var toDate = selected.getTime(now);
-            var dateStr = EbayApi.dateFormat(toDate);
+            var dateStr = EbayApi.dateToString(toDate);
             result += buildItemFilterUrlParam(i, "EndTimeTo", dateStr);
         }
         return result;
