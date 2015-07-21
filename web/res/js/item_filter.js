@@ -41,15 +41,13 @@ var ItemFilter = (function () {
         var filterName = filterParam.filter.name;
         var getProperty = itemPropertyIdGetter(filterName);
         var property = getProperty(item);
-        var filterValues = mapFilterSelectionToComparableValues(filterParam);
+        var filterValues = filterSelectionIds(filterParam);
         return filterValues.contains(property);
     }
 
-    function mapFilterSelectionToComparableValues(filterParam) {
-        var getter = filterParam.filter.getValueId || getName;
-        return filterParam.selected.map(function(filterValue){
-            return getter(filterValue);
-        });
+    function filterSelectionIds(filterParam) {
+        var getId = filterParam.filter.getValueId;
+        return filterParam.selected.map(getId);
     }
 
     function itemPropertyIdGetter(propertyName) {

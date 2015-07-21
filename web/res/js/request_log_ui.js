@@ -66,7 +66,7 @@ var RequestLogUI = (function () {
     }
 
     function getFilterString(filterParam) {
-        var getLabel = filterParam.filter.getValueLabel || getName;
+        var getLabel = filterParam.filter.getValueLabel;
         var labels = filterParam.selected.map(getLabel);
         return labels.join(", ");
     }

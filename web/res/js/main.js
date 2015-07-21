@@ -48,7 +48,7 @@ var Main = (function () {
         var aspectsMap = {};
         singleValueAspects.forEach(function (aspect) {
             var name = aspect.filter.name;
-            aspectsMap[name] = aspect.selected[0].name;
+            aspectsMap[name] = aspect.selected[0];
         });
         return aspectsMap;
     }

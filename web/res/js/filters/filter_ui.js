@@ -35,7 +35,7 @@ var FilterUI = (function() {
     }
 
     function populateOptions(filter) {
-        var getLabel = labelGetter(filter);
+        var getLabel = filter.getValueLabel;
         d3.select(this)
             .selectAll("option").data(filter.values, getLabel)
             .enter()
@@ -46,10 +46,6 @@ var FilterUI = (function() {
     function selectDivs(filters) {
         return d3.select("#filters")
             .selectAll("div.filter").data(filters, getName);
-    }
-
-    function labelGetter(filter) {
-        return filter.getValueLabel || getName;
     }
 
     function getFilterId(filter) {

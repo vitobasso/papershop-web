@@ -49,7 +49,7 @@ var Filters = (function () {
                 {name: "In 30 days",     getTime: timeCalc(addDays, 30)}
             ],
             getValueLabel: getName,
-            getValueId: getId,
+            getValueId: getName,
             satisfies: satisfiesEnd,
             buildUrlParam: buildEndUrlParam
         }
@@ -62,12 +62,6 @@ var Filters = (function () {
             var limit = selected.getTime(now);
             return item.end <= limit;
         }
-    }
-
-    function timeCalc(fun, secondArg) {
-        return function(now){
-            return fun(now, secondArg);
-        };
     }
 
     function buildEndUrlParam(param, itemFilterIndex) {
@@ -86,6 +80,12 @@ var Filters = (function () {
     function buildItemFilterUrlParam(i, name, value) {
         return "&itemFilter(" + i + ").name=" + name
             + "&itemFilter(" + i + ").value(0)=" + value;
+    }
+
+    function timeCalc(fun, secondArg) {
+        return function(now){
+            return fun(now, secondArg);
+        };
     }
 
     return module;

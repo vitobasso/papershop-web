@@ -77,7 +77,7 @@ function EbayUrlBuilder() {
     function buildFilter(filterParam, i, paramBuilder) {
         var result = paramBuilder.nameParam(i, filterParam.filter.name);
 
-        var getId = filterParam.filter.getValueId || getName;
+        var getId = filterParam.filter.getValueId;
         var values = filterParam.selected.map(getId);
         values.forEach(function (value, j) {
             result += paramBuilder.valueParam(i, j, value);

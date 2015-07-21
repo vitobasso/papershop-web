@@ -56,10 +56,7 @@ function EbayResponseParser() {
             return {
                 name: aspect['@name'],
                 values: aspect.valueHistogram.map(function (histogram) {
-                    return {
-                        name: histogram['@valueName'],
-                        count: histogram.count[0] //TODO remove
-                    }
+                    return histogram['@valueName'];
                 })
             }
         });

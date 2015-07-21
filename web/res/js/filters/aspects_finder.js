@@ -20,12 +20,20 @@ var AspectsFinder = (function() {
 
     function createHistogramsCallback(category) {
         return function (aspects) {
+            addFilterProperties(aspects);
             rememberAspects(category, aspects);
             ChartManager.updateAxisOptions();
             guessAspectsForOldItems(category);
             FilterUI.populate(aspects)
                 .classed("aspect-filter", true);
         };
+    }
+
+    function addFilterProperties(aspects) {
+        aspects.forEach(function(aspect) {
+            aspect["getValueLabel"] = identity;
+            aspect["getValueId"] = identity;
+        });
     }
 
     function rememberAspects(category, aspects) {
@@ -38,8 +46,8 @@ var AspectsFinder = (function() {
     function mapAspectValues(aspects) {
         var map = {};
         for (var i = 0, aspect; aspect = aspects[i]; i++) {
-            for (var j = 0, partition; partition = aspect.values[j]; j++) {
-                map[partition.name] = aspect;
+            for (var j = 0, value; value = aspect.values[j]; j++) {
+                map[value] = aspect;
             }
         }
         return map;
