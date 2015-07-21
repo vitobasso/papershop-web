@@ -31,10 +31,6 @@ var AxisFactory = (function (){
             return item.price.value;
         });
 
-    var startAxis = new TimeAxis("Start",
-        function (item) {
-            return item.start;
-        });
     var endAxis = new TimeAxis("End",
         function (item) {
             return item.end;
@@ -53,7 +49,7 @@ var AxisFactory = (function (){
         });
 
     module.listOptions = function() {
-        var result = [conditionAxis, listingTypeAxis, startAxis, endAxis, categoryAxis];
+        var result = [conditionAxis, listingTypeAxis, endAxis, categoryAxis];
         Categories.each(function (category) {
             category.aspects.forEach(function (aspect) {
                 result.push(createAspectAxis(aspect.name));
@@ -73,7 +69,7 @@ var AxisFactory = (function (){
     function updateLinearDomain(axis) {
         return function (scale, items) {
             var domain = d3.extent(items, axis.getProperty);
-            scale.domain(domain).nice();
+            scale.domain(domain);
         }
     }
 

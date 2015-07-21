@@ -13,7 +13,6 @@ function EbayResponseParser() {
 
     function parseFindItem(item) {
         var listing = item.listingInfo[0];
-        var startStr = listing.startTime[0];
         var endStr = listing.endTime[0];
         var category = item.primaryCategory[0];
         var price = item.sellingStatus[0].currentPrice[0];
@@ -27,7 +26,6 @@ function EbayResponseParser() {
             aspects: {},
             condition: parseCondition(item),
             listingType: listing.listingType[0],
-            start: dateFormat.parse(startStr),
             end: dateFormat.parse(endStr),
             price: {
                 currency: price["@currencyId"],

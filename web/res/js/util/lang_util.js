@@ -32,3 +32,21 @@ Array.prototype.find = function (test, ctx) {
 Array.prototype.contains = function (element) {
     return this.indexOf(element) > -1;
 };
+
+//////////////////////////////////////////////////////////////////
+
+getDate = function(datetime) {
+    return datetime.setHours(0,0,0,0);
+};
+
+addMinutes = function(datetime, value) {
+    return new Date(datetime.getTime() + value*60*1000);
+};
+
+addHours = function(datetime, value) {
+    return new Date(datetime.getTime() + value*60*60*1000);
+};
+
+addDays = function(datetime, value) {
+    return new Date(datetime.getTime() + value*24*60*60*1000);
+};

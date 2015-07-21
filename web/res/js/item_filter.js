@@ -5,7 +5,7 @@ var ItemFilter = (function () {
     var module = {};
 
     module.createFilter = function (params) {
-        return function(item) {
+        return function (item) {
             return filterItem(item, params);
         }
     };
@@ -27,7 +27,22 @@ var ItemFilter = (function () {
     function satisfiesFilter(item, filter) {
         if (filter.values.length == 0) {
             return true;
+        } else {
+            var specificFunction = getSpecificSatisfactionFunction(filter);
+            if (specificFunction) {
+                return specificFunction(item, filter);
+            } else {
+                return satisfiesOrdinalFilter(item, filter);
+            }
         }
+    }
+
+    function getSpecificSatisfactionFunction(filter) {
+        var filterDef = Filters.getFilterByName(filter.name) || {};
+        return filterDef.satisfies;
+    }
+
+    function satisfiesOrdinalFilter(item, filter){
         var getProperty = itemPropertyIdGetter(filter.name);
         var property = getProperty(item);
         return filter.values.contains(property);
