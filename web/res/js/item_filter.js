@@ -24,28 +24,32 @@ var ItemFilter = (function () {
         return true;
     }
 
-    function satisfiesFilter(item, filter) {
-        if (filter.values.length == 0) {
+    function satisfiesFilter(item, filterParam) {
+        if (!filterParam.selected.length) {
             return true;
         } else {
-            var specificFunction = getSpecificSatisfactionFunction(filter);
-            if (specificFunction) {
-                return specificFunction(item, filter);
+            var filter = filterParam.filter;
+            if (filter.satisfies) {
+                return filter.satisfies(item, filterParam);
             } else {
-                return satisfiesOrdinalFilter(item, filter);
+                return satisfiesOrdinalFilter(item, filterParam);
             }
         }
     }
 
-    function getSpecificSatisfactionFunction(filter) {
-        var filterDef = Filters.getFilterByName(filter.name) || {};
-        return filterDef.satisfies;
+    function satisfiesOrdinalFilter(item, filterParam){
+        var filterName = filterParam.filter.name;
+        var getProperty = itemPropertyIdGetter(filterName);
+        var property = getProperty(item);
+        var filterValues = mapFilterSelectionToComparableValues(filterParam);
+        return filterValues.contains(property);
     }
 
-    function satisfiesOrdinalFilter(item, filter){
-        var getProperty = itemPropertyIdGetter(filter.name);
-        var property = getProperty(item);
-        return filter.values.contains(property);
+    function mapFilterSelectionToComparableValues(filterParam) {
+        var getter = filterParam.filter.getValueId || getName;
+        return filterParam.selected.map(function(filterValue){
+            return getter(filterValue);
+        });
     }
 
     function itemPropertyIdGetter(propertyName) {

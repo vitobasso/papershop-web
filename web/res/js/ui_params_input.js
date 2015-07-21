@@ -26,16 +26,11 @@ var UIParamsInput = (function() {
 
     function getFilterFromUI(filter, selectedOptions) {
         return {
-            name: filter.name,
-            values: selectedOptions.toArray().map(function (option) {
-                var getValueId = filterValueIdGetter(filter);
-                return getValueId(option.__data__)
+            filter: filter,
+            selected: selectedOptions.toArray().map(function (option) {
+                return option.__data__;
             })
         }
-    }
-
-    function filterValueIdGetter(filter) {
-        return filter.getValueId || getName;
     }
 
     return module;

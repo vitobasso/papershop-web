@@ -40,3 +40,5 @@ function EbayApi() {
     }
 
 }
+
+EbayApi.dateFormat = d3.time.format("%Y-%m-%dT%H:%M:%S.%LZ");

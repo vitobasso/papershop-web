@@ -33,6 +33,10 @@ Array.prototype.contains = function (element) {
     return this.indexOf(element) > -1;
 };
 
+Array.prototype.count = function(predicate) {
+    return this.filter(predicate).length;
+};
+
 //////////////////////////////////////////////////////////////////
 
 getDate = function(datetime) {

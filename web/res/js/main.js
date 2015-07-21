@@ -4,7 +4,7 @@
 var Main = (function () {
     var module = {};
 
-    module.init = function() {
+    module.init = function () {
         ListenerAssigner.bindSearchFieldEvents();
     };
 
@@ -14,13 +14,15 @@ var Main = (function () {
         ChartManager.setData(items);
     };
 
-    module.updateChart = function(requestParams, newItems) {
+    module.updateChart = function (requestParams, newItems) {
         AspectGuesser.guessAspectsFromTitle(newItems);
         rememberAspectsFromRequest(requestParams, newItems);
         Items.add(newItems);
         var items = Items.filter();
-        ItemCountUI.setFiltered(items.length);
-        ChartManager.onNewItems(items);
+        if (items.length) {
+            ItemCountUI.setFiltered(items.length);
+            ChartManager.onNewItems(items);
+        }
     };
 
     ////////////////////////////////////////////////////////////
@@ -41,11 +43,12 @@ var Main = (function () {
 
     function getAspectsFromRequest(requestParams) {
         var singleValueAspects = requestParams.aspects.filter(function (aspect) {
-            return aspect.values.length == 1;
+            return aspect.selected.length == 1;
         });
         var aspectsMap = {};
         singleValueAspects.forEach(function (aspect) {
-            aspectsMap[aspect.name] = aspect.values[0];
+            var name = aspect.filter.name;
+            aspectsMap[name] = aspect.selected[0].name;
         });
         return aspectsMap;
     }

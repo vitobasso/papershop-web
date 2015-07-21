@@ -13,27 +13,41 @@ function EbayUrlBuilder() {
             "&SECURITY-APPNAME=" + APPID +
             "&RESPONSE-DATA-FORMAT=json" +
             "&keywords=" + params.keywords +
-            buildCategoryFilters(params) +
+            buildCategoryFilter(params) +
             buildCommonFilters(params) +
+            buildEndFilter(params) +
             buildAspectFilters(params) +
             "&paginationInput.entriesPerPage=" + params.itemsPerPage +
             "&paginationInput.pageNumber=" + params.page;
     };
 
-    function isCategoryFilter(filter) {
-        return filter.name == "Category";
-    }
-
-    function buildCategoryFilters(params) {
+    function buildCategoryFilter(params) {
         var result = "";
-        var categoryFilter = params.filters.find(isCategoryFilter);
+        var categoryFilter = params.filters.find(filterNameEquals("Category"));
         if (categoryFilter) {
-            var categoryIds = categoryFilter.values;
-            categoryIds.forEach(function (categoryId, i) {
-                result += "&categoryId(" + i + ")=" + categoryId;
+            var categories = categoryFilter.selected;
+            categories.forEach(function (category, i) {
+                result += "&categoryId(" + i + ")=" + category.id;
             });
         }
         return result;
+    }
+
+    function buildEndFilter(filtersParams) {
+        var result = "";
+        var endFilter = filtersParams.filters.find(filterNameEquals("End"));
+        if (endFilter) {
+            var nextIndex = filtersParams.filters.count(isCommonFilter);
+            var build = endFilter.filter.buildUrlParam;
+            result += build(endFilter, nextIndex);
+        }
+        return result;
+    }
+
+    function filterNameEquals(name) {
+        return function(filterParam) {
+            return filterParam.filter.name == name;
+        };
     }
 
     function buildCommonFilters(params) {
@@ -41,24 +55,33 @@ function EbayUrlBuilder() {
         return buildFilters(itemBuilder, commonFilters);
     }
 
-    function isCommonFilter(filter) {
-        return filter.name != "Category";
+    function isCommonFilter(filterParam) {
+        var name = filterParam.filter.name;
+        return name != "Category" && name != "End";
     }
 
     function buildAspectFilters(params) {
         return buildFilters(aspectBuilder, params.aspects);
     }
 
-    function buildFilters(paramBuilder, filters) {
+    function buildFilters(paramBuilder, filterParams) {
         var result = "";
-        if (filters) {
-            filters.forEach(function (filter, i) {
-                result += paramBuilder.nameParam(i, filter.name);
-                filter.values.forEach(function (value, j) {
-                    result += paramBuilder.valueParam(i, j, value);
-                });
+        if (filterParams) {
+            filterParams.forEach(function (filterParam, i) {
+                result += buildFilter(filterParam, i, paramBuilder);
             });
         }
+        return result;
+    }
+
+    function buildFilter(filterParam, i, paramBuilder) {
+        var result = paramBuilder.nameParam(i, filterParam.filter.name);
+
+        var getId = filterParam.filter.getValueId || getName;
+        var values = filterParam.selected.map(getId);
+        values.forEach(function (value, j) {
+            result += paramBuilder.valueParam(i, j, value);
+        });
         return result;
     }
 

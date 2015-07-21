@@ -4,9 +4,8 @@
 
 function EbayResponseParser() {
 
-    var dateFormat = d3.time.format("%Y-%m-%dT%H:%M:%S.%LZ");
-
     this.parseFind = function (response) {
+        //TODO error response
         var responseItems = response.findItemsAdvancedResponse[0].searchResult[0].item || [];
         return responseItems.map(parseFindItem);
     };
@@ -26,7 +25,7 @@ function EbayResponseParser() {
             aspects: {},
             condition: parseCondition(item),
             listingType: listing.listingType[0],
-            end: dateFormat.parse(endStr),
+            end: EbayApi.dateFormat.parse(endStr),
             price: {
                 currency: price["@currencyId"],
                 value: +price.__value__
@@ -59,7 +58,7 @@ function EbayResponseParser() {
                 values: aspect.valueHistogram.map(function (histogram) {
                     return {
                         name: histogram['@valueName'],
-                        count: histogram.count[0]
+                        count: histogram.count[0] //TODO remove
                     }
                 })
             }

@@ -57,16 +57,18 @@ var RequestLogUI = (function () {
         return parts.join(", ");
     }
 
-    function getFiltersString(filters) {
-        if (!filters) {
+    function getFiltersString(filterParams) {
+        if (!filterParams) {
             return "";
         }
-        var filterStrings = filters.map(getFilterString);
+        var filterStrings = filterParams.map(getFilterString);
         return filterStrings.join(", ");
     }
 
-    function getFilterString(filter) {
-        return filter.values.join(", ");
+    function getFilterString(filterParam) {
+        var getLabel = filterParam.filter.getValueLabel || getName;
+        var labels = filterParam.selected.map(getLabel);
+        return labels.join(", ");
     }
 
     function isPending(params) {

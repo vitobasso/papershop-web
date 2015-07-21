@@ -69,15 +69,15 @@ var RequestLog = (function () {
 
     function sortFilters(filters) {
         filters.forEach(sortValues);
-        var names = filters.map(getName).sort(naturalSort);
-        var map = mapAsObject(filters, getName);
+        var names = filters.map(getFilterName).sort(naturalSort);
+        var map = mapAsObject(filters, getFilterName);
         return names.map(function (name) {
             return map[name];
         })
     }
 
     function sortValues(filter) {
-        filter.values = filter.values.sort(naturalSort);
+        filter.selected = filter.selected.sort(naturalSort);
     }
 
     function stringifyIdFields(params) {
@@ -86,6 +86,10 @@ var RequestLog = (function () {
         idFields.filters = params.filters;
         idFields.aspects = params.aspects;
         return JSON.stringify(idFields);
+    }
+
+    function getFilterName(filterParam) {
+        return filterParam.filter.name
     }
 
     return module;

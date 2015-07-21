@@ -14,18 +14,6 @@ function getName(object) {
     return object.name;
 }
 
-function getLabel(object) {
-    return object.label;
-}
-
-function getValue(object) {
-    return object.value;
-}
-
-function noop() {
-
-}
-
 function notEmpty(array) {
     return array && array.length > 0;
 }
