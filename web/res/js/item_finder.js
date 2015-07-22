@@ -14,13 +14,20 @@ var ItemFinder = (function () {
         var uiParams = UIParamsInput.getParams();
         if (uiParams.keywords) {
             var params = RequestLog.notifyNewRequestAndGetPaging(uiParams);
-            api.find(params, function(response) {
-                if(response.length > 0){
-                    Main.updateChart(params, response);
-                    RequestLog.notifyRequestSuccessful(params);
-                }//TODO message when response empty?
-            });
+            api.find(params, onSuccess, onFail);
         }//TODO message when keywords empty?
+
+
+        function onSuccess(response) {
+            Main.updateChart(params, response);
+            RequestLog.notifyRequestSuccessful(params);
+        }
+
+        function onFail(err) {
+            RequestLog.notifyRequestFailed(params)
+            console.log(err);
+        }
+
     };
 
     return module;

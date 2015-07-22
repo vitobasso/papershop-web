@@ -5,10 +5,21 @@
 function EbayResponseParser() {
 
     this.parseFind = function (response) {
-        //TODO error response
-        var responseItems = response.findItemsAdvancedResponse[0].searchResult[0].item || [];
-        return responseItems.map(parseFindItem);
+        if (checkSuccess(response)) {
+            var responseItems = response.findItemsAdvancedResponse[0].searchResult[0].item || [];
+            if(!responseItems.length) throw "Returned zero items";
+            return responseItems.map(parseFindItem);
+        }
     };
+
+    function checkSuccess(response) {
+        var resp = response.findItemsAdvancedResponse[0];
+        if(!resp) throw "No response";
+        var ack = resp.ack[0];
+        if(!ack) throw "Response has no 'ack'";
+        if(ack != "Success") throw "Error status: " + ack;
+        return true;
+    }
 
     function parseFindItem(item) {
         var listing = item.listingInfo[0];

@@ -28,8 +28,15 @@ var RequestLog = (function () {
 
     module.notifyRequestSuccessful = function (params) {
         delete params.isPending;
+        delete params.failed;
         params.lastItem = params.itemsPerPage * params.page;
         requestHistory.add(params);
+        RequestLogUI.update();
+    };
+
+    module.notifyRequestFailed = function(params) {
+        delete params.isPending;
+        params.failed = true;
         RequestLogUI.update();
     };
 

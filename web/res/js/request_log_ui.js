@@ -36,7 +36,9 @@ var RequestLogUI = (function () {
             return;
         }
 
-        selection.classed("flashing-bg", isPending)
+        selection
+            .classed("flashing-bg", isPending)
+            .classed("failed", isFailed);
         selection.html("");
         selection.append("td")
             .classed("description", true)
@@ -73,6 +75,10 @@ var RequestLogUI = (function () {
 
     function isPending(params) {
         return params.isPending == true;
+    }
+
+    function isFailed(params) {
+        return params.failed == true;
     }
 
     function getLastItem(params) {

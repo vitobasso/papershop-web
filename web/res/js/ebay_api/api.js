@@ -7,46 +7,51 @@ function EbayApi() {
     var urlBuilder = new EbayUrlBuilder();
     var parser = new EbayResponseParser();
 
-    this.find = function (params, callback) {
+    this.find = function (params, onSuccess, onFail) {
         var url = urlBuilder.buildFindUrl(params);
-        requestAndParse(url, parser.parseFind, callback)
+        try {
+            requestAndParse(url, parser.parseFind, onSuccess, onFail)
+        } catch (err) {
+            onFail(err);
+        }
     };
 
-    this.histograms = function (params, callback) {
+    this.histograms = function (params, onSuccess, onFail) {
         var url = urlBuilder.buildHistogramsUrl(params);
-        requestAndParse(url, parser.parseHistograms, callback);
+        requestAndParse(url, parser.parseHistograms, onSuccess, onFail);
     };
 
-    function requestAndParse(url, parse, callback) {
-        request(url, function (response) {
-            var result = parse(response);
-            callback(result);
-        });
+    function requestAndParse(url, parse, onSuccess, onFail) {
+        request(url, parseAndCallback, onFail);
+
+        function parseAndCallback(response) {
+            try {
+                var result = parse(response);
+                onSuccess(result);
+            } catch (err) {
+                onFail(err);
+            }
+        }
     }
 
-    function request(url, callback) {
+    function request(url, onSuccess, onFail) {
         console.log(url);
         $.ajax({
             url: url,
             dataType: "jsonp",
-            success: callback,
-            error: handleError
+            success: onSuccess,
+            error: onFail
         })
-    }
-
-    function handleError(xhr, msg, err) {
-        $("#error-msg").html(msg);
-        throw err;
     }
 
 }
 
 EbayApi.dateFormat = d3.time.format("%Y-%m-%dT%H:%M:%S.%LZ");
 
-EbayApi.dateToString = function(date) {
+EbayApi.dateToString = function (date) {
     return EbayApi.dateFormat(toUTC(date))
 };
 
-EbayApi.stringToDate = function(string) {
+EbayApi.stringToDate = function (string) {
     return toLocal(EbayApi.dateFormat.parse(string));
 };

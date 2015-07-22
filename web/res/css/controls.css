@@ -32,3 +32,7 @@
 #request-log td.count {
     text-align: right;
 }
+
+#request-log tr.failed {
+    background-color: lightsalmon;
+}
