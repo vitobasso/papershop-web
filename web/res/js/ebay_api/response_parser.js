@@ -27,8 +27,7 @@ function EbayResponseParser() {
         var resp = response.findItemsAdvancedResponse[0];
         if(!resp) throw "No response";
         var ack = resp.ack[0];
-        if(!ack) throw "Response has no 'ack'";
-        if(ack != "Success") throw "Error status: " + ack;
+        if(ack != "Success") throw "Error response: " + resp.errorMessage[0].error[0].message[0];
         return true;
     }
 

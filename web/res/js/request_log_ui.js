@@ -6,7 +6,7 @@ var RequestLogUI = (function () {
 
     var divId = RequestLog.divId;
 
-    module.init = function() {
+    module.init = function () {
         module.update(); //hide if empty
     };
 
@@ -83,14 +83,28 @@ var RequestLogUI = (function () {
 
     function getResultsCount(params) {
         var result = "";
-        if(params.lastItem){
+        if (params.lastItem) {
             result += params.lastItem;
         }
-        if(params.totalItems){
-            result += "/" + params.totalItems;
+        if (params.totalItems) {
+            result += "/" + formatBigNumber(params.totalItems);
         }
         return result;
     }
+
+    function formatBigNumber(num) {
+        if (num > BI) {
+            return Math.floor(num/BI) + "bi";
+        } else if (num > MI) {
+            return Math.floor(num/MI) + "mi";
+        } else if (num > 1000) {
+            return Math.floor(num/1000) + "k";
+        } else {
+            return num;
+        }
+    }
+    var MI = Math.pow(1000, 2);
+    var BI = Math.pow(1000, 3);
 
     return module;
 }());
