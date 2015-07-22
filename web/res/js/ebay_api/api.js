@@ -9,11 +9,7 @@ function EbayApi() {
 
     this.find = function (params, onSuccess, onFail) {
         var url = urlBuilder.buildFindUrl(params);
-        try {
-            requestAndParse(url, parser.parseFind, onSuccess, onFail)
-        } catch (err) {
-            onFail(err);
-        }
+        requestAndParse(url, parser.parseFind, onSuccess, onFail);
     };
 
     this.histograms = function (params, onSuccess, onFail) {
@@ -27,10 +23,11 @@ function EbayApi() {
         function parseAndCallback(response) {
             try {
                 var result = parse(response);
-                onSuccess(result);
             } catch (err) {
                 onFail(err);
+                return;
             }
+            onSuccess(result);
         }
     }
 

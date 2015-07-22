@@ -13,22 +13,34 @@ var ItemFinder = (function () {
     module.find = function () {
         var uiParams = UIParamsInput.getParams();
         if (uiParams.keywords) {
-            var params = RequestLog.notifyNewRequestAndGetPaging(uiParams);
-            api.find(params, onSuccess, onFail);
+            try {
+                var params = RequestLog.notifyNewRequestAndGetPaging(uiParams);
+                checkTotalItems(params);
+                api.find(params, onSuccess, onFail);
+            } catch (err) {
+                onFail(err);
+            }
         }//TODO message when keywords empty?
 
 
-        function onSuccess(response) {
-            Main.updateChart(params, response);
-            RequestLog.notifyRequestSuccessful(params);
+        function onSuccess(result) {
+            Main.updateChart(params, result.items);
+            RequestLog.notifyRequestSuccessful(params, result.metadata);
         }
 
         function onFail(err) {
-            RequestLog.notifyRequestFailed(params)
-            console.log(err);
+            RequestLog.notifyRequestFailed(params);
+            console.log("Find failed: " + err);
         }
 
     };
+
+    function checkTotalItems(params) {
+        if(params.lastItem && params.totalItems
+            && params.lastItem >= params.totalItems) {
+            throw "No new items left for this set of filters";
+        }
+    }
 
     return module;
 }());

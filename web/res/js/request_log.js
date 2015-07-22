@@ -26,13 +26,19 @@ var RequestLog = (function () {
         return result;
     };
 
-    module.notifyRequestSuccessful = function (params) {
+    module.notifyRequestSuccessful = function (params, metadata) {
         delete params.isPending;
         delete params.failed;
-        params.lastItem = params.itemsPerPage * params.page;
+        countResults(params, metadata);
         requestHistory.add(params);
         RequestLogUI.update();
     };
+
+    function countResults(params, metadata) {
+        params.lastItem = params.lastItem || 0;
+        params.lastItem += metadata.itemsReturned;
+        params.totalItems = metadata.totalItems;
+    }
 
     module.notifyRequestFailed = function(params) {
         delete params.isPending;
@@ -60,10 +66,9 @@ var RequestLog = (function () {
     }
 
     function setPagingForRecurrentParams(params) {
-        var lastItem = params.lastItem; // last item requested
-        var lastPage = Math.floor(lastItem / pageSize); // regarding current pageSize (we can repeat but not mess items)
+        var prevPage = params.page || 0;;
+        params.page = prevPage + 1;
         params.itemsPerPage = pageSize;
-        params.page = lastPage + 1;
         return params;
     }
 

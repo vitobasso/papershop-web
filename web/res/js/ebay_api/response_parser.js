@@ -6,11 +6,22 @@ function EbayResponseParser() {
 
     this.parseFind = function (response) {
         if (checkSuccess(response)) {
-            var responseItems = response.findItemsAdvancedResponse[0].searchResult[0].item || [];
+            var content = response.findItemsAdvancedResponse[0];
+            var responseItems = content.searchResult[0].item || [];
             if(!responseItems.length) throw "Returned zero items";
-            return responseItems.map(parseFindItem);
+            return {
+                items: responseItems.map(parseFindItem),
+                metadata: parseMetadata(content)
+            };
         }
     };
+
+    function parseMetadata(response) {
+        return {
+            totalItems: +response.paginationOutput[0].totalEntries[0],
+            itemsReturned: +response.searchResult[0]["@count"]
+        }
+    }
 
     function checkSuccess(response) {
         var resp = response.findItemsAdvancedResponse[0];

@@ -45,7 +45,7 @@ var RequestLogUI = (function () {
             .html(getParamsString);
         selection.append("td")
             .classed("count", true)
-            .html(getLastItem);
+            .html(getResultsCount);
     }
 
     function hide() {
@@ -81,8 +81,15 @@ var RequestLogUI = (function () {
         return params.failed == true;
     }
 
-    function getLastItem(params) {
-        return params.lastItem;
+    function getResultsCount(params) {
+        var result = "";
+        if(params.lastItem){
+            result += params.lastItem;
+        }
+        if(params.totalItems){
+            result += "/" + params.totalItems;
+        }
+        return result;
     }
 
     return module;
