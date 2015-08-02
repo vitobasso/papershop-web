@@ -26,14 +26,23 @@ var AxisFactory = (function (){
         this.formatTick = ChartCommon.replaceUndefined;
     }
 
-    module.priceAxis = new LinearAxis("Current Price (USD)",
+    module.priceAxis = new LinearAxis("Current Price",
         function (item) {
             return item.price.value;
         });
 
-    var endAxis = new TimeAxis("End",
+    //TODO move to filters_manager?
+    var siteAxis = new OrdinalAxis("Site",
         function (item) {
-            return item.end;
+            return item.site;
+        });
+    var availableToAxis = new OrdinalAxis("AvailableTo",
+        function (item) {
+            return item.shipTo; //TODO multiple locations, worldwide/americas/europe/etc (http://developer.ebay.com/devzone/finding/CallRef/Enums/shipToLocationList.html)
+        });
+    var categoryAxis = new OrdinalAxis("Category",
+        function (item) {
+            return item.category.name;
         });
     var conditionAxis = new OrdinalAxis("Condition",
         function (item) {
@@ -43,13 +52,13 @@ var AxisFactory = (function (){
         function (item) {
             return item.listingType;
         });
-    var categoryAxis = new OrdinalAxis("Category",
+    var endAxis = new TimeAxis("End",
         function (item) {
-            return item.category.name;
+            return item.end;
         });
 
     module.listOptions = function() {
-        var result = [conditionAxis, listingTypeAxis, endAxis, categoryAxis];
+        var result = [siteAxis, availableToAxis, categoryAxis, conditionAxis, listingTypeAxis, endAxis];
         Categories.each(function (category) {
             category.aspects.forEach(function (aspect) {
                 result.push(createAspectAxis(aspect.name));

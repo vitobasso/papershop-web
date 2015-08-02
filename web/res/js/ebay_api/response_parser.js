@@ -36,6 +36,7 @@ function EbayResponseParser() {
         var endStr = listing.endTime[0];
         var category = item.primaryCategory[0];
         var price = item.sellingStatus[0].currentPrice[0];
+        var shipTo = item.shippingInfo[0].shipToLocations[0]; //TODO multiple locations
         return {
             id: item.itemId[0],
             title: item.title[0],
@@ -51,7 +52,9 @@ function EbayResponseParser() {
                 currency: price["@currencyId"],
                 value: +price.__value__
             },
+            site: item.globalId[0],
             country: item.country[0],
+            shipTo: shipTo,
             image: item.galleryURL[0],
             link: item.viewItemURL[0]
         }

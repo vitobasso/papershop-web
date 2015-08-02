@@ -13,6 +13,7 @@ function EbayUrlBuilder() {
             "&SECURITY-APPNAME=" + APPID +
             "&RESPONSE-DATA-FORMAT=json" +
             "&keywords=" + params.keywords +
+            buildSiteFilter(params) +
             buildCategoryFilter(params) +
             buildCommonFilters(params) +
             buildEndFilter(params) +
@@ -20,6 +21,16 @@ function EbayUrlBuilder() {
             "&paginationInput.entriesPerPage=" + params.itemsPerPage +
             "&paginationInput.pageNumber=" + params.page;
     };
+
+    function buildSiteFilter(params) {
+        var result = "";
+        var siteFilter = params.filters.find(filterNameEquals("Site"));
+        if (siteFilter) {
+            var site = siteFilter.selected[0];
+            result += "&GLOBAL-ID=" + site.id;
+        }
+        return result;
+    }
 
     function buildCategoryFilter(params) {
         var result = "";
@@ -51,13 +62,13 @@ function EbayUrlBuilder() {
     }
 
     function buildCommonFilters(params) {
-        var commonFilters = params.filters.filter(isCommonFilter); // remove "Category"
+        var commonFilters = params.filters.filter(isCommonFilter);
         return buildFilters(itemBuilder, commonFilters);
     }
 
     function isCommonFilter(filterParam) {
         var name = filterParam.filter.name;
-        return name != "Category" && name != "End";
+        return name != "Site" && name != "Category" && name != "End";
     }
 
     function buildAspectFilters(params) {

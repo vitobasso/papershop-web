@@ -11,6 +11,18 @@ var Filters = (function () {
 
     var filters = [
         {
+            name: "Site",
+            values: SITE_IDS,
+            getValueLabel: getName,
+            getValueId: getId
+        },
+        {
+            name: "AvailableTo",
+            values: COUNTRY_CODES,
+            getValueLabel: getName,
+            getValueId: getId
+        },
+        {
             name: "Condition",
             values: [
                 {id: 1000, name: "New"},

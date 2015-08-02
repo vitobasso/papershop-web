@@ -1,5 +1,6 @@
 
 - filters
+    - show common filters before first request
     - ships to
     - price (zoom on chart)
 
@@ -11,19 +12,15 @@
        http://www.colorcombos.com/color-schemes/7625/ColorCombo7625.html
 
 - config
-    - items per request
+    ? items per request
     - disable guesses
 
 - messages
     - empty keywords
-    ? can't parse
+    - errors
 
 - bugs
     - tooltip get stuck
-    - sync requests get status animation stuck
-    - can't parse find response
-        - "Cannot read property '0' of undefined"
-        - "Cannot read property 'id' of undefined"
 
 - usability
     ? undo select filters w/o ctrl

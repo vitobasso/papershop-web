@@ -55,7 +55,14 @@ var ItemFilter = (function () {
             || getItemAspectByFilter(propertyName);
     }
 
+    //TODO move to filters_manager?
     var itemPropertyGetters = {
+        Site: function(item) {
+            return item.site
+        },
+        AvailableTo: function(item) {
+            return item.shipTo; //TODO multiple locations, worldwide/americas/europe/etc (http://developer.ebay.com/devzone/finding/CallRef/Enums/shipToLocationList.html)
+        },
         Condition: function (item) {
             return item.condition.id;
         },
