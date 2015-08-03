@@ -6,6 +6,7 @@ var Main = (function () {
 
     module.init = function () {
         ListenerAssigner.bindSearchFieldEvents();
+        Filters.populate();
     };
 
     module.applyFilters = function () {
