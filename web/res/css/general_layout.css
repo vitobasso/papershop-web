@@ -14,32 +14,13 @@ body {
 #main {
     height: 100%;
     display: flex;
-    flex-flow: column nowrap;
-}
-
-#top {
-    display: flex;
     flex-flow: row nowrap;
     flex-grow: 1;
-    height: 400px;
 }
 
-#bottom {
-    height: 200px;
-}
-
-#bottom {
-    overflow: hidden; /* only show scrollbar on hover */
-}
-
-#bottom:hover {
-    overflow: auto; /* only show scrollbar on hover */
-}
-
-#controls {
+#left {
     display: flex;
     flex-flow: column nowrap;
-    width: 300px;
     padding: 12px;
 }
 

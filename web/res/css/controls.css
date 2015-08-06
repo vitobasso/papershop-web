@@ -1,38 +1,39 @@
-
 #keyword-div {
     display: flex;
-    margin-bottom: 8px;
 }
 
 #keyword-div input {
     flex-grow: 1;
 }
 
-#request-log {
-    flex-grow: 1;
-    overflow: auto;
+#filters {
+    overflow: hidden; /* only show scrollbar on hover */
 }
 
-#request-log table {
-    border-collapse: collapse;
+#filters:hover {
+    overflow: auto; /* only show scrollbar on hover */
 }
 
-#request-log thead td {
-    border-bottom: 1px solid black;
+.filter {
+    margin-top: 10px;
 }
 
-#request-log td {
-    padding: 4px;
-}
-
-#request-log td.description {
+.filter select {
     width: 100%;
+    border: none;
+    display: block; /* list box below title, not beside */
+    overflow: hidden; /* only show scrollbar on hover */
 }
 
-#request-log td.count {
-    text-align: right;
+.filter select:hover {
+    overflow: overlay; /* only show scrollbar on hover */
 }
 
-#request-log tr.failed {
-    background-color: lightsalmon;
+.filter option {
+    white-space: normal; /* wrap text */
+}
+
+.filter .title {
+    font-weight: bold;
+    cursor: pointer;
 }

@@ -13,7 +13,7 @@ var RequestLogUI = (function () {
     module.update = function () {
         var history = RequestLog.getHistory();
         if (history.length > 0) {
-            $(divId).show();
+            //$(divId).show(); //TODO show/hide on user click?
             render(history);
         } else {
             hide();

@@ -1,0 +1,34 @@
+#request-log {
+    flex-grow: 1;
+    overflow: hidden;
+    height: 200px;
+    display: none;
+}
+
+#request-log:hover {
+    overflow: auto;
+}
+
+#request-log table {
+    border-collapse: collapse;
+}
+
+#request-log thead td {
+    border-bottom: 1px solid black;
+}
+
+#request-log td {
+    padding: 4px;
+}
+
+#request-log td.description {
+    width: 100%;
+}
+
+#request-log td.count {
+    text-align: right;
+}
+
+#request-log tr.failed {
+    background-color: lightsalmon;
+}

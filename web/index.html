@@ -22,7 +22,7 @@
     <link rel="stylesheet" type="text/css" href="res/css/chart_tooltip.css"/>
     <link rel="stylesheet" type="text/css" href="res/css/anim_bg_flashing.css"/>
     <link rel="stylesheet" type="text/css" href="res/css/controls.css"/>
-    <link rel="stylesheet" type="text/css" href="res/css/filters.css"/>
+    <link rel="stylesheet" type="text/css" href="res/css/request_log.css.css"/>
     <script src="res/js/util/lang_util.js"></script>
     <script src="res/js/util/set.js"></script>
     <script src="res/js/util/common.js"></script>
@@ -31,8 +31,9 @@
     <script src="res/js/ebay_api/response_parser.js"></script>
     <script src="res/js/filters/filter_ui.js"></script>
     <script src="res/js/filters/aspects_finder.js"></script>
-    <script src="res/js/filters/country_codes.js"></script>
-    <script src="res/js/filters/site_ids.js"></script>
+    <script src="res/js/config/country_codes.js"></script>
+    <script src="res/js/config/site_ids.js"></script>
+    <script src="res/js/config/config.js"></script>
     <script src="res/js/filters/filters_manager.js"></script>
     <script src="res/js/filters/categories_manager.js"></script>
     <script src="res/js/chart/chart_common.js"></script>
@@ -57,48 +58,46 @@
 
 <div id="main">
 
-    <div id="top">
-
-        <div id="controls">
-            <div id="keyword-div">
-                <input type="text" id="search-field" placeholder="Keywords"/>
-                <button id="search-button">Search</button>
-            </div>
-            <p id="item-count"></p>
-            <div id="request-log">
-                <table>
-                    <thead>
-                    <tr>
-                        <td class="description">Filter</td>
-                        <td class="count">#Items</td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-            </div>
+    <div id="left">
+        <div id="keyword-div">
+            <input type="text" id="search-field" placeholder="Keywords"/>
+            <button id="search-button">Search</button>
         </div>
-
-        <div id="chart"></div>
-
-    </div>
-
-    <div id="bottom">
         <div id="filters">
         </div>
+
+        <div id="request-log">
+            <table>
+                <thead>
+                <tr>
+                    <td class="description">Filter</td>
+                    <td class="count">#Items</td>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <p id="item-count"></p>
+
     </div>
 
+    <div id="chart"></div>
+
 </div>
+
+<div id="config"></div>
 
 <script>
     Main.init();
     ChartRenderer.init();
     Categories.init();
     ChartManager.init(); //FIXME depends on ChartRenderer & Categories
+    Config.init();
     ItemCountUI.init();
     ItemFinder.init();
     RequestLog.init();
-    RequestLogUI.init();
+    RequestLogUI.init(); //TODO kill?
     AspectsFinder.init();
     Items.init();
 </script>

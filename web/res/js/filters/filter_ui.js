@@ -24,7 +24,6 @@ var FilterUI = (function() {
         // values list
         selFilter.append("select")
             .attr("id", getFilterId)
-            .attr("multiple", true)
             .each(populateOptions);
     }
 
@@ -36,6 +35,9 @@ var FilterUI = (function() {
 
     function populateOptions(filter) {
         var getLabel = filter.getValueLabel;
+        d3.select(this)
+            .attr("size", filter.values.length)
+            .attr("multiple", true);
         d3.select(this)
             .selectAll("option").data(filter.values, getLabel)
             .enter()
