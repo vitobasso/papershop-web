@@ -22,7 +22,7 @@
     <link rel="stylesheet" type="text/css" href="res/css/chart_tooltip.css"/>
     <link rel="stylesheet" type="text/css" href="res/css/anim_bg_flashing.css"/>
     <link rel="stylesheet" type="text/css" href="res/css/controls.css"/>
-    <link rel="stylesheet" type="text/css" href="res/css/request_log.css.css"/>
+    <link rel="stylesheet" type="text/css" href="res/css/request_log.css"/>
     <script src="res/js/util/lang_util.js"></script>
     <script src="res/js/util/set.js"></script>
     <script src="res/js/util/common.js"></script>
@@ -78,11 +78,15 @@
                 </tbody>
             </table>
         </div>
-        <p id="item-count"></p>
 
     </div>
 
-    <div id="chart"></div>
+    <div id="right">
+        <div id="top">
+            <div id="item-count"></div>
+        </div>
+        <div id="chart"></div>
+    </div>
 
 </div>
 
@@ -90,11 +94,10 @@
 
 <script>
     Main.init();
-    ChartRenderer.init();
+    ChartRenderer.init(); //FIXME glitchy size causing scrollbars to appear
     Categories.init();
-    ChartManager.init(); //FIXME depends on ChartRenderer & Categories
     Config.init();
-    ItemCountUI.init();
+    ChartManager.init(); //FIXME depends on ChartRenderer & Categories.
     ItemFinder.init();
     RequestLog.init();
     RequestLogUI.init(); //TODO kill?

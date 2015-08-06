@@ -5,7 +5,7 @@ var ChartRenderer = (function() {
     var module = {};
 
     var chartDivId = "#chart";
-    var margin = {top: 20, right: 20, bottom: 40, left: 40};
+    var margin = {top: 0, right: 2, bottom: 40, left: 40};
     var svgWidth, svgHeight, width, height;
 
     var svg, canvas;

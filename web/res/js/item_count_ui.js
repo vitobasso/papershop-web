@@ -7,27 +7,19 @@ var ItemCountUI = (function () {
 
     var total = 0, filtered = 0;
 
-    module.init = function () {
-        hide();
-    };
-
     module.setTotal = function (newTotal) {
         total = newTotal;
-        show();
+        setText();
     };
 
     module.setFiltered = function (newFiltered) {
         filtered = newFiltered;
-        show();
+        setText();
     };
 
-    function show() {
-        var text = "Showing " + filtered + " out of " + total + " known items.";
-        $("#item-count").show().text(text);
-    }
-
-    function hide() {
-        $("#item-count").hide();
+    function setText() {
+        var text = "Showing " + filtered + " out of " + total + " known items:";
+        $("#item-count").text(text);
     }
 
     return module;
