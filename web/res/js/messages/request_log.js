@@ -4,7 +4,8 @@
 var RequestLog = (function () {
     var module = {};
 
-    module.divId = "#request-log";
+    module.statusDivId = "#request-status";
+    module.logDivId = "#request-log";
     module.getHashKey = stringifyIdFields;
 
     var pageSize = 20;
@@ -22,7 +23,7 @@ var RequestLog = (function () {
         var result = setPagingOnParams(paramsFromUI);
         result.isPending = true;
         requestHistory.add(result);
-        RequestLogUI.update();
+        updateUI();
         return result;
     };
 
@@ -31,7 +32,7 @@ var RequestLog = (function () {
         delete params.failed;
         countResults(params, metadata);
         requestHistory.add(params);
-        RequestLogUI.update();
+        updateUI();
     };
 
     function countResults(params, metadata) {
@@ -43,7 +44,7 @@ var RequestLog = (function () {
     module.notifyRequestFailed = function(params) {
         delete params.isPending;
         params.failed = true;
-        RequestLogUI.update();
+        updateUI();
     };
 
     function setPagingOnParams(paramsFromUI) {
@@ -102,6 +103,11 @@ var RequestLog = (function () {
 
     function getFilterName(filterParam) {
         return filterParam.filter.name
+    }
+
+    function updateUI() {
+        RequestStatusUI.update();
+        RequestLogUI.update();
     }
 
     return module;

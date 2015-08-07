@@ -2,6 +2,8 @@
 - filters
     - ships to
     - price (zoom on chart)
+    - seller
+    - seller score
 
 - ui
     - collapse/expand aspects
@@ -11,6 +13,7 @@
        http://www.colorcombos.com/color-schemes/7625/ColorCombo7625.html
 
 - config
+    - ebay site, "AvailableTo" country
     ? items per request
     - disable guesses
 

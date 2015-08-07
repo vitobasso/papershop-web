@@ -29,7 +29,8 @@ var ItemFinder = (function () {
         }
 
         function onFail(err) {
-            RequestLog.notifyRequestFailed(params);
+            var uiParams = UIParamsInput.getParams();
+            RequestLog.notifyRequestFailed(uiParams);
             console.log("Find failed: " + err);
         }
 

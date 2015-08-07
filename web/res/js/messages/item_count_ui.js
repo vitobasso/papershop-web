@@ -18,7 +18,7 @@ var ItemCountUI = (function () {
     };
 
     function setText() {
-        var text = "Showing " + filtered + " out of " + total + " known items:";
+        var text = "Showing " + filtered + "/" + total + " items:";
         $("#item-count").text(text);
     }
 

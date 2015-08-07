@@ -34,7 +34,13 @@ body {
 
 #top {
     height: 30px;
-    padding-left: 40px; /*matches chart margin in chart_renderer.js*/
+    padding: 0 0 12px 40px; /*matches chart left margin in chart_renderer.js*/
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+#top > div {
+    padding-right: 2px;
 }
 
 #chart {

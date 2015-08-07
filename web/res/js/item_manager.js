@@ -33,6 +33,10 @@ var Items = (function () {
         return allItems.filter(isCategoryEqual(category))
     };
 
+    module.count = function() {
+        return allItems.size();
+    };
+
     function isCategoryEqual(category) {
         return function(item) {
             return item.category.id == category.id;

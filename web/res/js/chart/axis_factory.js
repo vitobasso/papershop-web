@@ -26,20 +26,12 @@ var AxisFactory = (function (){
         this.formatTick = ChartCommon.replaceUndefined;
     }
 
-    module.priceAxis = new LinearAxis("Current Price",
+    module.priceAxis = new LinearAxis("Price",
         function (item) {
             return item.price.value;
         });
 
     //TODO move to filters_manager?
-    var siteAxis = new OrdinalAxis("Site",
-        function (item) {
-            return item.site;
-        });
-    var availableToAxis = new OrdinalAxis("AvailableTo",
-        function (item) {
-            return item.shipTo; //TODO multiple locations, worldwide/americas/europe/etc (http://developer.ebay.com/devzone/finding/CallRef/Enums/shipToLocationList.html)
-        });
     var categoryAxis = new OrdinalAxis("Category",
         function (item) {
             return item.category.name;
@@ -58,7 +50,7 @@ var AxisFactory = (function (){
         });
 
     module.listOptions = function() {
-        var result = [siteAxis, availableToAxis, categoryAxis, conditionAxis, listingTypeAxis, endAxis];
+        var result = [categoryAxis, conditionAxis, listingTypeAxis, endAxis];
         Categories.each(function (category) {
             category.aspects.forEach(function (aspect) {
                 result.push(createAspectAxis(aspect.name));

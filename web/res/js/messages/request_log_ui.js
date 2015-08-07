@@ -4,7 +4,7 @@
 var RequestLogUI = (function () {
     var module = {};
 
-    var divId = RequestLog.divId;
+    var divId = RequestLog.logDivId;
 
     module.init = function () {
         module.update(); //hide if empty
@@ -12,7 +12,7 @@ var RequestLogUI = (function () {
 
     module.update = function () {
         var history = RequestLog.getHistory();
-        if (history.length > 0) {
+        if (history.length) {
             //$(divId).show(); //TODO show/hide on user click?
             render(history);
         } else {
