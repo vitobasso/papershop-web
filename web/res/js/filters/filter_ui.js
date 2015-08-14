@@ -16,10 +16,19 @@ var FilterUI = (function() {
             .enter().append("div")
             .classed("filter", true);
 
+        // top
+        var top = selFilter.append("div")
+            .classed("top", true);
+
         // title
-        selFilter.append("div")
+        top.append("div")
             .classed("title", true)
             .html(getName);
+
+        // arrow
+        top.append("div")
+            .classed("arrow", true)
+            .classed("active", isXAxis);
 
         // values list
         selFilter.append("select")
@@ -52,6 +61,18 @@ var FilterUI = (function() {
 
     function getFilterId(filter) {
         return "filter-" + filter.name;
+    }
+
+    module.refresh = function() {
+        d3.select("#filters")
+            .selectAll("div.filter")
+            .selectAll(".arrow")
+            .classed("active", isXAxis);
+    };
+
+    function isXAxis(filter) {
+        var xAxis = ChartManager.getXAxis();
+        return xAxis && filter.name == xAxis.label;
     }
 
     return module;

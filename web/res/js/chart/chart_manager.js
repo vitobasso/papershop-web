@@ -50,6 +50,10 @@ var ChartManager = (function () {
         }
     };
 
+    module.getXAxis = function() {
+        return xAxis;
+    };
+
     function labelEquals(name) {
         return function (axis) {
             return axis.label == name

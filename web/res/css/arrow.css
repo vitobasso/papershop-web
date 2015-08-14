@@ -1,0 +1,12 @@
+
+.arrow {
+    width: 0;
+    height: 0;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+    border-left: 7px solid lightgray;
+}
+
+.arrow.active {
+    border-left: 7px solid black;
+}

@@ -33,7 +33,17 @@
     white-space: normal; /* wrap text */
 }
 
+.filter .top {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
 .filter .title {
     font-weight: bold;
+    cursor: pointer;
+}
+
+.filter .arrow {
     cursor: pointer;
 }

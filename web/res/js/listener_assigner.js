@@ -30,10 +30,11 @@ var ListenerAssigner = (function () {
     };
 
     function bindFilterTitleClick() {
-        $("#filters").find("> .filter").find("> .title")
+        $("#filters").find("> .filter").find(" .arrow")
             .off().on("click", function () {
                 var filterName = this.__data__.name;
                 ChartManager.changeAxisByName(filterName);
+                FilterUI.refresh();
             })
     }
 
