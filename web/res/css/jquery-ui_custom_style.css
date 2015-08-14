@@ -1,0 +1,31 @@
+.ui-widget {
+    font: 1em 'Roboto', sans-serif;
+}
+
+.ui-widget-header {
+    border: none;
+    background: none;
+}
+
+.ui-dialog .ui-dialog-titlebar {
+    padding: 0;
+}
+
+.ui-corner-all {
+    border-radius: 0;
+}
+
+.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default {
+    border: none;
+    background: white;
+}
+
+.ui-dialog .ui-dialog-content {
+    padding: 0 .5em;
+}
+
+.ui-widget .ui-widget {
+    font-size: .1em;
+}
