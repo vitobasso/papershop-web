@@ -30,7 +30,6 @@ var RequestLog = (function () {
         delete params.isPending;
         delete params.failed;
         countResults(params, metadata);
-        requestHistory.add(params);
         updateUI();
     };
 
