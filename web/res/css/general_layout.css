@@ -43,6 +43,10 @@ body {
     padding-right: 2px;
 }
 
+#message {
+    cursor: pointer;
+}
+
 #chart {
     height: 100%;
 }

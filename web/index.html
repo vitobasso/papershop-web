@@ -48,9 +48,8 @@
     <script src="res/js/item_finder.js"></script>
     <script src="res/js/item_filter.js"></script>
     <script src="res/js/messages/request_log.js"></script>
-    <script src="res/js/messages/request_status_ui.js"></script>
     <script src="res/js/messages/request_log_ui.js"></script>
-    <script src="res/js/messages/item_count_ui.js"></script>
+    <script src="res/js/messages/message_ui.js"></script>
     <script src="res/js/listener_assigner.js"></script>
     <script src="res/js/main.js"></script>
 
@@ -62,29 +61,15 @@
     <div id="left">
         <div id="keyword-div">
             <input type="text" id="search-field" placeholder="Keywords"/>
-            <button id="search-button">Search</button>
+            <button id="search-button">Find</button>
         </div>
         <div id="filters">
         </div>
-
-        <div id="request-log">
-            <table>
-                <thead>
-                <tr>
-                    <td class="description">Filter</td>
-                    <td class="count">#Items</td>
-                </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
-
     </div>
 
     <div id="right">
         <div id="top">
-            <div id="request-status"></div><div id="item-count"></div>
+            <div id="message"></div>
         </div>
         <div id="chart"></div>
     </div>
@@ -92,6 +77,18 @@
 </div>
 
 <div id="config"></div>
+<div id="request-log">
+    <table>
+        <thead>
+        <tr>
+            <td class="description">Filter</td>
+            <td class="count">#Items</td>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
 
 <script>
     Main.init();

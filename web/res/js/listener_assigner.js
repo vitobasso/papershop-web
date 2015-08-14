@@ -47,6 +47,30 @@ var ListenerAssigner = (function () {
             .off("change").on("change", Main.applyFilters);
     }
 
+    module.bindRequestLogDialog = function () {
+        $("#message").off().on("click", function () {
+            setRequestDialogPosition();
+            toggleRequestDialog();
+        });
+    };
+
+    function toggleRequestDialog() {
+        var dialogDiv = $("#request-log");
+        if (dialogDiv.dialog("isOpen")) {
+            dialogDiv.dialog("close");
+        } else {
+            dialogDiv.dialog("open");
+        }
+    }
+
+    function setRequestDialogPosition() {
+        $("#request-log").dialog("option", "position", {
+            my: 'left top',
+            at: 'left bottom',
+            of: $('#message')
+        });
+    }
+
     return module;
 }());
 

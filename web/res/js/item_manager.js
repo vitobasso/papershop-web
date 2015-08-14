@@ -12,7 +12,7 @@ var Items = (function () {
 
     module.add = function (newItems) {
         allItems.addMergeAll(newItems, merge);
-        ItemCountUI.setTotal(allItems.size());
+        MessageUI.setTotal(allItems.size());
     };
 
     function merge(oldItem, newItem) {

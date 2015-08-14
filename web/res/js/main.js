@@ -11,7 +11,7 @@ var Main = (function () {
 
     module.applyFilters = function () {
         var items = Items.filter();
-        ItemCountUI.setFiltered(items.length);
+        MessageUI.setFiltered(items.length);
         ChartManager.setData(items);
     };
 
@@ -21,7 +21,7 @@ var Main = (function () {
         Items.add(newItems);
         var items = Items.filter();
         if (items.length) {
-            ItemCountUI.setFiltered(items.length);
+            MessageUI.setFiltered(items.length);
             ChartManager.onNewItems(items);
         }
     };

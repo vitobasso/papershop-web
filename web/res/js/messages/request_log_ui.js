@@ -7,17 +7,16 @@ var RequestLogUI = (function () {
     var divId = RequestLog.logDivId;
 
     module.init = function () {
-        module.update(); //hide if empty
+        module.update();
+        $(divId).dialog({
+            autoOpen: false
+        });
+        ListenerAssigner.bindRequestLogDialog();
     };
 
     module.update = function () {
         var history = RequestLog.getHistory();
-        if (history.length) {
-            //$(divId).show(); //TODO show/hide on user click?
-            render(history);
-        } else {
-            hide();
-        }
+        render(history);
     };
 
     function render(history) {
@@ -46,10 +45,6 @@ var RequestLogUI = (function () {
         selection.append("td")
             .classed("count", true)
             .html(getResultsCount);
-    }
-
-    function hide() {
-        $(divId).hide();
     }
 
     function getParamsString(params) {
@@ -94,15 +89,16 @@ var RequestLogUI = (function () {
 
     function formatBigNumber(num) {
         if (num > BI) {
-            return Math.floor(num/BI) + "bi";
+            return Math.floor(num / BI) + "bi";
         } else if (num > MI) {
-            return Math.floor(num/MI) + "mi";
+            return Math.floor(num / MI) + "mi";
         } else if (num > 1000) {
-            return Math.floor(num/1000) + "k";
+            return Math.floor(num / 1000) + "k";
         } else {
             return num;
         }
     }
+
     var MI = Math.pow(1000, 2);
     var BI = Math.pow(1000, 3);
 

@@ -4,7 +4,6 @@
 var RequestLog = (function () {
     var module = {};
 
-    module.statusDivId = "#request-status";
     module.logDivId = "#request-log";
     module.getHashKey = stringifyIdFields;
 
@@ -106,7 +105,7 @@ var RequestLog = (function () {
     }
 
     function updateUI() {
-        RequestStatusUI.update();
+        MessageUI.updateRequestStatus();
         RequestLogUI.update();
     }
 
