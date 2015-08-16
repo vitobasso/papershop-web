@@ -7,6 +7,7 @@ var ItemTooltip = (function () {
     module.getParams = function () {
         return {
             items: "image",
+            track: true,
             content: buildUI
         }
     };
