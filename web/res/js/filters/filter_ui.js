@@ -20,18 +20,15 @@ var FilterUI = (function () {
         var top = selFilter.append("div")
             .classed("top", true);
 
+        // arrow
+        top.append("div")
+            .classed("arrow", true)
+            .classed("right", true);
+
         // title
         top.append("div")
             .classed("title", true)
             .html(getName);
-
-        // arrow
-        top.append("div")
-            .classed("arrow", true)
-            .classed("active", isXAxis);
-
-        // values list
-        populateSelect(selFilter);
     }
 
     function populateSelect(selFilter) {
@@ -74,6 +71,7 @@ var FilterUI = (function () {
             .classed("active", isXAxis);
     };
 
+    //TODO mark filter used on chart in the UI
     function isXAxis(filter) {
         var xAxis = ChartManager.getXAxis();
         return xAxis && filter.name == xAxis.label;
@@ -82,13 +80,35 @@ var FilterUI = (function () {
     module.toggleExpanded = function (filterDiv) {
         var selSelect = $(filterDiv).find("select");
         if (selSelect.length) {
-            selSelect.remove();
+            setFilterCollapsed(filterDiv, selSelect);
         } else {
-            var selFilter = d3.select(filterDiv);
-            populateSelect(selFilter);
-            ListenerAssigner.bindFilterListeners();
+            setFilterExpanded(filterDiv);
         }
     };
+
+    function setFilterExpanded(filterDiv) {
+        var selFilter = d3.select(filterDiv);
+        populateSelect(selFilter);
+        ListenerAssigner.bindFilterListeners();
+        setArrowExpanded(filterDiv);
+    }
+
+    function setFilterCollapsed(filterDiv, selSelect) {
+        selSelect.remove();
+        setArrowCollapsed(filterDiv);
+    }
+
+    function setArrowExpanded(filterDiv) {
+        d3.select(filterDiv).select(".arrow")
+            .classed("bottom", true)
+            .classed("right", false);
+    }
+
+    function setArrowCollapsed(filterDiv) {
+        d3.select(filterDiv).select(".arrow")
+            .classed("bottom", false)
+            .classed("right", true);
+    }
 
     return module;
 }());

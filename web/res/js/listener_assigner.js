@@ -24,14 +24,14 @@ var ListenerAssigner = (function () {
     }
 
     module.bindFilterListeners = function () {
-        bindFilterTitleClick();
         bindFilterArrowClick();
+        bindFilterTitleClick();
         bindFilterOptionDblclick();
         bindFilterSelectChange();
     };
 
-    function bindFilterArrowClick() {
-        $("#filters").find("> .filter").find(" .arrow")
+    function bindFilterTitleClick() {
+        $("#filters").find("> .filter").find(" .title")
             .off().on("click", function () {
                 var filterName = this.__data__.name;
                 ChartManager.changeAxisByName(filterName);
@@ -49,8 +49,8 @@ var ListenerAssigner = (function () {
             .off("change").on("change", Main.applyFilters);
     }
 
-    function bindFilterTitleClick() {
-        $("#filters").find("> .filter").find(" .title")
+    function bindFilterArrowClick() {
+        $("#filters").find("> .filter").find(" .arrow")
             .off().on("click", function () {
                 var topDiv = this.parentNode;
                 var filterDiv = topDiv.parentNode;

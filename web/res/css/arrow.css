@@ -1,12 +1,16 @@
-
-.arrow {
+.arrow.right {
     width: 0;
     height: 0;
-    border-top: 7px solid transparent;
-    border-bottom: 7px solid transparent;
-    border-left: 7px solid lightgray;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    border-left: 4px solid black;
+    margin-left: 4px; /* keeps .arrow.right same width as .arrow.bottom */
 }
 
-.arrow.active {
-    border-left: 7px solid black;
+.arrow.bottom {
+    width: 0;
+    height: 0;
+    border-top: 4px solid black;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
 }

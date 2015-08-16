@@ -6,7 +6,6 @@
     - seller score
 
 - ui
-    - collapse/expand aspects
     ? change aspect filters according to selected category (hide unused ones)
     - colors
        http://coolors.co/browser
