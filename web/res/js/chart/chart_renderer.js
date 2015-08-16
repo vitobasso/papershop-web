@@ -98,7 +98,7 @@ var ChartRenderer = (function() {
     }
 
     function assignTooltips() {
-        $(chartDivId).find("svg").tooltip(dataRenderer.getTooltipParams());
+        $(chartDivId).find("svg").tooltip(ItemTooltip.getParams());
     }
 
     function updateDomains() {

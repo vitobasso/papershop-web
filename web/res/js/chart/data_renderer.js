@@ -7,7 +7,6 @@ function DataRenderer(canvas, data, bounds) {
 
     this.radius = radius;
     this.render = render;
-    this.getTooltipParams = getTooltipParams;
 
     ////////////////////////////////////////////////////////////////////////////////////
 
@@ -53,25 +52,6 @@ function DataRenderer(canvas, data, bounds) {
         var space = bounds.width * bounds.height;
         var n = Math.max(1, data.length);
         return Math.sqrt(space/(10*n))/2; // such that n images take 10% of space
-    }
-
-////////////////////////////////////////////////////////////////////////////////////
-
-    function getTooltipParams() {
-        return {
-            items: "image",
-            content: buildTooltip
-        }
-    }
-
-    function buildTooltip() {
-        var item = this.__data__;
-        var priceStr = item.price.currency + " " + item.price.value;
-        return "<div class='chart-tooltip'>" +
-            "<p>" + item.title + "</p>" +
-            "<img src='" + item.image + "'/>" +
-            "<p>" + priceStr + "</p>" +
-            "</div>";
     }
 
 }
