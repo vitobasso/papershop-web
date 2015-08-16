@@ -25,11 +25,12 @@ var ListenerAssigner = (function () {
 
     module.bindFilterListeners = function () {
         bindFilterTitleClick();
+        bindFilterArrowClick();
         bindFilterOptionDblclick();
         bindFilterSelectChange();
     };
 
-    function bindFilterTitleClick() {
+    function bindFilterArrowClick() {
         $("#filters").find("> .filter").find(" .arrow")
             .off().on("click", function () {
                 var filterName = this.__data__.name;
@@ -46,6 +47,15 @@ var ListenerAssigner = (function () {
     function bindFilterSelectChange() {
         $("#filters").find("div.filter select")
             .off("change").on("change", Main.applyFilters);
+    }
+
+    function bindFilterTitleClick() {
+        $("#filters").find("> .filter").find(" .title")
+            .off().on("click", function () {
+                var topDiv = this.parentNode;
+                var filterDiv = topDiv.parentNode;
+                FilterUI.toggleExpanded(filterDiv);
+            });
     }
 
     module.bindRequestLogDialog = function () {

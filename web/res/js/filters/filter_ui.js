@@ -1,7 +1,7 @@
 /**
  * Created by Victor on 11/07/2015.
  */
-var FilterUI = (function() {
+var FilterUI = (function () {
     var module = {};
 
     module.populate = function (filters) {
@@ -31,12 +31,16 @@ var FilterUI = (function() {
             .classed("active", isXAxis);
 
         // values list
+        populateSelect(selFilter);
+    }
+
+    function populateSelect(selFilter) {
         selFilter.append("select")
             .attr("id", getFilterId)
             .each(populateOptions);
     }
 
-    function updateOptions(filters){
+    function updateOptions(filters) {
         selectDivs(filters)
             .select("select")
             .each(populateOptions)
@@ -63,7 +67,7 @@ var FilterUI = (function() {
         return "filter-" + filter.name;
     }
 
-    module.refresh = function() {
+    module.refresh = function () {
         d3.select("#filters")
             .selectAll("div.filter")
             .selectAll(".arrow")
@@ -74,6 +78,17 @@ var FilterUI = (function() {
         var xAxis = ChartManager.getXAxis();
         return xAxis && filter.name == xAxis.label;
     }
+
+    module.toggleExpanded = function (filterDiv) {
+        var selSelect = $(filterDiv).find("select");
+        if (selSelect.length) {
+            selSelect.remove();
+        } else {
+            var selFilter = d3.select(filterDiv);
+            populateSelect(selFilter);
+            ListenerAssigner.bindFilterListeners();
+        }
+    };
 
     return module;
 }());
