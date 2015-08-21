@@ -1,0 +1,9 @@
+shop 2d
+patch shop
+snip shop
+paper shop
+square shop
+shop squared
+sticker
+stamp
+flying stickers shop

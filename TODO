@@ -1,15 +1,13 @@
 
 - filters
-    - ships to
-    - price (zoom on chart)
-    - seller
-    - seller score
-
-- ui
+    - to create
+        - ships to
+        - price (zoom on chart)
+        - seller
+        - seller score
+    - show currently applied filters in request-log dialog
+    - keep track of selection in collapsed filters
     ? change aspect filters according to selected category (hide unused ones)
-    - colors
-       http://coolors.co/browser
-       http://www.colorcombos.com/color-schemes/7625/ColorCombo7625.html
 
 - config
     - ebay site, "AvailableTo" country
@@ -26,6 +24,11 @@
 - usability
     ? undo select filters w/o ctrl
         . bad for request on double click though
+
+- ui
+    - colors
+       http://coolors.co/browser
+       http://www.colorcombos.com/color-schemes/7625/ColorCombo7625.html
 
 - ebay api wrapper
     https://github.com/benbuckman/nodejs-ebay-api
