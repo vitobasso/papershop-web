@@ -22,6 +22,8 @@ var FilterUI = (function () {
 
         // arrow
         top.append("div")
+            .classed("expander", true)
+            .append("div")
             .classed("arrow", true)
             .classed("right", true);
 

@@ -50,7 +50,7 @@ var ListenerAssigner = (function () {
     }
 
     function bindFilterArrowClick() {
-        $("#filters").find("> .filter").find(" .arrow")
+        $("#filters").find("> .filter").find(" .expander")
             .off().on("click", function () {
                 var topDiv = this.parentNode;
                 var filterDiv = topDiv.parentNode;
