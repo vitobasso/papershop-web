@@ -7,6 +7,7 @@ module.exports = function (grunt) {
         },
         uglify: {
             release: {
+                mangle: true,
                 files: {
                     'build/all.min.js': [
 
