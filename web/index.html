@@ -4,18 +4,14 @@
     <meta charset="UTF-8">
     <title></title>
 
-    <!-- libs -->
     <link href='http://fonts.googleapis.com/css?family=PT+Sans|Roboto' rel='stylesheet' type='text/css'>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8"></script>
     <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="res/css/libs/jquery.contextMenu.css">
-    <script src="res/js/libs/jquery.contextMenu.js"></script>
-    <script src="res/js/libs/naturalsort.js"></script>
-    <script src="res/js/libs/fuzzyset.js"></script>
 
-    <!-- project -->
+    <!-- build:css all.min.css -->
+    <link rel="stylesheet" type="text/css" href="res/css/libs/jquery.contextMenu.css">
     <link rel="stylesheet" type="text/css" href="res/css/general_layout.css"/>
     <link rel="stylesheet" type="text/css" href="res/css/general_lookandfeel.css"/>
     <link rel="stylesheet" type="text/css" href="res/css/chart.css"/>
@@ -26,6 +22,12 @@
     <link rel="stylesheet" type="text/css" href="res/css/request_log.css"/>
     <link rel="stylesheet" type="text/css" href="res/css/jquery-ui_custom_style.css"/>
     <link rel="stylesheet" type="text/css" href="res/css/arrow.css"/>
+    <!-- /build -->
+
+    <!-- build:js all.min.js -->
+    <script src="res/js/libs/jquery.contextMenu.js"></script>
+    <script src="res/js/libs/naturalsort.js"></script>
+    <script src="res/js/libs/fuzzyset.js"></script>
     <script src="res/js/util/lang_util.js"></script>
     <script src="res/js/util/set.js"></script>
     <script src="res/js/util/common.js"></script>
@@ -56,6 +58,8 @@
     <script src="res/js/messages/message_ui.js"></script>
     <script src="res/js/listener_assigner.js"></script>
     <script src="res/js/main.js"></script>
+    <script src="res/js/initializer.js"></script>
+    <!-- /build -->
 
 </head>
 <body>
@@ -94,19 +98,6 @@
         </tbody>
     </table>
 </div>
-
-<script>
-    Main.init();
-    ChartRenderer.init(); //FIXME glitchy size causing scrollbars to appear
-    Categories.init();
-    Config.init();
-    ChartManager.init(); //FIXME depends on ChartRenderer & Categories.
-    ItemFinder.init();
-    RequestLog.init();
-    RequestLogUI.init();
-    AspectsFinder.init();
-    Items.init();
-</script>
 
 </body>
 </html>
