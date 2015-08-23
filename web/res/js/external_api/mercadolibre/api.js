@@ -3,6 +3,7 @@
  */
 
 function MLApi() {
+    //FIXME duplicates EbayApi
 
     var urlBuilder = new MLUrlBuilder();
     var parser = new MLResponseParser();
