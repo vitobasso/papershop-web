@@ -8,6 +8,7 @@ var ItemFinder = (function () {
 
     module.init = function () {
         api = new EbayApi();
+        //api = new MLApi();
     };
 
     module.find = function () {
