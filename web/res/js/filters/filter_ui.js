@@ -67,7 +67,6 @@ var FilterUI = (function () {
     module.refresh = function () {
         d3.select("#filters")
             .selectAll("div.filter")
-            .selectAll(".arrow")
             .classed("active", isXAxis);
     };
 

@@ -50,3 +50,7 @@
 .filter .arrow {
     margin-right: 4px;
 }
+
+.filter.active .title{
+    text-decoration: underline;
+}
