@@ -10,19 +10,23 @@
     margin-top: 10px;
 }
 
-.filter select {
-    width: 100%;
-    border: none;
-    display: block; /* list box below title, not beside */
-    overflow: hidden; /* only show scrollbar on hover */
+.filter ul {
+    list-style: none;
+    margin: 0;
+    padding-left: 10px;
 }
 
-.filter select:hover {
-    overflow: overlay; /* only show scrollbar on hover */
+.filter li {
+    display: flex;
 }
 
-.filter option {
-    white-space: normal; /* wrap text */
+.filter input {
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.filter label {
+    cursor: pointer;
 }
 
 .filter .top {

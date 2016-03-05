@@ -26,7 +26,7 @@ var ListenerAssigner = (function () {
     module.bindFilterListeners = function () {
         bindFilterArrowClick();
         bindFilterTitleClick();
-        bindFilterOptionDblclick();
+        bindFilterItemClick();
         bindFilterSelectChange();
     };
 
@@ -39,13 +39,21 @@ var ListenerAssigner = (function () {
             })
     }
 
-    function bindFilterOptionDblclick() {
-        $("#filters").find("div.filter option")
-            .off("dblclick").on("dblclick", ItemFinder.find);
+    function bindFilterItemClick() {
+        $("#filters").find("div.filter label")
+            .off().on("click", function(){
+                $(this).parent().find("input")
+                    .prop("checked", invert)
+                    .change();
+            })
+    }
+
+    function invert(i, value){
+        return !value;
     }
 
     function bindFilterSelectChange() {
-        $("#filters").find("div.filter select")
+        $("#filters").find("div.filter input")
             .off("change").on("change", Main.applyFilters);
     }
 

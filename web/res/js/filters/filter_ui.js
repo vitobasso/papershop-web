@@ -6,7 +6,7 @@ var FilterUI = (function () {
 
     module.populate = function (filters) {
         populateFilters(filters);
-        updateOptions(filters);
+        updateItems(filters);
         ListenerAssigner.bindFilterListeners();
         return selectDivs(filters);
     };
@@ -33,28 +33,26 @@ var FilterUI = (function () {
             .html(getName);
     }
 
-    function populateSelect(selFilter) {
-        selFilter.append("select")
+    function populateList(selFilter) {
+        selFilter.append("ul")
             .attr("id", getFilterId)
-            .each(populateOptions);
+            .each(populateItems);
     }
 
-    function updateOptions(filters) {
+    function updateItems(filters) {
         selectDivs(filters)
-            .select("select")
-            .each(populateOptions)
+            .select("ul")
+            .each(populateItems)
     }
 
-    function populateOptions(filter) {
+    function populateItems(filter) {
         var getLabel = filter.getValueLabel;
-        d3.select(this)
-            .attr("size", filter.values.length)
-            .attr("multiple", true);
-        d3.select(this)
-            .selectAll("option").data(filter.values, getLabel)
+        var li = d3.select(this)
+            .selectAll("li").data(filter.values, getLabel)
             .enter()
-            .append("option")
-            .html(getLabel);
+            .append("li")
+        li.append("input").attr("type", "checkbox")
+        li.append("label").html(getLabel);
     }
 
     function selectDivs(filters) {
@@ -80,7 +78,7 @@ var FilterUI = (function () {
     }
 
     module.toggleExpanded = function (filterDiv) {
-        var selSelect = $(filterDiv).find("select");
+        var selSelect = $(filterDiv).find("ul");
         if (selSelect.length) {
             setFilterCollapsed(filterDiv, selSelect);
         } else {
@@ -90,13 +88,13 @@ var FilterUI = (function () {
 
     function setFilterExpanded(filterDiv) {
         var selFilter = d3.select(filterDiv);
-        populateSelect(selFilter);
+        populateList(selFilter);
         ListenerAssigner.bindFilterListeners();
         setArrowExpanded(filterDiv);
     }
 
-    function setFilterCollapsed(filterDiv, selSelect) {
-        selSelect.remove();
+    function setFilterCollapsed(filterDiv, selList) {
+        selList.remove();
         setArrowCollapsed(filterDiv);
     }
 
