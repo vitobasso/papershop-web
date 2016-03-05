@@ -14,33 +14,23 @@ var UIParamsInput = (function() {
 
     function getFiltersFromUI(filterClass) {
         var filters = [];
-        $(filterClass).find("ul").each(function (i, filterNode) {
-            var sel = $(filterNode).find("li").filter(hasCheckedItem);
-            if (sel.length > 0) {
-                var filter = getFilterFromUI(filterNode.__data__, sel);
-                filters.push(filter);
+        $(filterClass).each(function (i, filterNode) {
+            var data = filterNode.__data__;
+            var selected = data.values.filter(isChecked)
+            if(selected.length > 0){
+                filters.push({
+                    filter: data,
+                    selected: selected
+                });
             }
-        });
+        })
         return filters;
     }
 
-    function hasCheckedItem(){
-        var checkedInputs = $(this).find("input").filter(isChecked)
-        return checkedInputs.length > 0;
+    function isChecked(item){
+        return item.checked
     }
 
-    function isChecked(){
-        return this.checked
-    }
-
-    function getFilterFromUI(filter, selectedOptions) {
-        return {
-            filter: filter,
-            selected: selectedOptions.toArray().map(function (option) {
-                return option.__data__;
-            })
-        }
-    }
 
     return module;
 }());

@@ -27,7 +27,7 @@ var ListenerAssigner = (function () {
         bindFilterArrowClick();
         bindFilterTitleClick();
         bindFilterItemClick();
-        bindFilterSelectChange();
+        bindFilterItemChange();
     };
 
     function bindFilterTitleClick() {
@@ -52,9 +52,13 @@ var ListenerAssigner = (function () {
         return !value;
     }
 
-    function bindFilterSelectChange() {
+    function bindFilterItemChange() {
         $("#filters").find("div.filter input")
-            .off("change").on("change", Main.applyFilters);
+            .off("change").on("change", function(){
+                this.__data__.checked = this.checked
+                Main.applyFilters()
+            });
+
     }
 
     function bindFilterArrowClick() {

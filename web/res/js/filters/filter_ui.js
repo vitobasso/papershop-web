@@ -51,8 +51,12 @@ var FilterUI = (function () {
             .selectAll("li").data(filter.values, getLabel)
             .enter()
             .append("li")
-        li.append("input").attr("type", "checkbox")
+        li.append("input").attr("type", "checkbox").property("checked", isChecked)
         li.append("label").html(getLabel);
+    }
+
+    function isChecked(d){
+        return d.checked;
     }
 
     function selectDivs(filters) {

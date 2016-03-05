@@ -29,11 +29,17 @@ var AspectsFinder = (function() {
         };
     }
 
+    // takes "aspect" objects returned by the api and adds properties used by the UI
     function addFilterProperties(aspects) {
         aspects.forEach(function(aspect) {
-            aspect["getValueLabel"] = identity;
-            aspect["getValueId"] = identity;
+            aspect["getValueLabel"] = getName;
+            aspect["getValueId"] = getName;
+            aspect.values = aspect.values.map(wrapWithObject)
         });
+    }
+
+    function wrapWithObject(value){
+        return typeof(value) != "object" ? {name: value} : value;
     }
 
     function rememberAspects(category, aspects) {
@@ -47,7 +53,7 @@ var AspectsFinder = (function() {
         var map = {};
         for (var i = 0, aspect; aspect = aspects[i]; i++) {
             for (var j = 0, value; value = aspect.values[j]; j++) {
-                map[value] = aspect;
+                map[value.name] = aspect;
             }
         }
         return map;

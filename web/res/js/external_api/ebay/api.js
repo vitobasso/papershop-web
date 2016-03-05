@@ -25,7 +25,11 @@ function EbayApi() {
             try {
                 var result = parse(response);
             } catch (err) {
-                onFail(err);
+                if(onFail){
+                    onFail(err);
+                } else {
+                    throw err;
+                }
                 return;
             }
             onSuccess(result);

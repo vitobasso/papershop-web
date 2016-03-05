@@ -30,14 +30,14 @@ var Filters = (function () {
         {
             name: "ListingType",
             values: [
-                "Auction",
-                "AuctionWithBIN",
-                "Classified",
-                "FixedPrice",
-                "StoreInventory"
+                {name: "Auction"},
+                {name: "AuctionWithBIN"},
+                {name: "Classified"},
+                {name: "FixedPrice"},
+                {name: "StoreInventory"}
             ],
-            getValueLabel: identity,
-            getValueId: identity
+            getValueLabel: getName,
+            getValueId: getName
         },
         {
             name: "End",
