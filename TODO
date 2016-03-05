@@ -6,7 +6,6 @@
         - seller
         - seller score
     - show currently applied filters in request-log dialog
-    - keep track of selection in collapsed filters
     ? change aspect filters according to selected category (hide unused ones)
 
 - config
@@ -20,10 +19,6 @@
 
 - bugs
     - tooltip get stuck
-
-- usability
-    ? undo select filters w/o ctrl
-        . bad for request on double click though
 
 - ui
     - colors
