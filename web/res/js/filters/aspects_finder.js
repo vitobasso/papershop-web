@@ -39,6 +39,8 @@ var AspectsFinder = (function() {
     }
 
     function wrapWithObject(value){
+        //aspect filters have raw strings as values, common filters have objects already
+        //TODO make aspect filters' values objects from the beginning?
         return typeof(value) != "object" ? {name: value} : value;
     }
 

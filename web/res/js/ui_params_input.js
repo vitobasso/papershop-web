@@ -16,7 +16,7 @@ var UIParamsInput = (function() {
         var filters = [];
         $(filterClass).each(function (i, filterNode) {
             var data = filterNode.__data__;
-            var selected = data.values.filter(isChecked)
+            var selected = data.values.filter(isChecked);
             if(selected.length > 0){
                 filters.push({
                     filter: data,

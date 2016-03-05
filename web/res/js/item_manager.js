@@ -16,7 +16,7 @@ var Items = (function () {
     };
 
     function merge(oldItem, newItem) {
-        for (var key in  newItem.aspects) {
+        for (var key in newItem.aspects) {
             if (newItem.aspects.hasOwnProperty(key)) {
                 oldItem.aspects[key] = newItem.aspects[key];
             }
