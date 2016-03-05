@@ -15,7 +15,7 @@ var UIParamsInput = (function() {
     function getFiltersFromUI(filterClass) {
         var filters = [];
         $(filterClass).find("ul").each(function (i, filterNode) {
-            var sel = $(filterNode).find("li").filter(hasCheckedInput);
+            var sel = $(filterNode).find("li").filter(hasCheckedItem);
             if (sel.length > 0) {
                 var filter = getFilterFromUI(filterNode.__data__, sel);
                 filters.push(filter);
@@ -24,7 +24,7 @@ var UIParamsInput = (function() {
         return filters;
     }
 
-    function hasCheckedInput(){
+    function hasCheckedItem(){
         var checkedInputs = $(this).find("input").filter(isChecked)
         return checkedInputs.length > 0;
     }

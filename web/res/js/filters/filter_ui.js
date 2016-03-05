@@ -70,7 +70,6 @@ var FilterUI = (function () {
             .classed("active", isXAxis);
     };
 
-    //TODO mark filter used on chart in the UI
     function isXAxis(filter) {
         var xAxis = ChartManager.getXAxis();
         return xAxis && filter.name == xAxis.label;
