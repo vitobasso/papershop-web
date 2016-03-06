@@ -1,0 +1,49 @@
+
+filter {
+    name
+    value {
+        id
+        name
+        getTime  // for "end" only
+        checked // keep track of UI input
+    }
+    selected {  // when using as params to find new items (ui_params_input.js)
+        name
+    }
+    getValueId     //to cope w/ different formats
+    getValueLabel  //
+}
+
+item { //item_manager.js
+    id
+
+    aspects [
+        filter.value
+    ]
+    category
+
+    // common filters
+    listingType
+    condition
+    end
+    country
+    site
+
+    // other fields
+    image
+    title
+    link
+    price
+
+    // volatile fields
+    point //ui
+}
+
+category { //categories_manager.js
+    id
+    name
+    aspects: [filter]
+    aspectValuesMap: filter.value -> filter
+    fuzzyValues: FuzzySet[filter.value]
+}
+

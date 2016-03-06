@@ -37,6 +37,9 @@ var Items = (function () {
         return allItems.size();
     };
 
+    //for debugging
+    module.list = () => allItems.toArray();
+
     function isCategoryEqual(category) {
         return function(item) {
             return item.category.id == category.id;

@@ -19,6 +19,7 @@
         - disable guesses
 
     - fetch items when click x axis label (add that label's value on respective filter. remove other values selected for same filter if any)
+    - hide unrelated aspects when category is selected
 
 - messages
     - empty keywords
@@ -26,6 +27,7 @@
 
 - bugs
     - tooltip get stuck
+    - category selection lost when collapsing list
 
 - ui
     - colors
