@@ -13,18 +13,22 @@ var UIParamsInput = (function() {
     };
 
     function getFiltersFromUI(filterClass) {
-        var filters = [];
-        $(filterClass).each(function (i, filterNode) {
-            var data = filterNode.__data__;
-            var selected = data.values.filter(isChecked);
-            if(selected.length > 0){
-                filters.push({
-                    filter: data,
-                    selected: selected
-                });
-            }
-        })
-        return filters;
+        return $(filterClass).get()
+            .map(nodeToFilter)
+            .filter(hasSelection);
+    }
+
+    function nodeToFilter(filterNode) {
+        var data = filterNode.__data__;
+        var selected = data.values.filter(isChecked);
+        return {
+            filter: data,
+            selected: selected
+        }
+    }
+
+    function hasSelection(filterNode){
+        return filterNode.selected.length > 0;
     }
 
     function isChecked(item){
