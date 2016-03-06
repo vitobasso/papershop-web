@@ -5,7 +5,7 @@ var ChartRenderer = (function() {
     var module = {};
 
     var chartDivId = "#chart";
-    var margin = {top: 0, right: 2, bottom: 40, left: 40};
+    var margin = {top: 0, right: 2, bottom: 150, left: 40};
     var svgWidth, svgHeight, width, height;
 
     var svg, canvas;
@@ -163,9 +163,23 @@ var ChartRenderer = (function() {
         };
 
         this.update = function () {
-            canvas.selectAll(".axis").filter(".x").call(xAxis);
+            canvas.selectAll(".axis").filter(".x").call(xAxis)
+                .selectAll("text").call(handleTextOverlap);
             canvas.selectAll(".axis").filter(".y").call(yAxis);
         };
+
+        function handleTextOverlap(selText){
+            if(selText.size() > 8){
+                rotateText(selText);
+            }
+        }
+
+        function rotateText(selText){
+            selText.style("text-anchor", "end")
+                .attr("dx", "-.8em")
+                .attr("dy", ".15em")
+                .attr("transform", "rotate(-65)" );
+        }
 
     }
 
