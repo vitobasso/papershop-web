@@ -1,17 +1,24 @@
+- refactor
+    - extract ebay dependant stuff
+    - add ml
+    - add others? marktplaats, olx, etc
 
-- filters
-    - to create
-        - ships to
-        - price (zoom on chart)
-        - seller
-        - seller score
-    - show currently applied filters in request-log dialog
-    ? change aspect filters according to selected category (hide unused ones)
+- functionality
+    - filters
+        - to create
+            - ships to
+            - price (zoom on chart)
+            - seller
+            - seller score
+        - show currently applied filters in request-log dialog
+        ? change aspect filters according to selected category (hide unused ones)
 
-- config
-    - ebay site, "AvailableTo" country
-    ? items per request
-    - disable guesses
+    - config
+        - ebay site, "AvailableTo" country
+        ? items per request
+        - disable guesses
+
+    - fetch items when click x axis label (add that label's value on respective filter. remove other values selected for same filter if any)
 
 - messages
     - empty keywords
