@@ -1,7 +1,7 @@
 /**
  * Created by Victor on 20/07/2015.
  */
-var ListenerAssigner = (function () {
+var HandlerAssigner = (function () {
     var module = {};
 
     module.bindSearchFieldEvents = function () {

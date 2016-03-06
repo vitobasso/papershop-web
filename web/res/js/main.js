@@ -5,7 +5,7 @@ var Main = (function () {
     var module = {};
 
     module.init = function () {
-        ListenerAssigner.bindSearchFieldEvents();
+        HandlerAssigner.bindSearchFieldEvents();
         Filters.populate();
     };
 

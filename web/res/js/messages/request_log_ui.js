@@ -11,7 +11,7 @@ var RequestLogUI = (function () {
         $(divId).dialog({
             autoOpen: false
         });
-        ListenerAssigner.bindRequestLogDialog();
+        HandlerAssigner.bindRequestLogDialog();
     };
 
     module.update = function () {

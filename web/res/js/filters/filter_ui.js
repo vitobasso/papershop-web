@@ -7,7 +7,7 @@ var FilterUI = (function () {
     module.populate = function (filters) {
         populateFilters(filters);
         updateItems(filters);
-        ListenerAssigner.bindFilterListeners();
+        HandlerAssigner.bindFilterListeners();
         return selectDivs(filters);
     };
 
@@ -91,7 +91,7 @@ var FilterUI = (function () {
     function setFilterExpanded(filterDiv) {
         var selFilter = d3.select(filterDiv);
         populateList(selFilter);
-        ListenerAssigner.bindFilterListeners();
+        HandlerAssigner.bindFilterListeners();
         setArrowExpanded(filterDiv);
     }
 
