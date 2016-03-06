@@ -49,7 +49,7 @@ var Categories = (function() {
 
         FilterUI.populate([categoryFilter])
             .classed("common-filter", true)
-            .selectAll("option")
+            .selectAll("li")
             .on("click", AspectsFinder.find);
 
         AspectsFinder.find(categories[0]);
