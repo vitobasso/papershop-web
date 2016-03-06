@@ -1,5 +1,6 @@
 #keyword-div {
     display: flex;
+    flex-shrink: 0;
 }
 
 #keyword-div input {
