@@ -1,6 +1,4 @@
-/**
- * Created by Victor on 06/08/2015.
- */
+
 var Config = (function () {
     var module = {};
 

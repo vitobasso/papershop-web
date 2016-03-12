@@ -1,6 +1,4 @@
-/**
- * Created by Victor on 10/07/2015.
- */
+
 var Filters = (function () {
     var module = {};
 

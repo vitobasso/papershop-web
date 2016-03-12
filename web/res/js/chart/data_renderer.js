@@ -1,6 +1,4 @@
-/**
- * Created by Victor on 17/07/2015.
- */
+
 function DataRenderer(canvas, data, bounds) {
 
     var radius = calcRadius();

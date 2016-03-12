@@ -1,6 +1,4 @@
-/**
- * Created by Victor on 01/07/2015.
- */
+
 var Categories = (function() {
     var module = {};
 

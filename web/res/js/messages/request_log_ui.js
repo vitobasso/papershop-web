@@ -1,6 +1,4 @@
-/**
- * Created by Victor on 15/07/2015.
- */
+
 var RequestLogUI = (function () {
     var module = {};
 

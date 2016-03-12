@@ -1,6 +1,3 @@
-/**
- * Created by Victor on 30/06/2015.
- */
 
 function EbayApi() {
     //FIXME duplicates MLApi

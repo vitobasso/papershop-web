@@ -1,6 +1,3 @@
-/**
- * Created by Victor on 05/07/2015.
- */
 
 Array.prototype.chunk = function (chunkSize) {
     var array = this;

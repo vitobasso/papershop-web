@@ -1,6 +1,4 @@
-/**
- * Created by Victor on 05/07/2015.
- */
+
 var ChartManager = (function () {
     var module = {};
 

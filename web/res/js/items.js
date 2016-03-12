@@ -1,6 +1,4 @@
-/**
- * Created by Victor on 20/07/2015.
- */
+
 var Items = (function () {
     var module = {};
 

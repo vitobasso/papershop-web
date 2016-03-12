@@ -1,6 +1,3 @@
-/**
- * Created by Victor on 08/07/2015.
- */
 
 function identity(object) {
     return object;

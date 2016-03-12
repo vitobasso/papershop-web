@@ -1,6 +1,4 @@
-/**
- * Created by Victor on 30/06/2015.
- */
+
 var ChartRenderer = (function() {
     var module = {};
 

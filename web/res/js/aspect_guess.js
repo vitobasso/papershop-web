@@ -1,6 +1,4 @@
-/**
- * Created by Victor on 08/07/2015.
- */
+
 var AspectGuesser = (function () {
     var module = {};
 

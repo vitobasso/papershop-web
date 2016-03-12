@@ -1,6 +1,4 @@
-/**
- * Created by Victor on 11/07/2015.
- */
+
 var FilterUI = (function () {
     var module = {};
 

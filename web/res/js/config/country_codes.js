@@ -1,6 +1,4 @@
-/**
- * Created by Victor on 02/08/2015.
- */
+
 var COUNTRY_CODES = [
     {id:"AF", name:"Afghanistan"},
     {id:"AX", name:"Åland Islands"},

@@ -1,6 +1,4 @@
-/**
- * Created by Victor on 09/07/2015.
- */
+
 var AxisFactory = (function (){
     var module = {};
 

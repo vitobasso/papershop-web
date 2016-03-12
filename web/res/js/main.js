@@ -19,8 +19,6 @@ var Main = (function () {
         Items.add(newItems);
     }
 
-    ////////////////////////////////////////////////////////////
-
     function rememberAspectsFromRequest(requestParams, newItems) {
         var requestAspects = getAspectsFromRequest(requestParams);
         newItems.forEach(function (item) {

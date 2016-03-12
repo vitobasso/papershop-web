@@ -1,6 +1,4 @@
-/**
- * Created by Victor on 15/07/2015.
- */
+
 var RequestLog = (function () {
     var module = {};
 

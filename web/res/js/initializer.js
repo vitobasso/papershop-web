@@ -1,6 +1,4 @@
-/**
- * Created by Victor on 21/08/2015.
- */
+
 function init() {
     Main.init();
     ChartRenderer.init(); //FIXME glitchy size causing scrollbars to appear

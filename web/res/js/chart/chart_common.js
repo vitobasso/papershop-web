@@ -1,6 +1,4 @@
-/**
- * Created by Victor on 19/07/2015.
- */
+
 var ChartCommon = (function(){
     var module = {};
 

@@ -1,6 +1,4 @@
-/**
- * Created by Victor on 11/07/2015.
- */
+
 var ItemFilter = (function () {
     var module = {};
 

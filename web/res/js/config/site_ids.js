@@ -1,6 +1,4 @@
-/**
- * Created by Victor on 02/08/2015.
- */
+
 var SITE_IDS = [
     {id: "EBAY-US",    name: "United States"},
     {id: "EBAY-ENCA",  name: "Canada (English)"},
