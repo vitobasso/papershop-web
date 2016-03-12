@@ -1,14 +1,14 @@
-item_finder             request.find-items                  main
-                                                            request_log
+item_finder             find-items                   main
+                                                     request_log
 
-                        request-failed.find-items           request_log
+                        failed.find-items            request_log
 
-items                   new-items                           message_ui
-                                                            chart_manager
-                                                            categories
-                                                            filters //why?
+items                   new-items                    message_ui
+                                                     chart_manager
+                                                     categories
+                                                     filters //why?
 
-main                    apply-filter                        message_ui
-                                                            chart_manager
+main                    apply-filter                 message_ui
+                                                     chart_manager
 
-aspects_finder          categories.new-properties           chart_manager
+aspects_finder          new-properties               chart_manager

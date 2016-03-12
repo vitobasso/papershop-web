@@ -11,7 +11,7 @@ var ChartManager = (function () {
         items = [];
         $.subscribe('new-items', onNewItems);
         $.subscribe('apply-filter', onApplyFilter);
-        $.subscribe('categories.new-properties', updateAxisOptions);
+        $.subscribe('new-properties', updateAxisOptions);
         updateAxisOptions(); //FIXME depends on Categories
         xAxis = axisOptions[0];
         buildChart(); //FIXME depends on ChartRenderer

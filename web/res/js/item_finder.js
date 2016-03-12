@@ -22,12 +22,12 @@ var ItemFinder = (function () {
 
 
         function onSuccess(result) {
-            $.publish('request.find-items', [params, result]);
+            $.publish('find-items', [params, result]);
         }
 
         function onFail(err) {
             console.log("Find failed: " + err);
-            $.publish('request-failed.find-items', params);
+            $.publish('failed.find-items', params);
         }
 
     };

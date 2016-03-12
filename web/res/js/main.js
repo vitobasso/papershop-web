@@ -4,7 +4,7 @@ var Main = (function () {
     module.init = function () {
         HandlerAssigner.bindSearchFieldEvents();
         Filters.populate();
-        $.subscribe('request.find-items', updateChart);
+        $.subscribe('find-items', updateChart);
     };
 
     module.applyFilters = function () {

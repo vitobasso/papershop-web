@@ -12,8 +12,8 @@ var RequestLog = (function () {
 
     module.init = function () {
         requestHistory = new Set(stringifyIdFields);
-        $.subscribe('request.find-items', onRequestSuccessful);
-        $.subscribe('request-failed.find-items', onRequestFailed);
+        $.subscribe('find-items', onRequestSuccessful);
+        $.subscribe('failed.find-items', onRequestFailed);
     };
 
     module.getHistory = function () {
