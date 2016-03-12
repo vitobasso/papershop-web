@@ -11,19 +11,19 @@ var ChartManager = (function () {
         items = [];
         $.subscribe('new-items', onNewItems);
         $.subscribe('apply-filter', onApplyFilter);
-        module.updateAxisOptions(); //FIXME depends on Categories
+        $.subscribe('categories.new-properties', updateAxisOptions);
+        updateAxisOptions(); //FIXME depends on Categories
         xAxis = axisOptions[0];
         buildChart(); //FIXME depends on ChartRenderer
     };
 
-    function onNewItems(_, newItems) {
-        populateFilters(newItems);
-        module.updateAxisOptions();
-        setData(newItems);
+    function onNewItems(_, newItems, filtered) {
+        updateAxisOptions();
+        setData(filtered);
     }
 
-    function onApplyFilter(_, items){
-        setData(items);
+    function onApplyFilter(_, filtered){
+        setData(filtered);
     }
 
     function setData(newItems) {
@@ -31,9 +31,9 @@ var ChartManager = (function () {
         ChartRenderer.setData(items);
     }
 
-    module.updateAxisOptions = _ => {
+    function updateAxisOptions() {
         axisOptions = AxisFactory.listOptions();
-    };
+    }
 
     function buildChart() {
         if (items) {
@@ -43,10 +43,6 @@ var ChartManager = (function () {
 
     ////////////////////////////////////////////////////////////////////////
 
-    function populateFilters(newItems) {
-        Filters.populate();
-        Categories.populate(newItems);
-    }
 
     module.changeAxisByName = name => {
         var axis = axisOptions.find(labelEquals(name));

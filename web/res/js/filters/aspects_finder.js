@@ -22,7 +22,7 @@ var AspectsFinder = (function() {
         return aspects => {
             addFilterProperties(aspects);
             rememberAspects(category, aspects);
-            ChartManager.updateAxisOptions();
+            $.publish('categories.new-properties');
             guessAspectsForOldItems(category);
             FilterUI.populate(aspects)
                 .classed("aspect-filter", true);

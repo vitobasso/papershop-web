@@ -4,6 +4,10 @@
 var Filters = (function () {
     var module = {};
 
+    module.init = () => {
+        $.subscribe('new-items', module.populate);
+    };
+
     module.populate = _ => FilterUI.populate(filters)
                                 .classed("common-filter", true);
 

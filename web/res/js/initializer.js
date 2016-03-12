@@ -13,6 +13,7 @@ function init() {
     AspectsFinder.init();
     Items.init();
     MessageUI.init();
+    Filters.init();
 }
 
 $(init);

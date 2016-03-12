@@ -5,6 +5,10 @@ item_finder             request.find-items                  main
 
 items                   new-items                           message_ui
                                                             chart_manager
+                                                            categories
+                                                            filters //why?
 
 main                    apply-filter                        message_ui
                                                             chart_manager
+
+aspects_finder          categories.new-properties           chart_manager

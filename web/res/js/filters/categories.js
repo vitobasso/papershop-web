@@ -8,19 +8,20 @@ var Categories = (function() {
 
     module.init = _ => {
         set = new Set(getId);
+        $.subscribe('new-items', onNewItems)
     };
 
     module.each = fun => set.each(fun);
 
     module.get = category => set.get(category);
 
-    module.list = _ => set.toArray();
+    module.list = () => set.toArray();
 
-    module.populate = items => {
+    function onNewItems(_, items) {
         var categories = uniqueCategories(items);
         set.addAll(categories);
-        populateCategories(categories);
-    };
+        populateCategories();
+    }
 
     function uniqueCategories(items) {
         var mapByCategoryId = d3.map(items, getCategoryId);
@@ -37,7 +38,8 @@ var Categories = (function() {
 
     var getCategoryId = item => item.category.id;
 
-    function populateCategories(categories) {
+    function populateCategories() {
+        var categories = set.toArray();
         var categoryFilter = {
             name: "Category",
             values: categories,

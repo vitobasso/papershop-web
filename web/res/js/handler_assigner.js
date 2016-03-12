@@ -55,7 +55,7 @@ var HandlerAssigner = (function () {
     function bindFilterItemChange() {
         $("#filters").find("div.filter input")
             .off("change").on("change", function(){
-                this.__data__.checked = this.checked
+                this.__data__.checked = this.checked;
                 Main.applyFilters()
             });
 

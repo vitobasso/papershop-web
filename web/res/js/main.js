@@ -10,7 +10,7 @@ var Main = (function () {
     module.applyFilters = function () {
         var items = Items.filter();
         $.publish('apply-filter', [items]);
-    }
+    };
 
     function updateChart(_, requestParams, result) {
         var newItems = result.items;
