@@ -1,0 +1,43 @@
+category {
+    id
+    name
+    attributes[] {
+        id
+        name
+        values[] {
+            id
+            name
+        }
+    }
+}
+
+category.fuzzy {
+    attrMapByValue: attribute.value -> attribute
+    fuzzyValues: FuzzySet[attribute.value]
+}
+
+filter {
+    attribute{
+        values[] {
+            id
+            name
+            checked
+        }
+    }
+    selected
+}
+
+item { //item_manager.js
+    id
+    category
+    attributes[]: id -> value.id
+
+    // other fields
+    image
+    title
+    link
+    price
+
+    // volatile fields
+    point //ui
+}

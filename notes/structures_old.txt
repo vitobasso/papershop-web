@@ -1,3 +1,10 @@
+category { //categories_manager.js
+    id
+    name
+    aspects: [filter]
+    aspectValuesMap: filter.value -> filter
+    fuzzyValues: FuzzySet[filter.value]
+}
 
 filter {
     name
@@ -38,12 +45,3 @@ item { //item_manager.js
     // volatile fields
     point //ui
 }
-
-category { //categories_manager.js
-    id
-    name
-    aspects: [filter]
-    aspectValuesMap: filter.value -> filter
-    fuzzyValues: FuzzySet[filter.value]
-}
-
