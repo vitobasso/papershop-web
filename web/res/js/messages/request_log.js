@@ -12,6 +12,8 @@ var RequestLog = (function () {
 
     module.init = function () {
         requestHistory = new Set(stringifyIdFields);
+        $.subscribe('request.find-items', onRequestSuccessful);
+        $.subscribe('request-failed.find-items', onRequestFailed);
     };
 
     module.getHistory = function () {
@@ -26,12 +28,12 @@ var RequestLog = (function () {
         return result;
     };
 
-    module.notifyRequestSuccessful = function (params, metadata) {
+    function onRequestSuccessful(_, params, result) {
         delete params.isPending;
         delete params.failed;
-        countResults(params, metadata);
+        countResults(params, result.metadata);
         updateUI();
-    };
+    }
 
     function countResults(params, metadata) {
         params.lastItem = params.lastItem || 0;
@@ -39,7 +41,7 @@ var RequestLog = (function () {
         params.totalItems = metadata.totalItems;
     }
 
-    module.notifyRequestFailed = function(params) {
+    function onRequestFailed(_, params) {
         delete params.isPending;
         params.failed = true;
         updateUI();

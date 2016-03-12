@@ -12,6 +12,7 @@ function init() {
     RequestLogUI.init();
     AspectsFinder.init();
     Items.init();
+    MessageUI.init();
 }
 
 $(init);

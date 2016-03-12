@@ -1,6 +1,3 @@
-/**
- * Created by Victor on 19/07/2015.
- */
 var ItemFinder = (function () {
     var module = {};
 
@@ -15,7 +12,7 @@ var ItemFinder = (function () {
         var uiParams = UIParamsInput.getParams();
         if (uiParams.keywords) {
             try {
-                var params = RequestLog.notifyNewRequestAndGetPaging(uiParams);
+                var params = RequestLog.notifyNewRequestAndGetPaging(uiParams); //TODO publish & paging
                 checkTotalItems(params);
                 api.find(params, onSuccess, onFail);
             } catch (err) {
@@ -25,13 +22,12 @@ var ItemFinder = (function () {
 
 
         function onSuccess(result) {
-            Main.updateChart(params, result.items);
-            RequestLog.notifyRequestSuccessful(params, result.metadata);
+            $.publish('request.find-items', [params, result]);
         }
 
         function onFail(err) {
-            RequestLog.notifyRequestFailed(params);
             console.log("Find failed: " + err);
+            $.publish('request-failed.find-items', params);
         }
 
     };

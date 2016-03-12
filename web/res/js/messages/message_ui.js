@@ -5,29 +5,41 @@
 var MessageUI = (function () {
     var module = {};
 
-    var total = 0, filtered = 0;
+    var totalCount = 0, filteredCount = 0;
 
-    module.setTotal = function (newTotal) {
-        total = newTotal;
-        setText();
-    };
-
-    module.setFiltered = function (newFiltered) {
-        filtered = newFiltered;
-        setText();
+    module.init = _ => {
+        $.subscribe('new-items', onNewItems)
+        $.subscribe('apply-filter', onApplyFilter)
     };
 
     module.updateRequestStatus = function () {
-        setText();
+        update();
     };
 
-    function setText() {
+    function onNewItems(_, newItems, filtered, all){
+        totalCount = all.length;
+        updateFilteredCount(filtered.length);
+        update();
+    }
+
+    function onApplyFilter (_, filtered) {
+        updateFilteredCount(filtered.length);
+        update();
+    }
+
+    function updateFilteredCount(newCount){
+        if(newCount){
+            filteredCount = newCount;
+        }
+    }
+
+    function update() {
         var msg = buildStatusMessage() || buildCountMessage();
         $("#message").text(msg);
     }
 
     function buildCountMessage() {
-        return "Showing " + filtered + "/" + total + " items:";
+        return "Showing " + filteredCount + "/" + totalCount + " items:";
     }
 
     function buildStatusMessage() {

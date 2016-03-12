@@ -12,7 +12,7 @@ var Items = (function () {
 
     module.add = newItems => {
         set.addMergeAll(newItems, merge);
-        MessageUI.setTotal(set.size());
+        $.publish('new-items', [newItems, module.filter(), module.list()]);
     };
 
     function merge(oldItem, newItem) {

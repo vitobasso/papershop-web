@@ -9,6 +9,7 @@ category {
             name
         }
     }
+    parent
 }
 
 category.fuzzy {

@@ -1,0 +1,10 @@
+item_finder             request.find-items                  main
+                                                            request_log
+
+                        request-failed.find-items           request_log
+
+items                   new-items                           message_ui
+                                                            chart_manager
+
+main                    apply-filter                        message_ui
+                                                            chart_manager

@@ -1,30 +1,23 @@
-/**
- * Created by Victor on 01/07/2015.
- */
 var Main = (function () {
     var module = {};
 
     module.init = function () {
         HandlerAssigner.bindSearchFieldEvents();
         Filters.populate();
+        $.subscribe('request.find-items', updateChart);
     };
 
     module.applyFilters = function () {
         var items = Items.filter();
-        MessageUI.setFiltered(items.length);
-        ChartManager.setData(items);
-    };
+        $.publish('apply-filter', [items]);
+    }
 
-    module.updateChart = function (requestParams, newItems) {
+    function updateChart(_, requestParams, result) {
+        var newItems = result.items;
         AspectGuesser.guessAspectsFromTitle(newItems);
         rememberAspectsFromRequest(requestParams, newItems);
         Items.add(newItems);
-        var items = Items.filter();
-        if (items.length) {
-            MessageUI.setFiltered(items.length);
-            ChartManager.onNewItems(items);
-        }
-    };
+    }
 
     ////////////////////////////////////////////////////////////
 

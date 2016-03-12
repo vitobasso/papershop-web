@@ -9,21 +9,27 @@ var ChartManager = (function () {
 
     module.init = _ => {
         items = [];
+        $.subscribe('new-items', onNewItems);
+        $.subscribe('apply-filter', onApplyFilter);
         module.updateAxisOptions(); //FIXME depends on Categories
         xAxis = axisOptions[0];
         buildChart(); //FIXME depends on ChartRenderer
     };
 
-    module.onNewItems = newItems => {
+    function onNewItems(_, newItems) {
         populateFilters(newItems);
         module.updateAxisOptions();
-        module.setData(newItems);
-    };
+        setData(newItems);
+    }
 
-    module.setData = newItems => {
+    function onApplyFilter(_, items){
+        setData(items);
+    }
+
+    function setData(newItems) {
         items = newItems;
         ChartRenderer.setData(items);
-    };
+    }
 
     module.updateAxisOptions = _ => {
         axisOptions = AxisFactory.listOptions();
