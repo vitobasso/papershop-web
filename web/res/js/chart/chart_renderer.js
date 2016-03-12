@@ -70,8 +70,6 @@ var ChartRenderer = (function() {
 
     function render() {
         createScales();
-        axes = new Axes();
-        axes.init();
         populate();
     }
 
@@ -81,6 +79,8 @@ var ChartRenderer = (function() {
     }
 
     function populate() {
+        axes = new Axes();
+        axes.init();
         updateDomains();
         axes.update();
         dataRenderer = new DataRenderer(canvas, _data, getDataBounds());
@@ -163,9 +163,9 @@ var ChartRenderer = (function() {
         };
 
         this.update = function () {
-            canvas.selectAll(".axis").filter(".x").call(xAxis)
-                .selectAll("text").call(handleTextOverlap);
-            canvas.selectAll(".axis").filter(".y").call(yAxis);
+            canvas.selectAll(".axis.x").call(xAxis)
+                .selectAll("text:not(.label)").call(handleTextOverlap);
+            canvas.selectAll(".axis.y").call(yAxis);
         };
 
         function handleTextOverlap(selText){
