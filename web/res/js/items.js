@@ -6,7 +6,7 @@ var Items = (function () {
 
     var set;
 
-    module.init = _ => {
+    module.init = () => {
         set = new Set(getId);
     };
 
@@ -23,22 +23,20 @@ var Items = (function () {
         }
     }
 
-    module.filter = _ => {
+    module.filter = () => {
         var params = UIParamsInput.getParams();
         var filterFunction = ItemFilter.createFilter(params);
         return set.filter(filterFunction);
     };
 
-    module.getByCategory = (category) => set.filter(isCategoryEqual(category))
+    module.getByCategory = category => set.filter(isCategoryEqual(category));
 
     module.count = _ => set.size();
 
     module.list = _ => set.toArray();
 
     function isCategoryEqual(category) {
-        return function(item) {
-            return item.category.id == category.id;
-        };
+        return item => item.category.id == category.id;
     }
 
     return module;

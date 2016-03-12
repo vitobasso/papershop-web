@@ -7,25 +7,25 @@ var ChartManager = (function () {
     var items;
     var axisOptions, xAxis;
 
-    module.init = function() {
+    module.init = _ => {
         items = [];
         module.updateAxisOptions(); //FIXME depends on Categories
         xAxis = axisOptions[0];
         buildChart(); //FIXME depends on ChartRenderer
     };
 
-    module.onNewItems = function (newItems) {
+    module.onNewItems = newItems => {
         populateFilters(newItems);
         module.updateAxisOptions();
         module.setData(newItems);
     };
 
-    module.setData = function (newItems) {
+    module.setData = newItems => {
         items = newItems;
         ChartRenderer.setData(items);
     };
 
-    module.updateAxisOptions = function() {
+    module.updateAxisOptions = _ => {
         axisOptions = AxisFactory.listOptions();
     };
 
@@ -42,7 +42,7 @@ var ChartManager = (function () {
         Categories.populate(newItems);
     }
 
-    module.changeAxisByName = function(name) {
+    module.changeAxisByName = name => {
         var axis = axisOptions.find(labelEquals(name));
         if (axis) {
             xAxis = axis;
@@ -50,9 +50,7 @@ var ChartManager = (function () {
         }
     };
 
-    module.getXAxis = function() {
-        return xAxis;
-    };
+    module.getXAxis = _ => xAxis;
 
     function labelEquals(name) {
         return function (axis) {

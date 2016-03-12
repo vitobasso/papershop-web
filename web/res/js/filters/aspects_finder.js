@@ -6,11 +6,11 @@ var AspectsFinder = (function() {
 
     var api;
 
-    module.init = function () {
+    module.init = _ => {
         api = new EbayApi();
     };
 
-    module.find = function (category) {
+    module.find = category => {
         var categoryFromSet = Categories.get(category);
         if (categoryFromSet.aspects.length == 0) {
             var callback = createHistogramsCallback(categoryFromSet);
@@ -19,14 +19,14 @@ var AspectsFinder = (function() {
     };
 
     function createHistogramsCallback(category) {
-        return function (aspects) {
+        return aspects => {
             addFilterProperties(aspects);
             rememberAspects(category, aspects);
             ChartManager.updateAxisOptions();
             guessAspectsForOldItems(category);
             FilterUI.populate(aspects)
                 .classed("aspect-filter", true);
-        };
+        }
     }
 
     // takes "aspect" objects returned by the api and adds properties used by the UI

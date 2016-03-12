@@ -10,17 +10,17 @@ var Categories = (function() {
         set = new Set(getId);
     };
 
-    module.populate = items => {
-        var categoriesArray = uniqueCategories(items);
-        set.addAll(categoriesArray);
-        populateCategories(categoriesArray);
-    };
-
     module.each = fun => set.each(fun);
 
     module.get = category => set.get(category);
 
     module.list = _ => set.toArray();
+
+    module.populate = items => {
+        var categories = uniqueCategories(items);
+        set.addAll(categories);
+        populateCategories(categories);
+    };
 
     function uniqueCategories(items) {
         var mapByCategoryId = d3.map(items, getCategoryId);
