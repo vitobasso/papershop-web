@@ -4,32 +4,28 @@
 var Categories = (function() {
     var module = {};
 
-    var categoriesSet;
+    var set;
 
-    module.init = function() {
-        categoriesSet = new Set(getId);
+    module.init = _ => {
+        set = new Set(getId);
     };
 
-    module.populate = function (items) {
+    module.populate = items => {
         var categoriesArray = uniqueCategories(items);
-        categoriesSet.addAll(categoriesArray);
+        set.addAll(categoriesArray);
         populateCategories(categoriesArray);
     };
 
-    module.each = function (fun) {
-        categoriesSet.each(fun);
-    };
+    module.each = fun => set.each(fun);
 
-    module.get = function(category) {
-        return categoriesSet.get(category);
-    };
+    module.get = category => set.get(category);
+
+    module.list = _ => set.toArray();
 
     function uniqueCategories(items) {
-        var mapByCategoryId = d3.map(items, function (item) {
-            return item.category.id
-        });
+        var mapByCategoryId = d3.map(items, getCategoryId);
         var categoryIds = mapByCategoryId.keys();
-        return categoryIds.map(function (id) {
+        return categoryIds.map(id => {
             var item = mapByCategoryId.get(id);
             return {
                 id: item.category.id,
@@ -38,6 +34,8 @@ var Categories = (function() {
             };
         });
     }
+
+    var getCategoryId = item => item.category.id;
 
     function populateCategories(categories) {
         var categoryFilter = {

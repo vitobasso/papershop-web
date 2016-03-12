@@ -4,15 +4,15 @@
 var Items = (function () {
     var module = {};
 
-    var allItems;
+    var set;
 
-    module.init = function () {
-        allItems = new Set(getId);
+    module.init = _ => {
+        set = new Set(getId);
     };
 
-    module.add = function (newItems) {
-        allItems.addMergeAll(newItems, merge);
-        MessageUI.setTotal(allItems.size());
+    module.add = newItems => {
+        set.addMergeAll(newItems, merge);
+        MessageUI.setTotal(set.size());
     };
 
     function merge(oldItem, newItem) {
@@ -23,22 +23,17 @@ var Items = (function () {
         }
     }
 
-    module.filter = function () {
+    module.filter = _ => {
         var params = UIParamsInput.getParams();
         var filterFunction = ItemFilter.createFilter(params);
-        return allItems.filter(filterFunction);
+        return set.filter(filterFunction);
     };
 
-    module.getByCategory = function (category){
-        return allItems.filter(isCategoryEqual(category))
-    };
+    module.getByCategory = (category) => set.filter(isCategoryEqual(category))
 
-    module.count = function() {
-        return allItems.size();
-    };
+    module.count = _ => set.size();
 
-    //for debugging
-    module.list = () => allItems.toArray();
+    module.list = _ => set.toArray();
 
     function isCategoryEqual(category) {
         return function(item) {

@@ -4,10 +4,8 @@
 var Filters = (function () {
     var module = {};
 
-    module.populate = function () {
-        FilterUI.populate(filters)
-            .classed("common-filter", true);
-    };
+    module.populate = _ => FilterUI.populate(filters)
+                                .classed("common-filter", true);
 
     var filters = [
         {
