@@ -18,28 +18,12 @@ var AspectsFinder = (function() {
 
     function createHistogramsCallback(category) {
         return aspects => {
-            addFilterProperties(aspects);
             rememberAspects(category, aspects);
             $.publish('new-properties');
             guessAspectsForOldItems(category);
             FilterUI.populate(aspects)
                 .classed("aspect-filter", true);
         }
-    }
-
-    // takes "aspect" objects returned by the api and adds properties used by the UI
-    function addFilterProperties(aspects) {
-        aspects.forEach(function(aspect) {
-            aspect["getValueLabel"] = getName;
-            aspect["getValueId"] = getName;
-            aspect.values = aspect.values.map(wrapWithObject)
-        });
-    }
-
-    function wrapWithObject(value){
-        //aspect filters have raw strings as values, common filters have objects already
-        //TODO make aspect filters' values objects from the beginning?
-        return typeof(value) != "object" ? {name: value} : value;
     }
 
     function rememberAspects(category, aspects) {

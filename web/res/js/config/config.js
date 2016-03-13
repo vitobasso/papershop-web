@@ -37,16 +37,12 @@ var Config = (function () {
 
     var sites = {
         name: "Site",
-        values: SITE_IDS,
-        getValueLabel: getName,
-        getValueId: getId
+        values: SITE_IDS
     };
 
     var countries = {
         name: "AvailableTo",
-        values: COUNTRY_CODES,
-        getValueLabel: getName,
-        getValueId: getId
+        values: COUNTRY_CODES
     };
 
     return module;

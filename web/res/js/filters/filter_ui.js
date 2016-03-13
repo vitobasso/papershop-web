@@ -44,13 +44,12 @@ var FilterUI = (function () {
     }
 
     function populateItems(filter) {
-        var getLabel = filter.getValueLabel;
         var li = d3.select(this)
-            .selectAll("li").data(filter.values, getLabel)
+            .selectAll("li").data(filter.values, getName)
             .enter()
-            .append("li")
-        li.append("input").attr("type", "checkbox").property("checked", isChecked)
-        li.append("label").html(getLabel);
+            .append("li");
+        li.append("input").attr("type", "checkbox").property("checked", isChecked);
+        li.append("label").html(getName);
     }
 
     function isChecked(d){

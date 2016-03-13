@@ -2,10 +2,11 @@
 var Categories = (function() {
     var module = {};
 
-    var set;
+    var set, root;
 
-    module.init = _ => {
+    module.init = () => {
         set = new Set(getId);
+        root = { aspects: [] };
         $.subscribe('new-items', onNewItems)
     };
 
@@ -40,9 +41,7 @@ var Categories = (function() {
         var categories = set.toArray();
         var categoryFilter = {
             name: "Category",
-            values: categories,
-            getValueLabel: getName,
-            getValueId: getId
+            values: categories
         };
 
         FilterUI.populate([categoryFilter])

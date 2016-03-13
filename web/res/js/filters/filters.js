@@ -12,7 +12,7 @@ var Filters = (function () {
             .classed("common-filter", true);
     }
 
-    var filters = [
+    var filters = fillIds([
         {
             name: "Condition",
             values: [
@@ -26,9 +26,7 @@ var Filters = (function () {
                 {id: 5000, name: "Good"},
                 {id: 6000, name: "Acceptable"},
                 {id: 7000, name: "For parts or not working"}
-            ],
-            getValueLabel: getName,
-            getValueId: getId
+            ]
         },
         {
             name: "ListingType",
@@ -38,9 +36,7 @@ var Filters = (function () {
                 {name: "Classified"},
                 {name: "FixedPrice"},
                 {name: "StoreInventory"}
-            ],
-            getValueLabel: getName,
-            getValueId: getName
+            ]
         },
         {
             name: "End",
@@ -51,12 +47,25 @@ var Filters = (function () {
                 {name: "In 7 days",      getTime: timeCalc(addDays, 7)},
                 {name: "In 30 days",     getTime: timeCalc(addDays, 30)}
             ],
-            getValueLabel: getName,
-            getValueId: getName,
             satisfies: satisfiesEnd,
             buildUrlParam: buildEndUrlParam
         }
-    ];
+    ]);
+
+    function fillIds(filters){
+        return filters.map((filter) => {
+            var result = copyNameToId(filter);
+            result.values = result.values.map(copyNameToId);
+            return result;
+        });
+    }
+
+    function copyNameToId(obj){
+        if(!obj.id){
+            obj.id = obj.name;
+        }
+        return obj;
+    }
 
     function satisfiesEnd(item, param) {
         if (param && param.selected.length) {

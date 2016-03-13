@@ -73,14 +73,24 @@ function EbayResponseParser() {
 
     this.parseHistograms = function (response) {
         var aspects = response.getHistogramsResponse[0].aspectHistogramContainer[0].aspect;
-        return aspects.map(function (aspect) {
-            return {
-                name: aspect['@name'],
-                values: aspect.valueHistogram.map(function (histogram) {
-                    return histogram['@valueName'];
-                })
-            }
-        });
+        return aspects.map(parseAspect);
     };
+
+    function parseAspect(aspect) {
+        var aspectName = aspect['@name'];
+        return {
+            id: aspectName,
+            name: aspectName,
+            values: aspect.valueHistogram.map(parseValue)
+        }
+    }
+
+    function parseValue(histogram){
+        var valueName = histogram['@valueName'];
+        return {
+            id: valueName,
+            name: valueName
+        }
+    }
 
 }

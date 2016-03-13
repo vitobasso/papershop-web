@@ -39,13 +39,8 @@ var ItemFilter = (function () {
         var filterName = filterParam.filter.name;
         var getProperty = itemPropertyIdGetter(filterName);
         var property = getProperty(item);
-        var filterValues = filterSelectionIds(filterParam);
+        var filterValues = filterParam.selected.map(getId);
         return filterValues.contains(property);
-    }
-
-    function filterSelectionIds(filterParam) {
-        var getId = filterParam.filter.getValueId;
-        return filterParam.selected.map(getId);
     }
 
     function itemPropertyIdGetter(propertyName) {
