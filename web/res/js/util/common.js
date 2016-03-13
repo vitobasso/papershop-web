@@ -15,6 +15,14 @@ function notEmpty(array) {
     return array && array.length > 0;
 }
 
+function idOnly(object){
+    if(object){
+        return {
+            id: object.id
+        }
+    }
+}
+
 //////////////////////////////////////////////////////////////////
 
 function mapAsObject(array, keyFunction) {

@@ -4,14 +4,9 @@ var ItemFilter = (function () {
 
     module.createFilter = function (params) {
         return function (item) {
-            return filterItem(item, params);
+            return satisfiesFilters(item, params.filters);
         }
     };
-
-    function filterItem(item, params) {
-        return satisfiesFilters(item, params.filters)
-            && satisfiesFilters(item, params.aspects);
-    }
 
     function satisfiesFilters(item, filters) {
         for (var i = 0, filter; filter = filters[i]; i++) {

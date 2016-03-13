@@ -18,11 +18,8 @@ var AspectsFinder = (function() {
 
     function createHistogramsCallback(category) {
         return aspects => {
-            rememberAspects(category, aspects);
-            $.publish('new-properties');
-            guessAspectsForOldItems(category);
-            FilterUI.populate(aspects)
-                .classed("aspect-filter", true);
+            rememberAspects(category, aspects); //TODO move to categories.js?
+            $.publish('new-aspects', [category, aspects]);
         }
     }
 
@@ -41,11 +38,6 @@ var AspectsFinder = (function() {
             }
         }
         return map;
-    }
-
-    function guessAspectsForOldItems(category) {
-        var items = Items.getByCategory(category);
-        AspectGuesser.guessAspectsFromTitle(items);
     }
 
     return module;

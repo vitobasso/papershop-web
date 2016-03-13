@@ -6,6 +6,7 @@ var Items = (function () {
 
     module.init = () => {
         set = new Set(getId);
+        $.subscribe('new-aspects', onNewAspects)
     };
 
     module.add = newItems => {
@@ -27,11 +28,20 @@ var Items = (function () {
         return set.filter(filterFunction);
     };
 
-    module.getByCategory = category => set.filter(isCategoryEqual(category));
-
     module.count = _ => set.size();
 
     module.list = _ => set.toArray();
+
+    function onNewAspects(_, category){
+        if(category){ //TODO handle root category and remove if
+            var items = getByCategory(category);
+            AspectGuesser.guessAspectsFromTitle(items);
+        }
+    }
+
+    function getByCategory(category){
+        return set.filter(isCategoryEqual(category));
+    }
 
     function isCategoryEqual(category) {
         return item => item.category.id == category.id;

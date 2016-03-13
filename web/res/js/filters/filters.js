@@ -3,16 +3,14 @@ var Filters = (function () {
     var module = {};
 
     module.init = () => {
-        $.subscribe('init', populate);
-        $.subscribe('new-items', populate);
+        $.subscribe('init', createCommonAspects);
     };
 
-    function populate(){
-        FilterUI.populate(filters)
-            .classed("common-filter", true);
+    function createCommonAspects(){
+        $.publish('new-aspects', [undefined, aspects])
     }
 
-    var filters = fillIds([
+    var aspects = fillIds([
         {
             name: "Condition",
             values: [
@@ -52,9 +50,9 @@ var Filters = (function () {
         }
     ]);
 
-    function fillIds(filters){
-        return filters.map((filter) => {
-            var result = copyNameToId(filter);
+    function fillIds(aspects){
+        return aspects.map((aspect) => {
+            var result = copyNameToId(aspect);
             result.values = result.values.map(copyNameToId);
             return result;
         });

@@ -74,7 +74,6 @@ var RequestLog = (function () {
     function standardizeParams(params) {
         // sort filters & their values so hash functions have same results regardless of order
         params.filters = sortFilters(params.filters);
-        params.aspects = sortFilters(params.aspects);
         return params;
     }
 
@@ -95,7 +94,6 @@ var RequestLog = (function () {
         var idFields = {};
         idFields.keywords = params.keywords;
         idFields.filters = params.filters;
-        idFields.aspects = params.aspects;
         return JSON.stringify(idFields);
     }
 

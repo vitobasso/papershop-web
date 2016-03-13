@@ -32,9 +32,7 @@ var Main = (function () {
     }
 
     function getAspectsFromRequest(requestParams) {
-        var singleValueAspects = requestParams.aspects.filter(function (aspect) {
-            return aspect.selected.length == 1;
-        });
+        var singleValueAspects = requestParams.filters.filter(aspect => aspect.selected.length == 1);
         var aspectsMap = {};
         singleValueAspects.forEach(function (aspect) {
             var name = aspect.filter.name;

@@ -59,17 +59,24 @@ function EbayUrlBuilder() {
     }
 
     function buildCommonFilters(params) {
-        var commonFilters = params.filters.filter(isCommonFilter);
-        return buildFilters(itemBuilder, commonFilters);
+        var filters = params.filters.filter(isCommonFilter);
+        return buildFilters(itemBuilder, filters);
     }
 
     function isCommonFilter(filterParam) {
+        var category = filterParam.filter.category;
         var name = filterParam.filter.name;
-        return name != "Site" && name != "Category" && name != "End";
+        return category == undefined &&
+            name != "Site" && name != "Category" && name != "End";
     }
 
     function buildAspectFilters(params) {
-        return buildFilters(aspectBuilder, params.aspects);
+        var filters = params.filters.filter(isSpecificFilter);
+        return buildFilters(aspectBuilder, filters);
+    }
+
+    function isSpecificFilter(filterParam) {
+        return filterParam.filter.category != undefined;
     }
 
     function buildFilters(paramBuilder, filterParams) {
