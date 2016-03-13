@@ -2,8 +2,6 @@ var Main = (function () {
     var module = {};
 
     module.init = function () {
-        HandlerAssigner.bindSearchFieldEvents();
-        Filters.populate();
         $.subscribe('find-items', updateChart);
     };
 

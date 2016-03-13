@@ -2,6 +2,10 @@
 var HandlerAssigner = (function () {
     var module = {};
 
+    module.init = () => {
+        $.subscribe('init', module.bindSearchFieldEvents)
+    };
+
     module.bindSearchFieldEvents = function () {
         bindSearchButtonClick();
         bindSearchFieldKeyup();

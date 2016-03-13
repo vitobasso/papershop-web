@@ -1,6 +1,9 @@
 publisher               event                       subscriber
 ----------------------------------------------------------------------
 
+initializer             init                        filters
+                                                    handler_assigner
+
 item_finder             find-items                  main
                                                     request_log
 
@@ -15,3 +18,4 @@ main                    apply-filter                message_ui
                                                     chart_manager
 
 aspects_finder          new-properties              chart_manager
+

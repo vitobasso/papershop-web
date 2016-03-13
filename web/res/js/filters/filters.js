@@ -3,11 +3,14 @@ var Filters = (function () {
     var module = {};
 
     module.init = () => {
-        $.subscribe('new-items', module.populate);
+        $.subscribe('init', populate);
+        $.subscribe('new-items', populate);
     };
 
-    module.populate = _ => FilterUI.populate(filters)
-                                .classed("common-filter", true);
+    function populate(){
+        FilterUI.populate(filters)
+            .classed("common-filter", true);
+    }
 
     var filters = [
         {

@@ -12,6 +12,8 @@ function init() {
     Items.init();
     MessageUI.init();
     Filters.init();
+    HandlerAssigner.init();
+    $.publish('init');
 }
 
 $(init);
