@@ -69,19 +69,43 @@ var Categories = (function() {
                 .on("click", updateCategory);
         }
 
-        FilterUI.populate(root.aspects) //TODO inherit aspects and remove this. then populate(getCommonCategory) should be enough
-            .classed("filter", true);
+        var category = getMainCategory();
+        var aspects = getInheritedAspects(category);
+        FilterUI.populate(aspects)
+            .classed("filter", true); //TODO remove aspects from other categories
+    }
 
-        var category = getCommonCategory();
-        if(category){
-            FilterUI.populate(category.aspects)
-                .classed("filter", true);
+    function getMainCategory(){
+        var result = getSelectedCategory();
+        if(!result) result = getBiggestCategory();
+        if(!result) result = root;
+        return result;
+    }
+
+    function getSelectedCategory(){ //TODO multiple selection?
+        var filter = UIParamsInput.getParams()
+            .filters.find(_ => _.filter.name == "Category");
+        if(filter){
+            return filter.selected;
         }
     }
 
-    function getCommonCategory(){
-        //UIParamsInput.getParams() TODO find common ancestor from selected categories
-        return set.toArray()[0]
+    function getBiggestCategory(){
+        var categoryId = _.chain(Items.list())
+            .countBy(item => item.category.id)
+            .pairs()
+            .max(pair => pair[1])
+            .value()[0];
+        return set.get({id: categoryId});
+    }
+
+    function getInheritedAspects(category) {
+        var result = [];
+        do {
+            result = category.aspects.concat(result);
+            category = category.parent;
+        } while (category);
+        return result;
     }
 
     function updateCategory(category){

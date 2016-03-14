@@ -28,9 +28,9 @@ var Items = (function () {
         return set.filter(filterFunction);
     };
 
-    module.count = _ => set.size();
+    module.count = () => set.size();
 
-    module.list = _ => set.toArray();
+    module.list = () => set.toArray();
 
     function onNewAspects(_, category){
         if(category){ //TODO handle root category and remove if

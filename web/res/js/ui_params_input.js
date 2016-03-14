@@ -5,12 +5,12 @@ var UIParamsInput = (function() {
     module.getParams = function () {
         return {
             keywords: $("#search-field").val(),
-            filters: getFiltersFromUI(".filter")
+            filters: getFiltersFromUI()
         };
     };
 
-    function getFiltersFromUI(filterClass) {
-        return $(filterClass).get()
+    function getFiltersFromUI() {
+        return $('.filter').get()
             .map(nodeToFilter)
             .filter(hasSelection);
     }
@@ -31,7 +31,6 @@ var UIParamsInput = (function() {
     function isChecked(item){
         return item.checked
     }
-
 
     return module;
 }());
