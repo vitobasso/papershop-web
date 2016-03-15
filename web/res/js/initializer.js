@@ -5,10 +5,8 @@ function init() {
     Categories.init();
     Config.init();
     ChartManager.init(); //FIXME depends on ChartRenderer & Categories.
-    ItemFinder.init();
     RequestLog.init();
     RequestLogUI.init();
-    AspectsFinder.init();
     Items.init();
     MessageUI.init();
     Filters.init();

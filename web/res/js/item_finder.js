@@ -1,20 +1,13 @@
 var ItemFinder = (function () {
     var module = {};
 
-    var api;
-
-    module.init = function () {
-        api = new EbayApi();
-        //api = new MLApi();
-    };
-
     module.find = function () {
         var uiParams = UIParamsInput.getParams();
         if (uiParams.keywords) {
             try {
                 var params = RequestLog.notifyNewRequestAndGetPaging(uiParams); //TODO publish & paging
                 checkTotalItems(params);
-                api.find(params, onSuccess, onFail);
+                Sites.getSelected().find(params, onSuccess, onFail);
             } catch (err) {
                 onFail(err);
             }

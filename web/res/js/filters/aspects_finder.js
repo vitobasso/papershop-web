@@ -2,17 +2,11 @@
 var AspectsFinder = (function() {
     var module = {};
 
-    var api;
-
-    module.init = _ => {
-        api = new EbayApi();
-    };
-
     module.find = category => {
         var categoryFromSet = Categories.get(category);
         if (categoryFromSet.aspects.length == 0) {
             var callback = createHistogramsCallback(categoryFromSet);
-            api.histograms({categoryId: category.id}, callback);
+            Sites.getSelected().histograms({categoryId: category.id}, callback);
         }
     };
 
