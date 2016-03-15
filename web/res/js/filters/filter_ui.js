@@ -2,19 +2,19 @@
 var FilterUI = (function () {
     var module = {};
 
-    module.populate = function (filters, kind) {
-        populateFilters(filters, kind);
+    module.populate = function (filters, kind, insert) {
+        populateFilters(filters, kind, insert);
         updateItems(filters, kind);
         HandlerAssigner.bindFilterListeners();
         return selectDivs(filters, kind);
     };
 
-    function populateFilters(filters, kind) {
+    function populateFilters(filters, kind, insert) {
         var sel = selectDivs(filters, kind);
         sel.exit().remove();
 
         var selEnter = sel
-            .enter().append("div")
+            .enter().insert("div", insert)
             .classed("filter", true)
             .classed(kind, true);
 

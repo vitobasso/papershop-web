@@ -56,7 +56,7 @@ var Categories = (function() {
 
     function populateFilters() {
         if (!set.empty()) {
-            FilterUI.populate([createCategoryFilter()], "category")
+            FilterUI.populate([createCategoryFilter()], "category", ":first-child")
                 .selectAll("li")
                 .on("click", onClickCategory);
         }
