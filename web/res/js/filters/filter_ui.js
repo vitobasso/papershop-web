@@ -10,12 +10,15 @@ var FilterUI = (function () {
     };
 
     function populateFilters(filters) {
-        var selFilter = selectDivs(filters)
+        var sel = selectDivs(filters);
+        sel.exit().remove();
+
+        var selEnter = sel
             .enter().append("div")
             .classed("filter", true);
 
         // top
-        var top = selFilter.append("div")
+        var top = selEnter.append("div")
             .classed("top", true);
 
         // arrow

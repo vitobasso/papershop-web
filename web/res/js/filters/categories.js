@@ -7,8 +7,8 @@ var Categories = (function() {
     module.init = () => {
         set = new Set(getId);
         root = { aspects: [] };
-        $.subscribe('new-items', onNewItems)
-        $.subscribe('new-aspects', onNewAspects)
+        $.subscribe('new-items', onNewItems);
+        $.subscribe('new-aspects', onNewAspects);
     };
 
     module.each = fun => set.each(fun);
@@ -55,38 +55,49 @@ var Categories = (function() {
     var getCategoryId = item => item.category.id;
 
     function populateFilters() {
+        var filters = [];
         if (!set.empty()) {
-            var categories = set.toArray();
-            var categoriesFilter = {
-                name: "Category",
-                values: categories
-            };
-
-            FilterUI.populate([categoriesFilter])
-                .classed("filter", true)
-                .classed("category", true)
-                .selectAll("li")
-                .on("click", updateCategory);
+            filters.push(createCategoryFilter())
         }
+        filters.pushAll(createAspectFilters());
+        var sel = FilterUI.populate(filters);
 
-        var category = getMainCategory();
-        var aspects = getInheritedAspects(category);
-        FilterUI.populate(aspects)
-            .classed("filter", true); //TODO remove aspects from other categories
+        modifyCategoryFilterUI(sel);
     }
 
-    function getMainCategory(){
+    function modifyCategoryFilterUI(sel) {
+        var filter = sel.filter(d => d.name == "Category");
+        if (filter) {
+            filter.selectAll("li")
+                .on("click", onClickCategory);
+        }
+    }
+
+    function createCategoryFilter() {
+        var categories = set.toArray();
+        return {
+            name: "Category",
+            values: categories
+        };
+    }
+
+    function createAspectFilters(){
+        var category = pickCategory();
+        return getInheritedAspects(category);
+    }
+
+    function pickCategory(){
         var result = getSelectedCategory();
         if(!result) result = getBiggestCategory();
         if(!result) result = root;
         return result;
     }
 
-    function getSelectedCategory(){ //TODO multiple selection?
+    function getSelectedCategory(){
         var filter = UIParamsInput.getParams()
             .filters.find(_ => _.filter.name == "Category");
         if(filter){
-            return filter.selected;
+            return filter.selected[0]; //TODO multiple selection?
         }
     }
 
@@ -106,6 +117,11 @@ var Categories = (function() {
             category = category.parent;
         } while (category);
         return result;
+    }
+
+    function onClickCategory(category) {
+        populateFilters();
+        updateCategory(category);
     }
 
     function updateCategory(category){
