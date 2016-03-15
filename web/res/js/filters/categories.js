@@ -74,6 +74,7 @@ var Categories = (function() {
 
     function createAspectFilters(){
         var category = pickCategory();
+        fetchAspects(category);
         return getInheritedAspects(category);
     }
 
