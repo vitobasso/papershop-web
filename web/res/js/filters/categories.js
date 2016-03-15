@@ -35,7 +35,7 @@ var Categories = (function() {
         var categories = uniqueCategories(items);
         set.addAll(categories);
         populateFilters();
-        updateCategory(categories[0])
+        fetchAspects(categories[0])
     }
 
     function uniqueCategories(items) {
@@ -112,10 +112,10 @@ var Categories = (function() {
 
     function onClickCategory(category) {
         populateFilters();
-        updateCategory(category);
+        fetchAspects(category);
     }
 
-    function updateCategory(category){
+    function fetchAspects(category){
         if(category && category.aspects.length == 0){
             AspectsFinder.find(category);
         }
