@@ -2,20 +2,21 @@
 var FilterUI = (function () {
     var module = {};
 
-    module.populate = function (filters) {
-        populateFilters(filters);
-        updateItems(filters);
+    module.populate = function (filters, kind) {
+        populateFilters(filters, kind);
+        updateItems(filters, kind);
         HandlerAssigner.bindFilterListeners();
-        return selectDivs(filters);
+        return selectDivs(filters, kind);
     };
 
-    function populateFilters(filters) {
-        var sel = selectDivs(filters);
+    function populateFilters(filters, kind) {
+        var sel = selectDivs(filters, kind);
         sel.exit().remove();
 
         var selEnter = sel
             .enter().append("div")
-            .classed("filter", true);
+            .classed("filter", true)
+            .classed(kind, true);
 
         // top
         var top = selEnter.append("div")
@@ -40,8 +41,8 @@ var FilterUI = (function () {
             .each(populateItems);
     }
 
-    function updateItems(filters) {
-        selectDivs(filters)
+    function updateItems(filters, kind) {
+        selectDivs(filters, kind)
             .select("ul")
             .each(populateItems)
     }
@@ -59,9 +60,11 @@ var FilterUI = (function () {
         return d.checked;
     }
 
-    function selectDivs(filters) {
+    function selectDivs(filters, kind) {
         return d3.select("#filters")
-            .selectAll("div.filter").data(filters, getName);
+            .selectAll("div.filter")
+            .filter("." + kind)
+            .data(filters, getName);
     }
 
     function getFilterId(filter) {

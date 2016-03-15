@@ -55,22 +55,13 @@ var Categories = (function() {
     var getCategoryId = item => item.category.id;
 
     function populateFilters() {
-        var filters = [];
         if (!set.empty()) {
-            filters.push(createCategoryFilter())
-        }
-        filters.pushAll(createAspectFilters());
-        var sel = FilterUI.populate(filters);
-
-        modifyCategoryFilterUI(sel);
-    }
-
-    function modifyCategoryFilterUI(sel) {
-        var filter = sel.filter(d => d.name == "Category");
-        if (filter) {
-            filter.selectAll("li")
+            FilterUI.populate([createCategoryFilter()], "category")
+                .selectAll("li")
                 .on("click", onClickCategory);
         }
+
+        FilterUI.populate(createAspectFilters(), "aspect");
     }
 
     function createCategoryFilter() {
