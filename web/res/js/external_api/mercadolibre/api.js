@@ -10,7 +10,7 @@ function MLApi() {
         requestAndParse(url, parser.parseFind, onSuccess, onFail);
     };
 
-    this.histograms = function (params, onSuccess, onFail) {
+    this.findAspects = function (params, onSuccess, onFail) {
         //TODO remove
     };
 

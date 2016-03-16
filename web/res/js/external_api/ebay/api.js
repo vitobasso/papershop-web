@@ -10,7 +10,7 @@ function EbayApi() {
         requestAndParse(url, parser.parseFind, onSuccess, onFail);
     };
 
-    this.histograms = function (params, onSuccess, onFail) {
+    this.findAspects = function (params, onSuccess, onFail) {
         var url = urlBuilder.buildHistogramsUrl(params);
         requestAndParse(url, parser.parseHistograms, onSuccess, onFail);
     };

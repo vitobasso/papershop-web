@@ -4,7 +4,7 @@ var AspectsFinder = (function() {
 
     module.find = category => {
         var callback = createHistogramsCallback(category);
-        Sites.getSelected().histograms({categoryId: category.id}, callback);
+        Sites.getSelected().findAspects({categoryId: category.id}, callback);
     };
 
     function createHistogramsCallback(category) {
