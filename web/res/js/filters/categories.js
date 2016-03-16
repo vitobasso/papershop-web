@@ -35,7 +35,6 @@ var Categories = (function() {
         var categories = uniqueCategories(items);
         set.addAll(categories);
         populateFilters();
-        fetchAspects(categories[0])
     }
 
     function uniqueCategories(items) {
@@ -58,7 +57,7 @@ var Categories = (function() {
         if (!set.empty()) {
             FilterUI.populate([createCategoryFilter()], "category", ":first-child")
                 .selectAll("li")
-                .on("click", onClickCategory);
+                .on("click", populateFilters);
         }
 
         FilterUI.populate(createAspectFilters(), "aspect");
@@ -109,11 +108,6 @@ var Categories = (function() {
             category = category.parent;
         } while (category);
         return result;
-    }
-
-    function onClickCategory(category) {
-        populateFilters();
-        fetchAspects(category);
     }
 
     function fetchAspects(category){
