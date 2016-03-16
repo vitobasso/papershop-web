@@ -3,11 +3,8 @@ var AspectsFinder = (function() {
     var module = {};
 
     module.find = category => {
-        var categoryFromSet = Categories.get(category);
-        if (categoryFromSet.aspects.length == 0) {
-            var callback = createHistogramsCallback(categoryFromSet);
-            Sites.getSelected().histograms({categoryId: category.id}, callback);
-        }
+        var callback = createHistogramsCallback(category);
+        Sites.getSelected().histograms({categoryId: category.id}, callback);
     };
 
     function createHistogramsCallback(category) {
