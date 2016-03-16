@@ -15,6 +15,7 @@ var ItemFinder = (function () {
 
 
         function onSuccess(result) {
+            publishAspects(result);
             $.publish('find-items', [params, result]);
         }
 
@@ -25,6 +26,12 @@ var ItemFinder = (function () {
         }
 
     };
+
+    function publishAspects(result) {
+        if (result.category) { //only ml has aspects in the return of item-find TODO publish from inside the specific api?
+            $.publish('new-aspects', [result.category, result.category.aspects]);
+        }
+    }
 
     function checkTotalItems(params) {
         if(params.lastItem && params.totalItems

@@ -6,9 +6,11 @@ function MLResponseParser() {
             var content = response[2];
             var responseItems = content.results || [];
             if(!responseItems.length) throw "Returned zero items";
+            var category = parseFilters(content);
             return {
-                items: responseItems.map(parseFindItem),
-                metadata: parseMetadata(content)
+                items: responseItems.map(parseFindItem(category)),
+                metadata: parseMetadata(content),
+                category: category
             };
         }
     };
@@ -30,13 +32,13 @@ function MLResponseParser() {
         return true;
     }
 
-    function parseFindItem(item) {
-        return {
+    function parseFindItem(category) {
+        return item => ({
             id: item.id,
             title: item.title,
             category: {
-                id: item.category_id,
-                name: null //TODO
+                id: category.id,
+                name: category.name
             },
             aspects: {},
             condition: {
@@ -54,6 +56,32 @@ function MLResponseParser() {
             shipTo: null, //TODO
             image: item.thumbnail,
             link: item.permalink
+        })
+    }
+
+    function parseFilters(content){
+        var categoryFilter = content.filters[0];
+        if(categoryFilter.id != "category") throw "Expected category filter";
+        var categoryValue = categoryFilter.values[0];
+        return {
+            id: categoryValue.id,
+            name: categoryValue.name,
+            aspects: content.available_filters.map(parseAspect)
+        }
+    }
+
+    function parseAspect(filter){
+        return {
+            id: filter.id,
+            name: filter.name,
+            values: filter.values.map(parseAspectValue)
+        }
+    }
+
+    function parseAspectValue(value){
+        return {
+            id: value.id,
+            name: value.name
         }
     }
 

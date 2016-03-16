@@ -7,7 +7,7 @@ var Sites = (function () {
         { label: "Mercado Libre",   api: new MLApi()   }
     ];
 
-    var selected = options[0];
+    var selected = options[1];
 
     module.getSelected = () => selected.api;
 

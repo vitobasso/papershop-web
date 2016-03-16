@@ -19,5 +19,5 @@ main                    apply-filter                message_ui
 
 aspects_finder          new-aspects                 chart_manager
 filters                                             items
-                                                    categories
+item_finder                                         categories
 

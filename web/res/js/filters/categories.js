@@ -18,10 +18,24 @@ var Categories = (function() {
     module.list = () => set.toArray();
 
     function onNewAspects(_, category, aspects){
-        var target = category? set.get(category) : root;
-        aspects = setCategory(aspects, target);
-        rememberAspects(target, aspects)
+        var targetCategory = attachCategory(category);
+        aspects = setCategory(aspects, targetCategory);
+        rememberAspects(targetCategory, aspects);
         populateFilters();
+    }
+
+    function attachCategory(category) {
+        if (category) {
+            var oldCategory = set.get(category);
+            if (oldCategory) {
+                return oldCategory;
+            } else {
+                set.add(category);
+                return category;
+            }
+        } else {
+            return root;
+        }
     }
 
     function setCategory(aspects, category){
