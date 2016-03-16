@@ -19,8 +19,8 @@ var Categories = (function() {
 
     function onNewAspects(_, category, aspects){
         var target = category? set.get(category) : root;
-        aspects = setCategory(aspects, category);
-        target.aspects.pushAll(aspects);
+        aspects = setCategory(aspects, target);
+        rememberAspects(target, aspects)
         populateFilters();
     }
 
@@ -120,6 +120,23 @@ var Categories = (function() {
         if(category && category.aspects.length == 0){
             AspectsFinder.find(category);
         }
+    }
+
+    function rememberAspects(category, aspects) {
+        category.aspects = aspects;
+        category.aspectValuesMap = mapAspectValues(aspects);
+        var values = Object.keys(category.aspectValuesMap);
+        category.fuzzyValues = FuzzySet(values);
+    }
+
+    function mapAspectValues(aspects) {
+        var map = {};
+        for (var i = 0, aspect; aspect = aspects[i]; i++) {
+            for (var j = 0, value; value = aspect.values[j]; j++) {
+                map[value.name] = aspect;
+            }
+        }
+        return map;
     }
 
     return module;
