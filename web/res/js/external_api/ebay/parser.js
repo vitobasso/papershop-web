@@ -42,8 +42,8 @@ function EbayResponseParser() {
                 name: category.categoryName[0]
             },
             aspects: {},
-            condition: parseCondition(item),
-            listingType: listing.listingType[0],
+            condition: parseCondition(item.condition[0]),
+            listingType: parseListingType(listing.listingType[0]),
             end: EbayApi.stringToDate(endStr),
             price: {
                 currency: price["@currencyId"],
@@ -57,18 +57,20 @@ function EbayResponseParser() {
         }
     }
 
-    function parseCondition(item) {
-        var result = {};
-        if (item.condition && item.condition[0]) {
-            var condition = item.condition[0];
-            if (condition) {
-                result = {
-                    id: +condition.conditionId[0],
-                    name: condition.conditionDisplayName[0]
-                }
+    function parseCondition(condition) {
+        if (condition) {
+            return {
+                id: +condition.conditionId[0],
+                name: condition.conditionDisplayName[0]
             }
         }
-        return result;
+    }
+
+    function parseListingType(listingType) {
+        return {
+            id: listingType,
+            name: listingType
+        }
     }
 
     this.parseHistograms = function (response) {

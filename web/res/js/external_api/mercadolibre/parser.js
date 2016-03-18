@@ -41,11 +41,8 @@ function MLResponseParser() {
                 name: category.name
             },
             aspects: {},
-            condition: {
-                id: item.condition,
-                name: null //TODO
-            },
-            listingType: item.buying_mode,
+            condition: findAspectValue(category, 'condition', item.condition),
+            listingType: findAspectValue(category, 'buying_mode', item.buying_mode),
             end: MLApi.stringToDate(item.stop_time),
             price: {
                 currency: item.currency_id,
@@ -57,6 +54,11 @@ function MLResponseParser() {
             image: item.thumbnail,
             link: item.permalink
         })
+    }
+
+    function findAspectValue(category, aspectId, valueId){
+        return category.aspects.find(_ => _.id == aspectId)
+            .values.find(_ => _.id == valueId)
     }
 
     function parseFilters(content){

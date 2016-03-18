@@ -29,23 +29,11 @@ var AxisFactory = (function (){
             return item.price.value;
         });
 
-    //TODO move to filters_manager?
-    var categoryAxis = new OrdinalAxis("Category",
-        function (item) {
-            return item.category.name;
-        });
-    var conditionAxis = new OrdinalAxis("Condition",
-        function (item) {
-            return item.condition.name;
-        });
-    var listingTypeAxis = new OrdinalAxis("ListingType",
-        function (item) {
-            return item.listingType;
-        });
-    var endAxis = new TimeAxis("End",
-        function (item) {
-            return item.end;
-        });
+    //TODO remove, make all aspect(id, name)
+    var categoryAxis = new OrdinalAxis("Category", item => item.category.name);
+    var conditionAxis = new OrdinalAxis("Condition", item => item.condition.name);
+    var listingTypeAxis = new OrdinalAxis("ListingType", item => item.listingType.name);
+    var endAxis = new TimeAxis("End", item => item.end);
 
     module.listOptions = function() {
         var result = [categoryAxis, conditionAxis, listingTypeAxis, endAxis];

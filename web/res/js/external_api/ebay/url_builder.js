@@ -64,19 +64,17 @@ function EbayUrlBuilder() {
     }
 
     function isCommonFilter(filterParam) {
-        var category = filterParam.filter.category;
-        var name = filterParam.filter.name;
-        return category == undefined &&
-            name != "Site" && name != "Category" && name != "End";
+        return ['Condition', 'ListingType'].find(_ => _ == filterParam.filter.name);
     }
 
     function buildAspectFilters(params) {
-        var filters = params.filters.filter(isSpecificFilter);
+        var filters = params.filters.filter(isAspectFilter);
         return buildFilters(aspectBuilder, filters);
     }
 
-    function isSpecificFilter(filterParam) {
-        return filterParam.filter.category != undefined;
+    function isAspectFilter(filterParam) {
+        return filterParam.filter.category != undefined
+            && !['Condition', 'ListingType', 'End'].find(_ => _ == filterParam.filter.name);
     }
 
     function buildFilters(paramBuilder, filterParams) {

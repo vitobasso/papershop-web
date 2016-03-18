@@ -43,19 +43,14 @@ var ItemFilter = (function () {
             || getItemAspectByFilter(propertyName);
     }
 
-    //TODO move to filters_manager?
+    //TODO remove, make all aspect(id, name)
     var itemPropertyGetters = {
-        Condition: function (item) {
-            return item.condition.id;
-        },
-        ListingType: function (item) {
-            return item.listingType;
-        },
-        Category: function (item) {
-            return item.category.id;
-        }
+        Condition: item => item.condition.id,
+        ListingType: item => item.listingType.id,
+        Category: item => item.category.id
     };
 
+    //TODO remove, make all aspect(id, name)
     function getItemAspectByFilter(aspectName) {
         return function (item) {
             var aspect = item.aspects[aspectName] || {};
