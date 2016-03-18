@@ -18,9 +18,7 @@ var Items = (function () {
     }
 
     function merge(oldItem, newItem) {
-        _.keys(newItem.aspects).forEach(function(){
-            oldItem.aspects[key] = newItem.aspects[key];
-        });
+        mergeObjects(oldItem.aspects, newItem.aspects);
     }
 
     module.filter = () => {

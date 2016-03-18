@@ -23,6 +23,23 @@ function idOnly(object){
     }
 }
 
+//TODO deep merge?
+//https://github.com/KyleAMathews/deepmerge
+//https://github.com/unclechu/node-deep-extend
+function mergeObjects(oldObj, newObj) {
+    _.keys(newObj).forEach(function(key){
+        oldObj[key] = newObj[key];
+    });
+}
+
+function mergeArrays(oldArray, newArray, getId) {
+    newArray.forEach(newItem => {
+        var oldFound = oldArray.find(oldItem => getId(oldItem) == getId(newItem));
+        oldFound? mergeObjects(oldFound, newItem) : oldArray.push(newItem)
+    });
+}
+
+
 //////////////////////////////////////////////////////////////////
 
 function mapAsObject(array, keyFunction) {

@@ -18,30 +18,22 @@ var Categories = (function() {
     module.list = () => set.toArray();
 
     function onNewAspects(_, category, aspects){
-        var targetCategory = attachCategory(category);
+        var targetCategory = category? mergeCategory(category) : root;
         targetCategory.aspects = setCategoryToAspects(aspects, targetCategory);
         AspectGuesser.mapValues(targetCategory);
         populateFilters();
     }
 
-    function attachCategory(category) {
-        if (category) {
-            var oldCategory = set.get(category);
-            if (oldCategory) {
-                return oldCategory;
-            } else {
-                set.add(fillNewCategory(category));
-                return category;
-            }
-        } else {
-            return root;
-        }
+    function mergeCategory(category) {
+        set.addMerge(category, mergeObjects);
+        var result = set.get(category);
+        initCategory(result); //init after merge so the init values doesn't overwrite actual values
+        return result;
     }
 
-    function fillNewCategory(category){
+    function initCategory(category){
         if(!category.parent) category.parent = root;
         if(!category.aspects) category.aspects = [];
-        return category;
     }
 
     function setCategoryToAspects(aspects, category){
@@ -53,7 +45,7 @@ var Categories = (function() {
 
     function onNewItems(_, items) {
         var categories = uniqueCategories(items);
-        set.addAll(categories);
+        categories.forEach(mergeCategory);
         populateFilters();
     }
 
@@ -62,10 +54,10 @@ var Categories = (function() {
         var categoryIds = mapByCategoryId.keys();
         return categoryIds.map(id => {
             var item = mapByCategoryId.get(id);
-            return fillNewCategory({
+            return {
                 id: item.category.id,
                 name: item.category.name
-            });
+            };
         });
     }
 
