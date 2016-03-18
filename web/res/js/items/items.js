@@ -1,4 +1,3 @@
-
 var Items = (function () {
     var module = {};
 
@@ -6,6 +5,7 @@ var Items = (function () {
 
     module.init = () => {
         set = new Set(getId);
+        $.subscribe('find-items', onFindItems);
         $.subscribe('new-aspects', onNewAspects)
     };
 
@@ -32,19 +32,50 @@ var Items = (function () {
 
     module.list = () => set.toArray();
 
-    function onNewAspects(_, category){
-        if(category){ //TODO handle root category and remove if
+    function onNewAspects(_, category) {
+        if (category) { //TODO handle root category and remove if
             var items = getByCategory(category);
             AspectGuesser.guessAspectsFromTitle(items);
         }
     }
 
-    function getByCategory(category){
+    function getByCategory(category) {
         return set.filter(isCategoryEqual(category));
     }
 
     function isCategoryEqual(category) {
         return item => item.category.id == category.id;
+    }
+
+    function onFindItems(_, requestParams, result) {
+        var newItems = result.items;
+        AspectGuesser.guessAspectsFromTitle(newItems);
+        rememberAspectsFromRequest(requestParams, newItems);
+        Items.add(newItems);
+    }
+
+    function rememberAspectsFromRequest(requestParams, newItems) {
+        var requestAspects = getAspectsFromRequest(requestParams);
+        newItems.forEach(function (item) {
+            for (var aspectName in requestAspects) {
+                if (requestAspects.hasOwnProperty(aspectName)) {
+                    item.aspects[aspectName] = {
+                        value: requestAspects[aspectName],
+                        confidence: 2
+                    };
+                }
+            }
+        });
+    }
+
+    function getAspectsFromRequest(requestParams) {
+        var singleValueAspects = requestParams.filters.filter(aspect => aspect.selected.length == 1);
+        var aspectsMap = {};
+        singleValueAspects.forEach(function (aspect) {
+            var name = aspect.filter.name;
+            aspectsMap[name] = aspect.selected[0].name;
+        });
+        return aspectsMap;
     }
 
     return module;

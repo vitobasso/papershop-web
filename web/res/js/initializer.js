@@ -1,6 +1,5 @@
 
 function init() {
-    Main.init();
     ChartRenderer.init(); //FIXME glitchy size causing scrollbars to appear
     Categories.init();
     Config.init();

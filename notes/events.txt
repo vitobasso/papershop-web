@@ -4,7 +4,7 @@ publisher               event                       subscriber
 initializer             init                        filters
                                                     handler_assigner
 
-item_finder             find-items                  main
+item_finder             find-items                  items
                                                     request_log
 
                         find-items-failed           request_log
@@ -14,7 +14,7 @@ items                   new-items                   message_ui
                                                     categories
                                                     filters //why?
 
-main                    apply-filter                message_ui
+handler_assigner        apply-filter                message_ui
                                                     chart_manager
 
 aspects_finder          new-aspects                 chart_manager

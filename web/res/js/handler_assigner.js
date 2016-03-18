@@ -58,9 +58,9 @@ var HandlerAssigner = (function () {
         $("#filters").find("div.filter input")
             .off("change").on("change", function(){
                 this.__data__.checked = this.checked;
-                Main.applyFilters()
+                var filtered = Items.filter();
+                $.publish('apply-filter', [filtered]);
             });
-
     }
 
     function bindFilterArrowClick() {
