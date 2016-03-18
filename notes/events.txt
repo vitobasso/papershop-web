@@ -7,7 +7,7 @@ initializer             init                        filters
 item_finder             find-items                  main
                                                     request_log
 
-                        failed.find-items           request_log
+                        find-items-failed           request_log
 
 items                   new-items                   message_ui
                                                     chart_manager

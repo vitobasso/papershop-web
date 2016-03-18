@@ -22,7 +22,7 @@ var ItemFinder = (function () {
         function onFail(err) {
             console.log("Find failed:");
             console.log(err);
-            $.publish('failed.find-items', params);
+            $.publish('find-items-failed', params);
         }
 
     };
