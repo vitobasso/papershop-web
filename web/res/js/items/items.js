@@ -9,10 +9,13 @@ var Items = (function () {
         $.subscribe('new-aspects', onNewAspects)
     };
 
-    module.add = newItems => {
+    function onFindItems(_, requestParams, result) {
+        var newItems = result.items;
+        AspectGuesser.guessFromTitle(newItems);
+        AspectRecaller.rememberFromRequest(requestParams, newItems);
         set.addMergeAll(newItems, merge);
         $.publish('new-items', [newItems, module.filter(), module.list()]);
-    };
+    }
 
     function merge(oldItem, newItem) {
         for (var key in newItem.aspects) {
@@ -46,14 +49,6 @@ var Items = (function () {
     function isCategoryEqual(category) {
         return item => item.category.id == category.id;
     }
-
-    function onFindItems(_, requestParams, result) {
-        var newItems = result.items;
-        AspectGuesser.guessFromTitle(newItems);
-        AspectRecaller.rememberFromRequest(requestParams, newItems);
-        Items.add(newItems);
-    }
-
 
     return module;
 }());
