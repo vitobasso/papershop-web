@@ -19,8 +19,8 @@ var Categories = (function() {
 
     function onNewAspects(_, category, aspects){
         var targetCategory = attachCategory(category);
-        aspects = setCategoryToAspects(aspects, targetCategory);
-        rememberAspects(targetCategory, aspects);
+        targetCategory.aspects = setCategoryToAspects(aspects, targetCategory);
+        AspectGuesser.mapValues(targetCategory);
         populateFilters();
     }
 
@@ -134,22 +134,6 @@ var Categories = (function() {
         }
     }
 
-    function rememberAspects(category, aspects) {
-        category.aspects = aspects;
-        category.aspectValuesMap = mapAspectValues(aspects);
-        var values = Object.keys(category.aspectValuesMap);
-        category.fuzzyValues = FuzzySet(values);
-    }
-
-    function mapAspectValues(aspects) {
-        var map = {};
-        for (var i = 0, aspect; aspect = aspects[i]; i++) {
-            for (var j = 0, value; value = aspect.values[j]; j++) {
-                map[value.name] = aspect;
-            }
-        }
-        return map;
-    }
 
     return module;
 }());

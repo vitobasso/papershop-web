@@ -35,7 +35,7 @@ var Items = (function () {
     function onNewAspects(_, category) {
         if (category) { //TODO handle root category and remove if
             var items = getByCategory(category);
-            AspectGuesser.guessAspectsFromTitle(items);
+            AspectGuesser.guessFromTitle(items);
         }
     }
 
@@ -49,7 +49,7 @@ var Items = (function () {
 
     function onFindItems(_, requestParams, result) {
         var newItems = result.items;
-        AspectGuesser.guessAspectsFromTitle(newItems);
+        AspectGuesser.guessFromTitle(newItems);
         AspectRecaller.rememberFromRequest(requestParams, newItems);
         Items.add(newItems);
     }

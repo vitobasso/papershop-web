@@ -2,7 +2,23 @@
 var AspectGuesser = (function () {
     var module = {};
 
-    module.guessAspectsFromTitle = function (newItems) {
+    module.mapValues = function(category) {
+        category.aspectValuesMap = mapByValue(category.aspects);
+        var values = Object.keys(category.aspectValuesMap);
+        category.fuzzyValues = FuzzySet(values);
+    };
+
+    function mapByValue(aspects) {
+        var map = {};
+        for (var i = 0, aspect; aspect = aspects[i]; i++) {
+            for (var j = 0, value; value = aspect.values[j]; j++) {
+                map[value.name] = aspect;
+            }
+        }
+        return map;
+    }
+
+    module.guessFromTitle = function (newItems) {
         newItems.forEach(function (item) {
             var category = Categories.get(item.category);
             if (category && category.fuzzyValues) {
