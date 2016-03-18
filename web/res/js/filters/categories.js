@@ -19,7 +19,7 @@ var Categories = (function() {
 
     function onNewAspects(_, category, aspects){
         var targetCategory = attachCategory(category);
-        aspects = setCategory(aspects, targetCategory);
+        aspects = setCategoryToAspects(aspects, targetCategory);
         rememberAspects(targetCategory, aspects);
         populateFilters();
     }
@@ -30,7 +30,7 @@ var Categories = (function() {
             if (oldCategory) {
                 return oldCategory;
             } else {
-                set.add(category);
+                set.add(fillNewCategory(category));
                 return category;
             }
         } else {
@@ -38,7 +38,13 @@ var Categories = (function() {
         }
     }
 
-    function setCategory(aspects, category){
+    function fillNewCategory(category){
+        if(!category.parent) category.parent = root;
+        if(!category.aspects) category.aspects = [];
+        return category;
+    }
+
+    function setCategoryToAspects(aspects, category){
         return aspects.map(aspect => {
             aspect.category = idOnly(category);
             return aspect;
@@ -56,12 +62,10 @@ var Categories = (function() {
         var categoryIds = mapByCategoryId.keys();
         return categoryIds.map(id => {
             var item = mapByCategoryId.get(id);
-            return {
+            return fillNewCategory({
                 id: item.category.id,
-                name: item.category.name,
-                parent: root,
-                aspects: []
-            };
+                name: item.category.name
+            });
         });
     }
 

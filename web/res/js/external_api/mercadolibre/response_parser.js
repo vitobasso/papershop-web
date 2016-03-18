@@ -97,7 +97,7 @@ function MLResponseParser() {
     }
 
     function filterAspect(aspect){
-        return !['has_video', 'has_picture', 'power_seller'].find(_ => _ == aspect.id);
+        return !['has_video', 'has_pictures', 'power_seller'].find(_ => _ == aspect.id);
     }
 
 }
