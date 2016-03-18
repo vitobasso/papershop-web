@@ -66,15 +66,26 @@ function MLResponseParser() {
         return {
             id: categoryValue.id,
             name: categoryValue.name,
-            aspects: content.available_filters.map(parseAspect)
+            aspects: content.available_filters
+                .map(parseAspect)
+                .filter(filterAspect)
         }
     }
 
     function parseAspect(filter){
         return {
             id: filter.id,
-            name: filter.name,
+            name: transformAspectName(filter.name),
             values: filter.values.map(parseAspectValue)
+        }
+    }
+
+    function transformAspectName(name) {
+        var index = name.indexOf("filter");
+        if (index > 0) {
+            return name.substring(0, index);
+        } else {
+            return name;
         }
     }
 
@@ -83,6 +94,10 @@ function MLResponseParser() {
             id: value.id,
             name: value.name
         }
+    }
+
+    function filterAspect(aspect){
+        return !['has_video', 'has_picture', 'power_seller'].find(_ => _ == aspect.id);
     }
 
 }
