@@ -55,16 +55,14 @@ var Items = (function () {
     }
 
     function rememberAspectsFromRequest(requestParams, newItems) {
-        var requestAspects = getAspectsFromRequest(requestParams);
-        newItems.forEach(function (item) {
-            for (var aspectName in requestAspects) {
-                if (requestAspects.hasOwnProperty(aspectName)) {
-                    item.aspects[aspectName] = {
-                        value: requestAspects[aspectName],
-                        confidence: 2
-                    };
+        var aspectsMap = getAspectsFromRequest(requestParams);
+        newItems.forEach(item => {
+            _.keys(aspectsMap).forEach(aspectName => {
+                item.aspects[aspectName] = {
+                    value: aspectsMap[aspectName],
+                    confidence: 2
                 }
-            }
+            })
         });
     }
 
