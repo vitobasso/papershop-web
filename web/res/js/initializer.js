@@ -7,6 +7,7 @@ function init() {
     RequestLog.init();
     RequestLogUI.init();
     Items.init();
+    ItemGroomer.init();
     MessageUI.init();
     Filters.init();
     HandlerAssigner.init();
