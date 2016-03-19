@@ -71,10 +71,11 @@ function MLResponseParser() {
         var categoryFilter = content.filters[0];
         if(categoryFilter.id != "category") throw "Expected category filter";
         var categoryValue = categoryFilter.values[0];
+        var allFilters = content.available_filters.concat(content.filters);
         return {
             id: categoryValue.id,
             name: categoryValue.name,
-            aspects: content.available_filters
+            aspects: allFilters
                 .map(parseAspect)
                 .filter(filterAspect)
         }

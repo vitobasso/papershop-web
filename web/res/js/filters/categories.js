@@ -32,7 +32,7 @@ var Categories = (function() {
     }
 
     function mergeCategory(category) {
-        set.addMerge(category, mergeObjects);
+        set.addMerge(category, mergeObjects); //TODO merge array, avoid losing aspects
         var result = set.get(category);
         initCategory(result); //init after merge so the init values doesn't overwrite actual values
         return result;

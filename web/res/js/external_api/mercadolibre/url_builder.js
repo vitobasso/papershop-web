@@ -30,10 +30,10 @@ function MLUrlBuilder() {
         var result = "";
         var filterParams = params.filters.filter(isCommonFilter);
         if (filterParams) {
-            filterParams.forEach(function (filterParam, i) {
-                var values = filterParam.selected.map(getId);
+            filterParams.forEach(param => {
+                var values = param.selected.map(getId);
                 //TODO ml allows 1 category, ebay allows multiple. make it clear in the UI
-                result += "&" + filterParam.filter.id + "=" + values[0];
+                result += "&" + param.filter.id + "=" + values[0];
             });
         }
         return result;
