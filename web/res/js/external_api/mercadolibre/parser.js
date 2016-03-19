@@ -63,8 +63,8 @@ function MLResponseParser() {
 
     function findAttributeValue(aspectId, valueId){
         return MLRootCategory.get()
-            .aspects.find(_ => _.id == aspectId)
-            .values.find(_ => _.id == valueId)
+            .aspects.find(hasId(aspectId))
+            .values.find(hasId(valueId))
     }
 
     function parseFilters(content){
@@ -105,8 +105,7 @@ function MLResponseParser() {
     }
 
     function filterAspect(aspect){
-        return !['has_video', 'has_pictures', 'power_seller', 'condition', 'buying_mode', 'since', 'until', 'price', 'installments']
-            .find(_ => _ == aspect.id);
+        return /\d.*/.test(aspect.id); //begins with number
     }
 
 }

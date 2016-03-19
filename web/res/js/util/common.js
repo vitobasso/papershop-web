@@ -23,6 +23,10 @@ function idOnly(object){
     }
 }
 
+function hasId(id){
+    return obj => obj.id == id
+}
+
 //////////////////////////////////////////////////////////////////
 
 function mapAsObject(array, keyFunction) {
