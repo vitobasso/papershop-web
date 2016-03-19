@@ -10,9 +10,9 @@ var ItemGroomer = (function () {
         var newItems = result.items;
         AspectGuesser.guessFromTitle(newItems);
         AspectRecaller.rememberFromRequest(requestParams, newItems);
-        var categories = uniqueCategories(newItems);
-        $.publish('new-categories', [categories]);
         Items.merge(newItems);
+        var categories = uniqueCategories(newItems);
+        $.publish('new-categories', [categories]); //FIXME temporally dependant on Items.merge: new-categories -> new-filters -> FilterBuilder.getBiggestCategory() -> Items.list
     }
 
     function onNewAspects(_, category) {
