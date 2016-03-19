@@ -36,13 +36,10 @@ function MLResponseParser() {
         return item => ({
             id: item.id,
             title: item.title,
-            category: {
-                id: category.id,
-                name: category.name
-            },
+            category: parseCategory(category),
             aspects: {},
-            condition: findAspectValue(category, 'condition', item.condition),
-            listingType: findAspectValue(category, 'buying_mode', item.buying_mode),
+            condition: findAttributeValue('condition', item.condition),
+            listingType: findAttributeValue('buying_mode', item.buying_mode),
             end: MLApi.stringToDate(item.stop_time),
             price: {
                 currency: item.currency_id,
@@ -56,8 +53,17 @@ function MLResponseParser() {
         })
     }
 
-    function findAspectValue(category, aspectId, valueId){
-        return category.aspects.find(_ => _.id == aspectId)
+    function parseCategory(category) {
+        return {
+            id: category.id,
+            name: category.name,
+            parent: MLRootCategory.get()
+        }
+    }
+
+    function findAttributeValue(aspectId, valueId){
+        return MLRootCategory.get()
+            .aspects.find(_ => _.id == aspectId)
             .values.find(_ => _.id == valueId)
     }
 
@@ -99,7 +105,8 @@ function MLResponseParser() {
     }
 
     function filterAspect(aspect){
-        return !['has_video', 'has_pictures', 'power_seller'].find(_ => _ == aspect.id);
+        return !['has_video', 'has_pictures', 'power_seller', 'condition', 'buying_mode', 'since', 'until', 'price', 'installments']
+            .find(_ => _ == aspect.id);
     }
 
 }
