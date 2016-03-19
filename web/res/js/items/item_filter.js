@@ -22,7 +22,7 @@ var ItemFilter = (function () {
             return true;
         } else {
             var filter = filterParam.filter;
-            if (filter.satisfies) {
+            if (filter.satisfies) { //for properties with a specific logic (e.g.: time, which is not a discrete set of values)
                 return filter.satisfies(item, filterParam);
             } else {
                 return satisfiesOrdinalFilter(item, filterParam);
@@ -54,7 +54,7 @@ var ItemFilter = (function () {
     function getItemAspectByFilter(aspectName) {
         return function (item) {
             var aspect = item.aspects[aspectName] || {};
-            return aspect.value;
+            return aspect.id;
         }
     }
 

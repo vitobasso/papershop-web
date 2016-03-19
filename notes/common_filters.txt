@@ -18,15 +18,15 @@
         axis_factory        {name}
         filter_builder
 
-#item.aspects               name -> {id, value, confidence}
+#item.aspects               name -> {id, name, confidence}
     writes
         aspect_recaller     name -> {id, confidence}
-        aspect_guess        name -> {confidence, value}
+        aspect_guess        name -> {confidence, name, id}
         items               (merge)
 
     reads
-        item_filter         name -> {value}
-        axis_factory        name -> {value}
+        item_filter         name -> {id}
+        axis_factory        name -> {name}
 
 #params.aspects
         request_log_ui      [{selected: [{name}]}]

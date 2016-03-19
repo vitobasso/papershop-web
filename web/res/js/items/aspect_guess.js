@@ -38,17 +38,26 @@ var AspectGuesser = (function () {
         for (var i = 0, word; word = words[i]; i++) {
             var match = category.fuzzyValues.get(word);
             if (match) {
-                var newGuess = {
-                    confidence: match[0][0],
-                    value: match[0][1]
-                };
-                var aspectName = category.aspectValuesMap[match[0][1]].name;
+                var confidence = match[0][0];
+                var valueName = match[0][1];
+                var aspect = category.aspectValuesMap[valueName];
+                var newGuess = createGuess(aspect, valueName, confidence);
+                var aspectName = aspect.name;
                 if (!bestGuesses[aspectName] || bestGuesses[aspectName].confidence < newGuess.confidence) {
                     bestGuesses[aspectName] = newGuess;
                 }
             }
         }
         return bestGuesses;
+    }
+
+    function createGuess(aspect, valueName, confidence) {
+        var value = aspect.values.find(hasName(valueName));
+        return {
+            confidence: confidence,
+            name: value.name,
+            id: value.id
+        };
     }
 
     function getAspectCandidates(item) {

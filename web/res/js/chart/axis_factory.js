@@ -49,7 +49,7 @@ var AxisFactory = (function (){
         return new OrdinalAxis(aspectName,
             function (item) {
                 var aspect = item.aspects[aspectName] || {};
-                return aspect.value;
+                return aspect.name;
             })
     }
 

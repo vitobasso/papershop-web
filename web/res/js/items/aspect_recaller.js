@@ -4,9 +4,11 @@ var AspectRecaller = (function () {
     module.rememberFromRequest = function (requestParams, newItems) {
         var aspectsMap = getAspectsFromRequest(requestParams);
         newItems.forEach(item => {
-            _.keys(aspectsMap).forEach(aspectName => {
-                item.aspects[aspectName] = {
-                    value: aspectsMap[aspectName],
+            _.keys(aspectsMap).forEach(aspectId => {
+                var aspect = aspectsMap[aspectId];
+                item.aspects[aspectId] = {
+                    id: aspect.id,
+                    name: aspect.name,
                     confidence: 2
                 }
             })
@@ -16,9 +18,9 @@ var AspectRecaller = (function () {
     function getAspectsFromRequest(requestParams) {
         var singleValueAspects = requestParams.filters.filter(aspect => aspect.selected.length == 1);
         var aspectsMap = {};
-        singleValueAspects.forEach(function (aspect) {
-            var name = aspect.filter.name;
-            aspectsMap[name] = aspect.selected[0].name;
+        singleValueAspects.forEach(aspect => {
+            var aspectId = aspect.filter.id;
+            aspectsMap[aspectId] = aspect.selected[0];
         });
         return aspectsMap;
     }

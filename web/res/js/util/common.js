@@ -27,6 +27,10 @@ function hasId(id){
     return obj => obj.id == id
 }
 
+function hasName(name){
+    return obj => obj.name == name
+}
+
 //////////////////////////////////////////////////////////////////
 
 function mapAsObject(array, keyFunction) {
