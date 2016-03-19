@@ -15,10 +15,9 @@ items                   new-items                   message_ui
 
                         new-categories              categories
 
-handler_assigner        apply-filter                message_ui
-                                                    chart_manager
-
 aspects_finder          new-aspects                 chart_manager
 filters                                             items
 item_finder                                         categories
 
+handler_assigner        apply-filter                message_ui
+                                                    chart_manager
