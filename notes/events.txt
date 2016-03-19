@@ -15,9 +15,12 @@ items                   new-items                   message_ui
                                                     chart_manager
                                                     filters //why?
 
-aspects_finder          new-aspects                 chart_manager
-filters                                             item_groomer
-item_finder                                         categories
+aspects_finder          new-aspects                 item_groomer
+filters                                             categories
+item_finder
+
+categories              new-filters                 filter_builder
+                                                    chart_manager
 
 handler_assigner        apply-filter                message_ui
                                                     chart_manager
