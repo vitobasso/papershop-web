@@ -3,15 +3,15 @@ var Sites = (function () {
     var module = {};
 
     var options = [
-        { label: "eBay",            api: new EbayApi() },
-        { label: "Mercado Libre",   api: new MLApi()   }
+        { label: "eBay",            api: new EbayApi(), rootCategory: EbayRootCategory.get() },
+        { label: "Mercado Libre",   api: new MLApi(),   rootCategory: null } //TODO
     ];
 
-    var selected = options[1];
+    var selected = options[0];
 
-    module.getSelected = () => selected.api;
+    module.get = () => selected;
 
-    module.getOptions = () => options;
+    module.list = () => options;
 
     return module;
 }());

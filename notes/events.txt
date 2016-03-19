@@ -1,7 +1,7 @@
 publisher               event                       subscriber
 ----------------------------------------------------------------------
 
-initializer             init                        filters
+initializer             init                        filter_builder
                                                     handler_assigner
 
 item_finder             find-items                  item_groomer
@@ -13,11 +13,10 @@ item_groomer            new-categories              categories
 
 items                   new-items                   message_ui
                                                     chart_manager
-                                                    filters //why?
 
 aspects_finder          new-aspects                 item_groomer
-filters                                             categories
-item_finder
+item_finder                                         categories
+
 
 categories              new-filters                 filter_builder
                                                     chart_manager

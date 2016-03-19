@@ -3,6 +3,7 @@ var FilterBuilder = (function() {
     var module = {};
 
     module.init = () => {
+        $.subscribe('init', populateFilters);
         $.subscribe('new-filters', populateFilters);
     };
 
@@ -33,7 +34,7 @@ var FilterBuilder = (function() {
     function pickCategory(){
         var result = getSelectedCategory();
         if(!result) result = getBiggestCategory();
-        if(!result) result = Categories.root();
+        if(!result) result = Sites.get().rootCategory;
         return result;
     }
 

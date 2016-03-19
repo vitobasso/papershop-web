@@ -1,14 +1,10 @@
 
-var Filters = (function () {
+var EbayRootCategory = (function () {
     var module = {};
 
-    module.init = () => {
-        $.subscribe('init', createCommonAspects);
-    };
-
-    function createCommonAspects(){
-        $.publish('new-aspects', [undefined, aspects])
-    }
+    module.get = () => ({
+            aspects: aspects
+        });
 
     var aspects = fillIds([
         {

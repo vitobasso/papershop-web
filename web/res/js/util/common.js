@@ -23,6 +23,17 @@ function idOnly(object){
     }
 }
 
+//////////////////////////////////////////////////////////////////
+
+function mapAsObject(array, keyFunction) {
+    var result = {};
+    for (var i = 0, elm; elm = array[i]; i++) {
+        var key = keyFunction(elm);
+        result[key] = elm;
+    }
+    return result;
+}
+
 //TODO deep merge?
 //https://github.com/KyleAMathews/deepmerge
 //https://github.com/unclechu/node-deep-extend
@@ -39,14 +50,10 @@ function mergeArrays(oldArray, newArray, getId) {
     });
 }
 
-
 //////////////////////////////////////////////////////////////////
 
-function mapAsObject(array, keyFunction) {
-    var result = {};
-    for (var i = 0, elm; elm = array[i]; i++) {
-        var key = keyFunction(elm);
-        result[key] = elm;
+function assert(bool, msg) {
+    if(!bool) {
+        throw msg? msg : "Assertion failed"
     }
-    return result;
 }

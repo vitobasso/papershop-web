@@ -2,11 +2,10 @@
 var Categories = (function() {
     var module = {};
 
-    var set, root;
+    var set;
 
     module.init = () => {
         set = new Set(getId);
-        root = { aspects: [] };
         $.subscribe('new-categories', onNewCategories);
         $.subscribe('new-aspects', onNewAspects);
     };
@@ -19,15 +18,14 @@ var Categories = (function() {
 
     module.empty = () => set.empty();
 
-    module.root = () => root;
-
     function onNewCategories(_, categories) {
         categories.forEach(mergeCategory);
         $.publish('new-filters');
     }
 
     function onNewAspects(_, category, aspects){
-        var targetCategory = category? mergeCategory(category) : root;
+        assert(category);
+        var targetCategory = mergeCategory(category);
         targetCategory.aspects = setCategoryToAspects(aspects, targetCategory);
         AspectGuesser.mapValues(targetCategory);
         $.publish('new-filters');
@@ -41,7 +39,6 @@ var Categories = (function() {
     }
 
     function initCategory(category){
-        if(!category.parent) category.parent = root;
         if(!category.aspects) category.aspects = [];
     }
 

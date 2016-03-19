@@ -27,11 +27,16 @@ var ItemGroomer = (function () {
         var categoryIds = mapByCategoryId.keys();
         return categoryIds.map(id => {
             var item = mapByCategoryId.get(id);
-            return { //not a reference to this specific item's category object
-                id: item.category.id,
-                name: item.category.name
-            };
+            return copyCategory(item.category); //return a new object, not this specific item's property
         });
+    }
+
+    function copyCategory(original) {
+        return {
+            id: original.id,
+            name: original.name,
+            parent: original.parent
+        }
     }
 
     var getCategoryId = item => item.category.id;

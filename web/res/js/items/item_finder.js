@@ -7,7 +7,7 @@ var ItemFinder = (function () {
             try {
                 var params = RequestLog.notifyNewRequestAndGetPaging(uiParams); //TODO publish & paging
                 checkTotalItems(params);
-                Sites.getSelected().find(params, onSuccess, onFail);
+                Sites.get().api.find(params, onSuccess, onFail);
             } catch (err) {
                 onFail(err);
             }

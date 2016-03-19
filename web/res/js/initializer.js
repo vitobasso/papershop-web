@@ -10,7 +10,6 @@ function init() {
     Items.init();
     ItemGroomer.init();
     MessageUI.init();
-    Filters.init();
     HandlerAssigner.init();
     $.publish('init');
 }
