@@ -2,27 +2,31 @@ var AspectRecaller = (function () {
     var module = {};
 
     module.rememberFromRequest = function (requestParams, newItems) {
-        var aspectsMap = getAspectsFromRequest(requestParams);
+        var valueByAspectId = getAspectsFromRequest(requestParams);
         newItems.forEach(item => {
-            _.keys(aspectsMap).forEach(aspectId => {
-                var aspect = aspectsMap[aspectId];
-                item.aspects[aspectId] = {
-                    id: aspect.id,
-                    name: aspect.name,
-                    confidence: 2
-                }
+            _.keys(valueByAspectId).forEach(aspectId => {
+                var value = valueByAspectId[aspectId];
+                item.aspects[aspectId] = copyValue(value);
             })
         });
     };
 
+    function copyValue(value){
+        return {
+            id: value.id,
+            name: value.name,
+            confidence: 2
+        }
+    }
+
     function getAspectsFromRequest(requestParams) {
         var singleValueAspects = requestParams.filters.filter(aspect => aspect.selected.length == 1);
-        var aspectsMap = {};
+        var valueByAspectId = {};
         singleValueAspects.forEach(aspect => {
             var aspectId = aspect.filter.id;
-            aspectsMap[aspectId] = aspect.selected[0];
+            valueByAspectId[aspectId] = aspect.selected[0];
         });
-        return aspectsMap;
+        return valueByAspectId;
     }
 
     return module;
