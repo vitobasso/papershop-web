@@ -21,6 +21,11 @@ var Categories = (function() {
 
     module.root = () => root;
 
+    function onNewCategories(_, categories) {
+        categories.forEach(mergeCategory);
+        $.publish('new-filters');
+    }
+
     function onNewAspects(_, category, aspects){
         var targetCategory = category? mergeCategory(category) : root;
         targetCategory.aspects = setCategoryToAspects(aspects, targetCategory);
@@ -45,11 +50,6 @@ var Categories = (function() {
             aspect.category = idOnly(category);
             return aspect;
         });
-    }
-
-    function onNewCategories(_, categories) {
-        categories.forEach(mergeCategory);
-        $.publish('new-filters');
     }
 
     return module;

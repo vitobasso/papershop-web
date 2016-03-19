@@ -1,9 +1,32 @@
-referenced from
-    item_filter.js
-    axis_factory.js
-    ml/parser.js
-    ebay/parser.js
-    ebay/url_builder.js
-    ebay/filters.js
+#referenced from
+    item_filter
+    axis_factory
+    ml/parser
+    ebay/parser
+    ebay/url_builder
+    ebay/filters
 
 
+#category.aspects[#]        {id, name, values: [{id, name}], category: {id}}
+    writes
+        categories          {cateogory: {id}} //see parser, new-aspects
+        ml/parser           {id, name, values: [{id, name}]}
+        ebay/parser         {id, name, values: [{id, name}]}
+
+    reads
+        aspect_guess        {values: [{name}]}
+        axis_factory        {name}
+        filter_builder
+
+#item.aspects               name -> {id, value, confidence}
+    writes
+        aspect_recaller     name -> {id, confidence}
+        aspect_guess        name -> {confidence, value}
+        items               (merge)
+
+    reads
+        item_filter         name -> {value}
+        axis_factory        name -> {value}
+
+#params.aspects
+        request_log_ui      [{selected: [{name}]}]
