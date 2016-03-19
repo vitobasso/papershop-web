@@ -7,7 +7,7 @@ var Categories = (function() {
     module.init = () => {
         set = new Set(getId);
         root = { aspects: [] };
-        $.subscribe('new-items', onNewItems);
+        $.subscribe('new-categories', onNewCategories);
         $.subscribe('new-aspects', onNewAspects);
     };
 
@@ -43,25 +43,10 @@ var Categories = (function() {
         });
     }
 
-    function onNewItems(_, items) {
-        var categories = uniqueCategories(items);
+    function onNewCategories(_, categories) {
         categories.forEach(mergeCategory);
         populateFilters();
     }
-
-    function uniqueCategories(items) {
-        var mapByCategoryId = d3.map(items, getCategoryId);
-        var categoryIds = mapByCategoryId.keys();
-        return categoryIds.map(id => {
-            var item = mapByCategoryId.get(id);
-            return {
-                id: item.category.id,
-                name: item.category.name
-            };
-        });
-    }
-
-    var getCategoryId = item => item.category.id;
 
     function populateFilters() {
         if (!set.empty()) {
@@ -125,7 +110,6 @@ var Categories = (function() {
             AspectsFinder.find(category);
         }
     }
-
 
     return module;
 }());

@@ -11,8 +11,9 @@ item_finder             find-items                  items
 
 items                   new-items                   message_ui
                                                     chart_manager
-                                                    categories
                                                     filters //why?
+
+                        new-categories              categories
 
 handler_assigner        apply-filter                message_ui
                                                     chart_manager

@@ -15,6 +15,8 @@ var Items = (function () {
         AspectRecaller.rememberFromRequest(requestParams, newItems);
         set.addMergeAll(newItems, merge);
         $.publish('new-items', [newItems, module.filter(), module.list()]);
+        var categories = uniqueCategories(newItems);
+        $.publish('new-categories', [categories]);
     }
 
     function merge(oldItem, newItem) {
@@ -46,5 +48,18 @@ var Items = (function () {
         return item => item.category.id == category.id;
     }
 
+    function uniqueCategories(items) {
+        var mapByCategoryId = d3.map(items, getCategoryId);
+        var categoryIds = mapByCategoryId.keys();
+        return categoryIds.map(id => {
+            var item = mapByCategoryId.get(id);
+            return { //not a reference to this specific item's category object
+                id: item.category.id,
+                name: item.category.name
+            };
+        });
+    }
+
+    var getCategoryId = item => item.category.id;
     return module;
 }());
