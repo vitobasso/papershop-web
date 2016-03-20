@@ -1,10 +1,9 @@
-
 var MLRootCategory = (function () {
     var module = {};
 
     module.get = () => ({
-            aspects: aspects
-        });
+        aspects: aspects
+    });
 
     var aspects = RootCategoryCommon.fillIds([
         {
@@ -28,22 +27,15 @@ var MLRootCategory = (function () {
         RootCategoryCommon.createEndAspect(buildEndUrlParam)
     ]);
 
-    function buildEndUrlParam(param, itemFilterIndex) {
-        var i = itemFilterIndex;
+    function buildEndUrlParam(param) {
         var result = "";
         if (param && param.selected.length) {
             var selected = param.selected[0];
-            var now = new Date();
-            var toDate = selected.getTime(now);
-            var dateStr = EbayApi.dateToString(toDate);
-            result += buildItemFilterUrlParam(i, "EndTimeTo", dateStr);
+            if (["In 1 day", "In 1 hour"].find(equals(selected.id))) {
+                result = "&until=today"; //ml's only option for filtering "End"
+            }
         }
         return result;
-    }
-
-    function buildItemFilterUrlParam(i, name, value) {
-        return "&itemFilter(" + i + ").name=" + name
-            + "&itemFilter(" + i + ").value(0)=" + value;
     }
 
     return module;

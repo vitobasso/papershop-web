@@ -31,6 +31,10 @@ function hasName(name){
     return obj => obj? obj.name == name : false;
 }
 
+function equals(another){
+    return obj => obj? obj == another : false;
+}
+
 //////////////////////////////////////////////////////////////////
 
 function mapAsObject(array, keyFunction) {

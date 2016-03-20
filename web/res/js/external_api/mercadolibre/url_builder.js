@@ -6,37 +6,46 @@ function MLUrlBuilder() {
             "q=" + params.keywords +
             buildCategoryFilter(params) +
             buildFilters(params) +
+            buildEndFilter(params) +
             buildPaging(params);
     };
 
     function buildCategoryFilter(params) {
         var result = "";
-        var categoryFilter = params.filters.find(filterNameEquals("Category"));
-        if (categoryFilter) {
+        var param = params.filters.find(filterNameEquals("Category"));
+        if (param) {
             //TODO ml allows 1 category, ebay allows multiple. make it clear in the UI
-            var category = categoryFilter.selected[0];
+            var category = param.selected[0];
             result += "&category=" + category;
         }
         return result;
     }
 
-    function filterNameEquals(name) {
-        return function(filterParam) {
-            return filterParam.filter.name == name;
-        };
-    }
-
     function buildFilters(params) {
         var result = "";
-        var filterParams = params.filters.filter(isCommonFilter);
-        if (filterParams) {
-            filterParams.forEach(param => {
+        var params = params.filters.filter(isCommonFilter);
+        if (params) {
+            params.forEach(param => {
                 var values = param.selected.map(getId);
-                //TODO ml allows 1 category, ebay allows multiple. make it clear in the UI
+                //TODO ml allows 1 filter, ebay allows multiple. make it clear in the UI
                 result += "&" + param.filter.id + "=" + values[0];
             });
         }
         return result;
+    }
+
+    function buildEndFilter(params) {
+        var result = "";
+        var endFilter = params.filters.find(filterNameEquals("End"));
+        if (endFilter) {
+            var build = endFilter.filter.buildUrlParam;
+            result += build(endFilter)
+        }
+        return result;
+    }
+
+    function filterNameEquals(name) {
+        return param => param.filter.name == name;
     }
 
     function isCommonFilter(filterParam) {
