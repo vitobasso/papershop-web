@@ -23,10 +23,11 @@ var Categories = (function() {
         $.publish('new-filters');
     }
 
-    function onNewAspects(_, category, aspects){
+    function onNewAspects(_, category, aspects){ //TODO new-categories ?
         assert(category);
         var targetCategory = mergeCategory(category);
-        targetCategory.aspects = setCategoryToAspects(aspects, targetCategory);
+        var newAspects = setCategoryToAspects(aspects, targetCategory); //FIXME aspects were already on category that was just merged (at least when comming from item_finder)
+        mergeArrays(targetCategory.aspects, newAspects, getId);
         AspectGuesser.mapValues(targetCategory);
         $.publish('new-filters');
     }

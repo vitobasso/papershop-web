@@ -69,7 +69,7 @@ function MLResponseParser() {
 
     function parseFilters(content){
         var categoryFilter = content.filters[0];
-        if(categoryFilter.id != "category") throw "Expected category filter";
+        if(categoryFilter.id != "category") throw "Expected category filter"; //TODO use assert
         var categoryValue = categoryFilter.values[0];
         var allFilters = content.available_filters.concat(content.filters);
         return {

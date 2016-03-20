@@ -27,7 +27,7 @@ var ItemFinder = (function () {
 
     };
 
-    function publishAspects(result) {
+    function publishAspects(result) { //todo 'new-categories' ?
         if (result.category) { //only ml has aspects in the return of item-find TODO publish from inside the specific api?
             $.publish('new-aspects', [result.category, result.category.aspects]);
         }
