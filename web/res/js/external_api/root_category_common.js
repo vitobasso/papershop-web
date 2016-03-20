@@ -16,19 +16,16 @@ var RootCategoryCommon = (function () {
         return obj;
     }
 
-    module.createEndAspect = function (buildUrlParam) {
-        return {
-            name: "End",
-            values: [
-                {name: "In 1 hour", getTime: timeCalc(addHours, 1)},
-                {name: "In 1 day", getTime: timeCalc(addDays, 1)},
-                {name: "In 30 days", getTime: timeCalc(addDays, 30)}
-            ],
-            axis: "Time",
-            getFromItem: item => item.end,
-            satisfies: satisfiesEnd,
-            buildUrlParam: buildUrlParam
-        }
+    module.endAspect = {
+        name: "End",
+        values: [
+            {name: "In 1 hour", getTime: timeCalc(addHours, 1)},
+            {name: "In 1 day", getTime: timeCalc(addDays, 1)},
+            {name: "In 30 days", getTime: timeCalc(addDays, 30)}
+        ],
+        axis: "Time",
+        getFromItem: item => item.end,
+        satisfies: satisfiesEnd
     };
 
     function satisfiesEnd(item, param) {
@@ -40,11 +37,17 @@ var RootCategoryCommon = (function () {
         }
     }
 
-    function timeCalc(fun, secondArg) {
-        return function(now){
-            return fun(now, secondArg);
-        };
+    function timeCalc(addTime, amount) {
+        return now => addTime(now, amount);
     }
+
+    module.getTimeValueForSelection = function (param) {
+        if (param && param.selected.length) {
+            var selected = param.selected[0];
+            var now = new Date();
+            return selected.getTime(now);
+        }
+    };
 
     return module;
 }());

@@ -34,26 +34,8 @@ var EbayRootCategory = (function () {
             ],
             getFromItem: item => item.listingType
         },
-        RootCategoryCommon.createEndAspect(buildEndUrlParam)
+        RootCategoryCommon.endAspect
     ]);
-
-    function buildEndUrlParam(param, itemFilterIndex) {
-        var i = itemFilterIndex;
-        var result = "";
-        if (param && param.selected.length) {
-            var selected = param.selected[0];
-            var now = new Date();
-            var toDate = selected.getTime(now);
-            var dateStr = EbayApi.dateToString(toDate);
-            result += buildItemFilterUrlParam(i, "EndTimeTo", dateStr);
-        }
-        return result;
-    }
-
-    function buildItemFilterUrlParam(i, name, value) {
-        return "&itemFilter(" + i + ").name=" + name
-            + "&itemFilter(" + i + ").value(0)=" + value;
-    }
 
     return module;
 }());

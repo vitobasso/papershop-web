@@ -1,4 +1,3 @@
-
 function EbayUrlBuilder() {
 
     var APPID = "VictorBa-91f0-4b04-b497-3a5e426e0ece";
@@ -41,19 +40,8 @@ function EbayUrlBuilder() {
         return result;
     }
 
-    function buildEndFilter(filtersParams) {
-        var result = "";
-        var endFilter = filtersParams.filters.find(filterNameEquals("End"));
-        if (endFilter) {
-            var nextIndex = filtersParams.filters.count(isCommonFilter);
-            var build = endFilter.filter.buildUrlParam;
-            result += build(endFilter, nextIndex);
-        }
-        return result;
-    }
-
     function filterNameEquals(name) {
-        return function(filterParam) {
+        return function (filterParam) {
             return filterParam.filter.name == name;
         };
     }
@@ -113,6 +101,31 @@ function EbayUrlBuilder() {
             return "&aspectFilter(" + i + ").aspectValueName(" + j + ")=" + value;
         }
     };
+
+    function buildEndFilter(filtersParams) {
+        var result = "";
+        var endFilter = filtersParams.filters.find(filterNameEquals("End"));
+        if (endFilter) {
+            var nextIndex = filtersParams.filters.count(isCommonFilter);
+            result += buildEndUrlParam(endFilter, nextIndex);
+        }
+        return result;
+    }
+
+    function buildEndUrlParam(param, nextIndex) {
+        var result = "";
+        var timeValue = RootCategoryCommon.getTimeValueForSelection(param)
+        if (timeValue) {
+            var dateStr = EbayApi.dateToString(timeValue);
+            result = buildItemFilterUrlParam(nextIndex, "EndTimeTo", dateStr);
+        }
+        return result;
+    }
+
+    function buildItemFilterUrlParam(i, name, value) {
+        return "&itemFilter(" + i + ").name=" + name
+            + "&itemFilter(" + i + ").value(0)=" + value;
+    }
 
     this.buildHistogramsUrl = function (params) {
         return "http://svcs.ebay.com/services/search/FindingService/v1?" +

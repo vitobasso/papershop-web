@@ -24,19 +24,8 @@ var MLRootCategory = (function () {
             ],
             getFromItem: item => item.listingType //TODO change to buyingMode (ml name) ?
         },
-        RootCategoryCommon.createEndAspect(buildEndUrlParam)
+        RootCategoryCommon.endAspect
     ]);
-
-    function buildEndUrlParam(param) {
-        var result = "";
-        if (param && param.selected.length) {
-            var selected = param.selected[0];
-            if (["In 1 day", "In 1 hour"].find(equals(selected.id))) {
-                result = "&until=today"; //ml's only option for filtering "End"
-            }
-        }
-        return result;
-    }
 
     return module;
 }());

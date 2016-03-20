@@ -38,8 +38,18 @@ function MLUrlBuilder() {
         var result = "";
         var endFilter = params.filters.find(filterNameEquals("End"));
         if (endFilter) {
-            var build = endFilter.filter.buildUrlParam;
-            result += build(endFilter)
+            result += buildEndParam(endFilter)
+        }
+        return result;
+    }
+
+    function buildEndParam(param) {
+        var result = "";
+        if (param && param.selected.length) {
+            var selected = param.selected[0];
+            if (["In 1 day", "In 1 hour"].find(equals(selected.id))) {
+                result = "&until=today"; //ml's only option for filtering "End"
+            }
         }
         return result;
     }
