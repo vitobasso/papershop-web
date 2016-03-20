@@ -6,7 +6,7 @@ var EbayRootCategory = (function () {
             aspects: aspects
         });
 
-    var aspects = fillIds([
+    var aspects = RootCategoryCommon.fillIds([
         {
             name: "Condition",
             values: [
@@ -34,45 +34,8 @@ var EbayRootCategory = (function () {
             ],
             getFromItem: item => item.listingType
         },
-        {
-            name: "End",
-            values: [
-                {name: "In 10 minutes",  getTime: timeCalc(addMinutes, 15)},
-                {name: "In 1 hour",      getTime: timeCalc(addHours, 1)},
-                {name: "In 1 day",       getTime: timeCalc(addDays, 1)},
-                {name: "In 7 days",      getTime: timeCalc(addDays, 7)},
-                {name: "In 30 days",     getTime: timeCalc(addDays, 30)}
-            ],
-            axis: "Time",
-            getFromItem: item => item.end,
-            satisfies: satisfiesEnd,
-            buildUrlParam: buildEndUrlParam
-        }
+        RootCategoryCommon.createEndAspect(buildEndUrlParam)
     ]);
-
-    function fillIds(aspects){
-        return aspects.map((aspect) => {
-            var result = copyNameToId(aspect);
-            result.values = result.values.map(copyNameToId);
-            return result;
-        });
-    }
-
-    function copyNameToId(obj){
-        if(!obj.id){
-            obj.id = obj.name;
-        }
-        return obj;
-    }
-
-    function satisfiesEnd(item, param) {
-        if (param && param.selected.length) {
-            var selected = param.selected[0];
-            var now = new Date();
-            var limit = selected.getTime(now);
-            return item.end <= limit;
-        }
-    }
 
     function buildEndUrlParam(param, itemFilterIndex) {
         var i = itemFilterIndex;
@@ -90,12 +53,6 @@ var EbayRootCategory = (function () {
     function buildItemFilterUrlParam(i, name, value) {
         return "&itemFilter(" + i + ").name=" + name
             + "&itemFilter(" + i + ").value(0)=" + value;
-    }
-
-    function timeCalc(fun, secondArg) {
-        return function(now){
-            return fun(now, secondArg);
-        };
     }
 
     return module;
