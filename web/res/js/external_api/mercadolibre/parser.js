@@ -6,11 +6,11 @@ function MLResponseParser() {
             var content = response[2];
             var responseItems = content.results || [];
             if(!responseItems.length) throw "Returned zero items";
-            var category = parseFilters(content);
+            var optCategory = parseFilters(content); //a category may or may not be found on "filters", therefore "opt" (optional)
             return {
-                items: responseItems.map(parseFindItem(category)),
+                items: responseItems.map(parseFindItem(optCategory)),
                 metadata: parseMetadata(content),
-                category: category
+                category: optCategory
             };
         }
     };
@@ -32,11 +32,11 @@ function MLResponseParser() {
         return true;
     }
 
-    function parseFindItem(category) {
+    function parseFindItem(optCategory) {
         return item => ({
             id: item.id,
             title: item.title,
-            category: parseCategory(category),
+            category: buildCategory(optCategory, item.category_id),
             aspects: {},
             condition: findAttributeValue('condition', item.condition),
             listingType: findAttributeValue('buying_mode', item.buying_mode),
@@ -46,19 +46,29 @@ function MLResponseParser() {
                 value: item.price
             },
             site: item.site_id,
-            country: null, //TODO
-            shipTo: null, //TODO
+            country: undefined, //TODO
+            shipTo: undefined, //TODO
             image: item.thumbnail,
             link: item.permalink
         })
     }
 
-    function parseCategory(category) {
-        return {
-            id: category.id,
-            name: category.name,
+    function buildCategory(optCategory, categoryId) {
+        if (optCategory) return {
+            id: optCategory.id,
+            name: optCategory.name,
             parent: MLRootCategory.get()
+        };
+        else {
+            console.log("Unknown category_id=" + categoryId);
+            return {
+                //TODO ml may return a more specific category on item.category_id,
+                //TODO and may not return a category in "filters" then we don't know which category to associate that item to
+                id: categoryId,
+                parent: MLRootCategory.get()
+            };
         }
+
     }
 
     function findAttributeValue(aspectId, valueId){
@@ -68,8 +78,9 @@ function MLResponseParser() {
     }
 
     function parseFilters(content){
-        var categoryFilter = content.filters[0];
-        if(categoryFilter.id != "category") throw "Expected category filter"; //TODO use assert
+        var categoryFilter = content.filters.find(hasId("category"));
+        if(!categoryFilter) return undefined;
+        assert(categoryFilter.values.length == 1, "There should be only one category in the category filter");
         var categoryValue = categoryFilter.values[0];
         var allFilters = content.available_filters.concat(content.filters);
         return {
