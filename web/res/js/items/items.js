@@ -13,7 +13,7 @@ var Items = (function () {
     };
 
     function merge(oldItem, newItem) {
-        mergeObjects(oldItem.aspects, newItem.aspects);
+        Merge.mergeObjects(oldItem.aspects, newItem.aspects); //item.aspects is a map (object)
     }
 
     module.filter = () => {

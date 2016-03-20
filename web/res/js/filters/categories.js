@@ -27,13 +27,13 @@ var Categories = (function() {
         assert(category);
         var targetCategory = mergeCategory(category);
         var newAspects = setCategoryToAspects(aspects, targetCategory); //FIXME aspects were already on category that was just merged (at least when comming from item_finder)
-        mergeArrays(targetCategory.aspects, newAspects, getId);
+        Merge.mergeArrays(targetCategory.aspects, newAspects, getId);
         AspectGuesser.mapValues(targetCategory);
         $.publish('new-filters');
     }
 
     function mergeCategory(category) {
-        set.addMerge(category, mergeObjects); //TODO merge array, avoid losing aspects
+        set.addMerge(category, Merge.mergeObjects); //TODO merge array, avoid losing aspects
         var result = set.get(category);
         initCategory(result); //init after merge so the init values doesn't overwrite actual values
         return result;
