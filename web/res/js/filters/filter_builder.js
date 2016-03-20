@@ -28,7 +28,7 @@ var FilterBuilder = (function() {
     function createAspectFilters(){
         var category = pickCategory();
         fetchAspects(category);
-        return getInheritedAspects(category);
+        return Categories.getInheritedAspects(category);
     }
 
     function pickCategory(){
@@ -53,15 +53,6 @@ var FilterBuilder = (function() {
             .max(pair => pair[1])
             .value()[0];
         return Categories.get({id: categoryId});
-    }
-
-    function getInheritedAspects(category) {
-        var result = [];
-        do {
-            result = category.aspects.concat(result);
-            category = category.parent;
-        } while (category);
-        return result;
     }
 
     function fetchAspects(category){

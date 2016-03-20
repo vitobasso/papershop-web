@@ -43,6 +43,15 @@ var Categories = (function() {
         if(!category.aspects) category.aspects = [];
     }
 
+    module.getInheritedAspects = function(category) {
+        var result = [];
+        do {
+            result = category.aspects.concat(result);
+            category = category.parent;
+        } while (category);
+        return result;
+    };
+
     function setCategoryToAspects(aspects, category){
         return aspects.map(aspect => {
             aspect.category = idOnly(category);

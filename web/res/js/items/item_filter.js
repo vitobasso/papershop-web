@@ -1,4 +1,3 @@
-
 var ItemFilter = (function () {
     var module = {};
 
@@ -30,31 +29,27 @@ var ItemFilter = (function () {
         }
     }
 
-    function satisfiesOrdinalFilter(item, filterParam){
-        var filterName = filterParam.filter.name;
-        var getProperty = itemPropertyIdGetter(filterName);
-        var property = getProperty(item);
+    function satisfiesOrdinalFilter(item, filterParam) {
+        var getValueId = itemPropertyIdGetter(filterParam.filter);
+        var valueId = getValueId(item);
         var filterValues = filterParam.selected.map(getId);
-        return filterValues.contains(property);
+        return filterValues.contains(valueId);
     }
 
-    function itemPropertyIdGetter(propertyName) {
-        return itemPropertyGetters[propertyName]
-            || getItemAspectByFilter(propertyName);
+    function itemPropertyIdGetter(aspect) { //TODO make these behave the same way to simplify
+        if (aspect.name == "Category") {
+            return item => item.category.id;  //category doesn't have a corresponding root aspect with "getFromItem"
+        } else if (aspect.getFromItem) {
+            return _.compose(getId, aspect.getFromItem); // root aspects are stored as specific properties of the item
+        } else {
+            return getValueIdForAspect(aspect.name); // other aspects are mapped in item.aspects object
+        }
     }
 
-    //TODO remove, make all aspect(id, name)
-    var itemPropertyGetters = {
-        Condition: item => item.condition.id,
-        ListingType: item => item.listingType.id,
-        Category: item => item.category.id
-    };
-
-    //TODO remove, make all aspect(id, name)
-    function getItemAspectByFilter(aspectName) {
+    function getValueIdForAspect(aspectName) {
         return function (item) {
-            var aspect = item.aspects[aspectName] || {};
-            return aspect.id;
+            var value = item.aspects[aspectName] || {};
+            return value.id;
         }
     }
 

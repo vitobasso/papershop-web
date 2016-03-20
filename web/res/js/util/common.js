@@ -4,11 +4,11 @@ function identity(object) {
 }
 
 function getId(object) {
-    return object.id;
+    return object? object.id : undefined;
 }
 
 function getName(object) {
-    return object.name;
+    return object? object.name : undefined;
 }
 
 function notEmpty(array) {
@@ -24,11 +24,11 @@ function idOnly(object){
 }
 
 function hasId(id){
-    return obj => obj.id == id
+    return obj => obj? obj.id == id : false;
 }
 
 function hasName(name){
-    return obj => obj.name == name
+    return obj => obj? obj.name == name : false;
 }
 
 //////////////////////////////////////////////////////////////////

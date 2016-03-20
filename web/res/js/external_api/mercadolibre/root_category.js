@@ -13,7 +13,8 @@ var MLRootCategory = (function () {
             values: [
                 {id: "new", name: "New"},
                 {id: "used", name: "Used"}
-            ]
+            ],
+            getFromItem: item => item.condition
         },
         {
             id: "buying_mode",
@@ -21,7 +22,8 @@ var MLRootCategory = (function () {
             values: [
                 {id: "buy_it_now", name: "Buy it now"},
                 {id: "auction", name: "Auction"}
-            ]
+            ],
+            getFromItem: item => item.listingType //TODO change to buyingMode (ml name) ?
         },
         {
             name: "End", //TODO copied from ebay. changes needed?
@@ -32,6 +34,8 @@ var MLRootCategory = (function () {
                 {name: "In 7 days",      getTime: timeCalc(addDays, 7)},
                 {name: "In 30 days",     getTime: timeCalc(addDays, 30)}
             ],
+            axis: "Time",
+            getFromItem: item => item.end,
             satisfies: satisfiesEnd,
             buildUrlParam: buildEndUrlParam
         }

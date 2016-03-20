@@ -20,7 +20,8 @@ var EbayRootCategory = (function () {
                 {id: 5000, name: "Good"},
                 {id: 6000, name: "Acceptable"},
                 {id: 7000, name: "For parts or not working"}
-            ]
+            ],
+            getFromItem: item => item.condition
         },
         {
             name: "ListingType",
@@ -30,7 +31,8 @@ var EbayRootCategory = (function () {
                 {name: "Classified"},
                 {name: "FixedPrice"},
                 {name: "StoreInventory"}
-            ]
+            ],
+            getFromItem: item => item.listingType
         },
         {
             name: "End",
@@ -41,6 +43,8 @@ var EbayRootCategory = (function () {
                 {name: "In 7 days",      getTime: timeCalc(addDays, 7)},
                 {name: "In 30 days",     getTime: timeCalc(addDays, 30)}
             ],
+            axis: "Time",
+            getFromItem: item => item.end,
             satisfies: satisfiesEnd,
             buildUrlParam: buildEndUrlParam
         }

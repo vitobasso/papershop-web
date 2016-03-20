@@ -39,7 +39,7 @@ function MLResponseParser() {
             category: buildCategory(optCategory, item.category_id),
             aspects: {},
             condition: findAttributeValue('condition', item.condition),
-            listingType: findAttributeValue('buying_mode', item.buying_mode),
+            listingType: findAttributeValue('buying_mode', item.buying_mode), //TODO rename to buyingMode (ML name)?
             end: MLApi.stringToDate(item.stop_time),
             price: {
                 currency: item.currency_id,
@@ -60,7 +60,7 @@ function MLResponseParser() {
             parent: MLRootCategory.get()
         };
         else {
-            console.log("Unknown category_id=" + categoryId);
+            console.log("Unknown category_id: " + categoryId);
             return {
                 //TODO ml may return a more specific category on item.category_id,
                 //TODO and may not return a category in "filters" then we don't know which category to associate that item to

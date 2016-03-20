@@ -1,5 +1,4 @@
-
-var AxisFactory = (function (){
+var AxisFactory = (function () {
     var module = {};
 
     function LinearAxis(label, getProperty) {
@@ -29,28 +28,39 @@ var AxisFactory = (function (){
             return item.price.value;
         });
 
-    //TODO remove, make all aspect(id, name)
     var categoryAxis = new OrdinalAxis("Category", item => item.category.name);
-    var conditionAxis = new OrdinalAxis("Condition", item => item.condition.name);
-    var listingTypeAxis = new OrdinalAxis("ListingType", item => item.listingType.name);
-    var endAxis = new TimeAxis("End", item => item.end);
 
-    module.listOptions = function() {
-        var result = [categoryAxis, conditionAxis, listingTypeAxis, endAxis];
-        Categories.each(function (category) {
-            category.aspects.forEach(function (aspect) {
-                result.push(createAspectAxis(aspect.name));
+    module.listOptions = function () {
+        var result = [categoryAxis];
+        Categories.each(category => {
+            var aspects = Categories.getInheritedAspects(category);
+            aspects.forEach(aspect => {
+                result.push(createAxis(aspect));
             });
         });
         return result;
     };
 
-    function createAspectAxis(aspectName) {
-        return new OrdinalAxis(aspectName,
-            function (item) {
-                var aspect = item.aspects[aspectName] || {};
-                return aspect.name;
-            })
+    function createAxis(aspect) {
+        return aspect.getFromItem ?
+            createRootAspectAxis(aspect) :
+            createAspectAxis(aspect);
+    }
+
+    function createRootAspectAxis(aspect) {
+        if (aspect.axis == "Time") {
+            return new TimeAxis(aspect.name, aspect.getFromItem);
+        } else {
+            var getValueName = _.compose(getName, aspect.getFromItem);
+            return new OrdinalAxis(aspect.name, getValueName);
+        }
+    }
+
+    function createAspectAxis(aspect) {
+        return new OrdinalAxis(aspect.name, item => {
+            var value = item.aspects[aspect.name] || {};
+            return value.name;
+        })
     }
 
     function updateLinearDomain(axis) {
