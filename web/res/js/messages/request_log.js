@@ -42,7 +42,7 @@ var RequestLog = (function () {
         delete params.isPending;
         params.failed = true;
         updateUI();
-    };
+    }
 
     function setPagingOnParams(paramsFromUI) {
         // given keyword and filters, generate paging params based on request history
