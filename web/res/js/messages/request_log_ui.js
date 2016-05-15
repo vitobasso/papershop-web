@@ -2,14 +2,9 @@
 var RequestLogUI = (function () {
     var module = {};
 
-    var divId = RequestLog.logDivId;
-
     module.init = function () {
         module.update();
-        $(divId).dialog({
-            autoOpen: false
-        });
-        HandlerAssigner.bindRequestLogDialog();
+        HandlerAssigner.bindDialog("#request-log", "#message");
     };
 
     module.update = function () {
@@ -18,7 +13,7 @@ var RequestLogUI = (function () {
     };
 
     function render(history) {
-        var selEntries = d3.select(divId)
+        var selEntries = d3.select("#request-log")
             .select("table")
             .select("tbody")
             .selectAll("tr").data(history, RequestLog.getHashKey);

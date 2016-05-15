@@ -72,15 +72,15 @@ var HandlerAssigner = (function () {
             });
     }
 
-    module.bindRequestLogDialog = function () {
-        $("#message").off().on("click", function () {
-            setRequestDialogPosition();
-            toggleRequestDialog();
+    module.bindDialog = function (dialogId, buttonId) {
+        $(buttonId).off().on("click", function () {
+            setDialogPosition(dialogId, buttonId);
+            toggleDialog(dialogId);
         });
     };
 
-    function toggleRequestDialog() {
-        var dialogDiv = $("#request-log");
+    function toggleDialog(dialogId) {
+        var dialogDiv = $(dialogId);
         if (dialogDiv.dialog("isOpen")) {
             dialogDiv.dialog("close");
         } else {
@@ -88,14 +88,16 @@ var HandlerAssigner = (function () {
         }
     }
 
-    function setRequestDialogPosition() {
-        $("#request-log").dialog("option", "position", {
+    function setDialogPosition(dialogId, buttonId) {
+        $(dialogId).dialog({
+            autoOpen: false
+        });
+        $(dialogId).dialog("option", "position", {
             my: 'left top',
             at: 'left bottom',
-            of: $('#message')
+            of: $(buttonId)
         });
     }
 
     return module;
 }());
-

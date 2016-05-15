@@ -2,7 +2,6 @@
 var RequestLog = (function () {
     var module = {};
 
-    module.logDivId = "#request-log";
     module.getHashKey = stringifyIdFields;
 
     var pageSize = 20;
