@@ -37,6 +37,7 @@ body {
     padding: 0 0 12px 40px; /*matches chart left margin in chart_renderer.js*/
     display: flex;
     flex-flow: row nowrap;
+    justify-content: space-between;
 }
 
 #top > div {
@@ -44,6 +45,10 @@ body {
 }
 
 #message {
+    cursor: pointer;
+}
+
+#config-btn {
     cursor: pointer;
 }
 

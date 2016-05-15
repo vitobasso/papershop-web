@@ -3,8 +3,18 @@ var Sites = (function () {
     var module = {};
 
     var options = [
-        { label: "eBay",            api: new EbayApi(), rootCategory: EbayRootCategory.get() },
-        { label: "Mercado Libre",   api: new MLApi(),   rootCategory: MLRootCategory.get() }
+        { 
+            id: 'ebay',
+            name: "eBay",
+            api: new EbayApi(),
+            rootCategory: EbayRootCategory.get() 
+        },
+        { 
+            id: 'ml',
+            name: "Mercado Libre",
+            api: new MLApi(),
+            rootCategory: MLRootCategory.get()
+        }
     ];
 
     var selected = options[1];
@@ -12,6 +22,8 @@ var Sites = (function () {
     module.get = () => selected;
 
     module.list = () => options;
+    
+    module.set = (value) => selected = value;
 
     return module;
 }());
