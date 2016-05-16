@@ -1,9 +1,16 @@
-- refactor
-    - extract ebay dependant stuff
-    - add ml
-    - add others? marktplaats, olx, etc
 
 - functionality
+
+    - show full sources > categories > aspects > aspect values (dev purposes)
+
+    - infer "same as"
+        - categories of different sources (and respective aspect)
+        - show fused categories/aspects when multiple categories/sources are selected
+
+    - show inferences/guesses
+        - show what was guessed by the app: fused categories, item's aspect values
+        - allow feedback (but do what with it? store as local preferences?)
+
     - filters
         - to create
             - ships to
