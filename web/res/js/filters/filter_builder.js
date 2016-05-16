@@ -32,18 +32,21 @@ var FilterBuilder = (function() {
     }
 
     function pickCategory(){
-        var result = getSelectedCategory();
+        var result = getFirstSelectedCategory();
         if(!result) result = getBiggestCategory();
         if(!result) result = Sources.get().rootCategory;
         return result;
     }
 
-    function getSelectedCategory(){
+    function getFirstSelectedCategory(){
+        var sel = getSelectedCategories();
+        return sel && sel.selected[0]
+    }
+
+    function getSelectedCategories(){
         var filter = UIParamsInput.getParams()
-            .filters.find(_ => _.filter.name == "Category");
-        if(filter){
-            return filter.selected[0]; //TODO multiple selection?
-        }
+                        .filters.find(_ => _.filter.name == "Category");
+        return filter && filter.selected;
     }
 
     function getBiggestCategory(){
