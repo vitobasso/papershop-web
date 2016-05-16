@@ -34,7 +34,7 @@ var FilterBuilder = (function() {
     function pickCategory(){
         var result = getSelectedCategory();
         if(!result) result = getBiggestCategory();
-        if(!result) result = Sites.get().rootCategory;
+        if(!result) result = Sources.get().rootCategory;
         return result;
     }
 

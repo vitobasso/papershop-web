@@ -48,10 +48,6 @@ body {
     cursor: pointer;
 }
 
-#config-btn {
-    cursor: pointer;
-}
-
 #chart {
     height: 100%;
 }

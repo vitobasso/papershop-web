@@ -1,5 +1,5 @@
 
-var Sites = (function () {
+var Sources = (function () {
     var module = {};
 
     var options = [
@@ -17,7 +17,7 @@ var Sites = (function () {
         }
     ];
 
-    var selected = options[1];
+    var selected = options[0];
 
     module.get = () => selected;
 

@@ -3,20 +3,18 @@ var Config = (function () {
     var module = {};
 
     module.init = function () {
-        populate('#site', Sites.list());
-        HandlerAssigner.bindDialog("#config", "#config-btn");
+        populate('#source', Sources.list());
     };
 
     function populate(selectId, data) {
-        var select = d3.select("#config")
-            .select(selectId);
+        var select = d3.select(selectId);
 
         select.selectAll('option').data(data, getId)
             .enter().append('option')
             .attr("value", getId)
             .html(getName);
 
-        select.on("change", handleSelection(selectId, Sites.set));
+        select.on("change", handleSelection(selectId, Sources.set));
     }
 
     function handleSelection(selectId, fun){

@@ -13,8 +13,6 @@ module.exports = function (grunt) {
 
                         //need to be in order FIXME use "require('modules')"? https://github.com/substack/node-browserify
                         'web/res/js/chart/chart_common.js',
-                        'web/res/js/config/country_codes.js',
-                        'web/res/js/config/site_ids.js',
                         'web/res/js/util/lang_util.js',
 
                         //everything else

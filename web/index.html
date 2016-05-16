@@ -44,13 +44,13 @@
     <script src="res/js/external_api/mercadolibre/url_builder.js"></script>
     <script src="res/js/external_api/mercadolibre/parser.js"></script>
     <script src="res/js/external_api/mercadolibre/root_category.js"></script>
-    <script src="res/js/filters/sites.js"></script>
+    <script src="res/js/sources/sources.js"></script>
+    <script src="res/js/sources/sources_ui.js"></script>
     <script src="res/js/filters/categories.js"></script>
     <script src="res/js/filters/filter_builder.js"></script>
     <script src="res/js/filters/filter_ui.js"></script>
     <script src="res/js/filters/aspects_finder.js"></script>
     <script src="res/js/filters/ui_params_input.js"></script>
-    <script src="res/js/config/config.js"></script>
     <script src="res/js/chart/chart_common.js"></script>
     <script src="res/js/chart/chart_renderer.js"></script>
     <script src="res/js/chart/data_layout.js"></script>
@@ -88,7 +88,9 @@
     <div id="right">
         <div id="top">
             <div id="message"></div>
-            <div id="config-btn">config</div>
+            <div>
+                <label for="source">Source: </label> <select id="source"></select>
+            </div>
         </div>
         <div id="chart"></div>
     </div>
@@ -96,9 +98,6 @@
 </div>
 
 <!-- dialogs -->
-<div id="config">
-    <label for="site">Site: </label> <select id="site"></select>
-</div>
 <div id="request-log">
     <table>
         <thead>
