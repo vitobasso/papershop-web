@@ -1,32 +1,18 @@
 
 function WebSocketApi() {
 
-    this.find = function (params, onSuccess, onFail) {
+    this.find = (params, onSuccess, onFail) => request(onSuccess)
 
-        if ("WebSocket" in window) {
-            var ws = new WebSocket("ws://localhost:8080");
-            ws.onmessage = (evt) => {
-                var msg = evt.data;
-                console.log("received: ", msg)
-                var arr = JSON.parse(msg)
-                var items = parseItems(arr)
-                onSuccess(items)
-            }
+    this.findAspects = (params, onSuccess, onFail) => {}
 
-            ws.onopen = () => {
-                console.log("ws opened")
-                ws.send('more')
-            }
-
-            ws.onclose = () => console.log("ws closed")
-
-        } else {
-            console.err("WebSocket NOT supported by your Browser!");
+    function request(onSuccess) {
+        var receive = (msg) => {
+            var arr = JSON.parse(msg)
+            var items = parseItems(arr)
+            onSuccess(items)
         }
-
-    };
-
-    this.findAspects = function (params, onSuccess, onFail) {}
+        send(receive)
+    }
 
     function parseItems(arr) {
         return {
@@ -44,6 +30,26 @@ function WebSocketApi() {
         item.category = { name: "category" }
         item.aspects = {}
         return item
+    }
+
+    var ws;
+    function send(receive){
+        var doSend = () => {
+            ws.onmessage = (evt) => receive(evt.data)
+            ws.send('more')
+        }
+        if(ws) doSend()
+        else init(doSend)
+    }
+
+    function init(callback){
+        if (!("WebSocket" in window)) console.err("WebSocket NOT supported by your Browser!")
+        ws = new WebSocket("ws://localhost:8080")
+        ws.onopen = () => {
+            console.log("ws: opened")
+            callback()
+        }
+        ws.onclose = () => console.log("ws: closed")
     }
 
 }
