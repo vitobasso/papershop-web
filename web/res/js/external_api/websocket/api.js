@@ -4,15 +4,13 @@ function WebSocketApi() {
     this.find = function (params, onSuccess, onFail) {
 
         if ("WebSocket" in window) {
-            console.log("WebSocket is supported by your Browser!");
             var ws = new WebSocket("ws://localhost:8080");
-
             ws.onmessage = (evt) => {
                 var msg = evt.data;
                 console.log("received: ", msg)
-                var json = JSON.parse(msg)
-                var item = parseItem(json)
-                onSuccess(item)
+                var arr = JSON.parse(msg)
+                var items = parseItems(arr)
+                onSuccess(items)
             }
 
             ws.onopen = () => {
@@ -23,15 +21,21 @@ function WebSocketApi() {
             ws.onclose = () => console.log("ws closed")
 
         } else {
-            console.log("WebSocket NOT supported by your Browser!");
+            console.err("WebSocket NOT supported by your Browser!");
         }
 
     };
 
     this.findAspects = function (params, onSuccess, onFail) {}
 
-    function parseItem(json) {
-        var item = json
+    function parseItems(arr) {
+        return {
+            items: arr.map(parseItem),
+            metadata: { itemsReturned: arr.length }
+        }
+    }
+
+    function parseItem(item){
         item.id = item.title
         item.price = {
             currency: 'USD',
@@ -39,10 +43,7 @@ function WebSocketApi() {
         }
         item.category = { name: "category" }
         item.aspects = {}
-        return {
-                items: [item],
-                metadata: { itemsReturned: 1 }
-        }
+        return item
     }
 
 }
