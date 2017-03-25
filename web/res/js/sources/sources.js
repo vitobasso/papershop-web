@@ -4,10 +4,16 @@ var Sources = (function () {
 
     var options = [
         { 
+            id: 'websocket',
+            name: "WebSocket",
+            api: new WebSocketApi(),
+            rootCategory: {aspects: []}
+        },
+        {
             id: 'ebay',
             name: "eBay",
             api: new EbayApi(),
-            rootCategory: EbayRootCategory.get() 
+            rootCategory: EbayRootCategory.get()
         },
         { 
             id: 'ml',
