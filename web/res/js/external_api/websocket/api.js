@@ -43,13 +43,14 @@ function WebSocketApi() {
     }
 
     function request(question, parse, onSuccess){
-        var receive = receive(parse, onSuccess)
-        send(question, receive)
+        send(question, receive(parse, onSuccess))
     }
 
-    var receive = (parse, onSuccess) => (msg) => {
-        var json = JSON.parse(msg)
-        onSuccess(parse(json))
+    function receive(parse, onSuccess) {
+        return (msg) => {
+            var json = JSON.parse(msg)
+            onSuccess(parse(json))
+        }
     }
 
     var ws;
