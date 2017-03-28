@@ -1,42 +1,62 @@
 
 function WebSocketApi() {
 
-    this.find = (params, onSuccess, onFail) => request(onSuccess)
+    this.find = (params, onSuccess, onFail) => request('items', parseItems, onSuccess)
 
-    this.findAspects = (params, onSuccess, onFail) => {}
-
-    function request(onSuccess) {
-        var receive = (msg) => {
-            var arr = JSON.parse(msg)
-            var items = parseItems(arr)
-            onSuccess(items)
-        }
-        send(receive)
-    }
+    this.findAspects = (params, onSuccess, onFail) => request('features', parseFeatures, onSuccess)
 
     function parseItems(arr) {
         return {
             items: arr.map(parseItem),
             metadata: { itemsReturned: arr.length }
         }
+
+        function parseItem(item){
+            item.id = item.title
+            item.price = {
+                currency: 'USD',
+                value: parseFloat(item.price.substring(1))
+            }
+            item.category = { name: "category" }
+            item.aspects = {}
+            return item
+        }
     }
 
-    function parseItem(item){
-        item.id = item.title
-        item.price = {
-            currency: 'USD',
-            value: parseFloat(item.price.substring(1))
+    function parseFeatures(arr){
+        return arr.map(parseFeature)
+
+        function parseFeature(feature){
+            return {
+                id: feature.key,
+                name: feature.key,
+                values: feature.values.map(parseFeatureValue)
+            }
         }
-        item.category = { name: "category" }
-        item.aspects = {}
-        return item
+
+        function parseFeatureValue(value){
+            return {
+                id: value,
+                name: value
+            }
+        }
+    }
+
+    function request(question, parse, onSuccess){
+        var receive = receive(parse, onSuccess)
+        send(question, receive)
+    }
+
+    var receive = (parse, onSuccess) => (msg) => {
+        var json = JSON.parse(msg)
+        onSuccess(parse(json))
     }
 
     var ws;
-    function send(receive){
+    function send(question, receive){
         var doSend = () => {
             ws.onmessage = (evt) => receive(evt.data)
-            ws.send('more')
+            ws.send(question)
         }
         if(ws) doSend()
         else init(doSend)
