@@ -48,6 +48,7 @@ function WebSocketApi() {
 
     function receive(parse, onSuccess) {
         return (msg) => {
+            console.log('ws: received:', msg)
             var json = JSON.parse(msg)
             onSuccess(parse(json))
         }
@@ -58,6 +59,7 @@ function WebSocketApi() {
         var doSend = () => {
             ws.onmessage = (evt) => receive(evt.data)
             ws.send(question)
+            console.log('ws: sent:', question)
         }
         if(ws) doSend()
         else init(doSend)
