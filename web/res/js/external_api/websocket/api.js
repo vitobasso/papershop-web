@@ -48,8 +48,8 @@ function WebSocketApi() {
 
     function receive(parse, onSuccess) {
         return (msg) => {
-            console.log('ws: received:', msg)
             var json = JSON.parse(msg)
+            console.log('ws: received', json)
             onSuccess(parse(json))
         }
     }
