@@ -1,9 +1,33 @@
 
 function WebSocketApi() {
 
-    this.find = (params, onSuccess, onFail) => request('items', parseItems, onSuccess)
+    this.find = (params, onSuccess, onFail) => send('items')
+    this.findAspects = (params, onSuccess, onFail) => send('features')
 
-    this.findAspects = (params, onSuccess, onFail) => request('features', parseFeatures, onSuccess)
+    var category = { name: "category" }
+
+    function getHandler(type) {
+        if(type == 'items') {
+            return {
+                parse: parseItems,
+                publish: publishItems
+            }
+        } else if(type == 'features') {
+            return {
+                parse: parseFeatures,
+                publish: publishFeatures
+            }
+        }
+    }
+
+    function publishItems(result) {
+        var params = { filters: [] }
+        $.publish('find-items', [params, result])
+    }
+
+    function publishFeatures(features) {
+        $.publish('new-aspects', [category, features])
+    }
 
     function parseItems(arr) {
         return {
@@ -17,7 +41,7 @@ function WebSocketApi() {
                 currency: 'USD',
                 value: parseFloat(item.price.substring(1))
             }
-            item.category = { name: "category" }
+            item.category = category
             item.aspects = {}
             return item
         }
@@ -42,24 +66,17 @@ function WebSocketApi() {
         }
     }
 
-    function request(question, parse, onSuccess){
-        send(question, receive(parse, onSuccess))
-    }
-
-    function receive(parse, onSuccess) {
-        return (msg) => {
-            var json = JSON.parse(msg)
-            console.log('ws: received', json)
-            onSuccess(parse(json))
-        }
+    function receive(json){
+        var handler = getHandler(json.subject)
+        var parsed = handler.parse(json.content)
+        handler.publish(parsed)
     }
 
     var ws;
-    function send(question, receive){
+    function send(subject){
         var doSend = () => {
-            ws.onmessage = (evt) => receive(evt.data)
-            ws.send(question)
-            console.log('ws: sent:', question)
+            ws.send(subject)
+            console.log('ws: sent:', subject)
         }
         if(ws) doSend()
         else init(doSend)
@@ -71,6 +88,11 @@ function WebSocketApi() {
         ws.onopen = () => {
             console.log("ws: opened")
             callback()
+        }
+        ws.onmessage = evt => {
+            var json = JSON.parse(evt.data)
+            console.log('ws: received', json)
+            receive(json)
         }
         ws.onclose = () => console.log("ws: closed")
     }

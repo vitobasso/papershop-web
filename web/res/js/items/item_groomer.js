@@ -12,7 +12,7 @@ var ItemGroomer = (function () {
         AspectRecaller.rememberFromRequest(requestParams, newItems);
         Items.merge(newItems);
         var categories = uniqueCategories(newItems);
-        $.publish('new-categories', [categories]); //FIXME temporally dependant on Items.merge: new-categories -> new-filters -> FilterBuilder.getBiggestCategory() -> Items.list
+        $.publish('new-categories', [categories]); //FIXME temporal dependence on Items.merge: new-categories -> new-filters -> FilterBuilder.getBiggestCategory() -> Items.list
     }
 
     function onNewAspects(_, category) {
