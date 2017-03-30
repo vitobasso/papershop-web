@@ -7,7 +7,7 @@ var Sources = (function () {
             id: 'websocket',
             name: "WebSocket",
             api: new WebSocketApi(),
-            rootCategory: {aspects: []}
+            rootCategory: WebSocketApi.getRootCategory()
         },
         {
             id: 'ebay',

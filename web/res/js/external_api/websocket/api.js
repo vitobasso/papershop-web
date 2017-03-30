@@ -4,8 +4,6 @@ function WebSocketApi() {
     this.find = (params, onSuccess, onFail) => send('items')
     this.findAspects = (params, onSuccess, onFail) => send('features')
 
-    var category = { name: "category" }
-
     function getHandler(type) {
         if(type == 'items') {
             return {
@@ -26,6 +24,7 @@ function WebSocketApi() {
     }
 
     function publishFeatures(features) {
+        var category = WebSocketApi.dummyCategory(features)
         $.publish('new-aspects', [category, features])
     }
 
@@ -41,7 +40,7 @@ function WebSocketApi() {
                 currency: 'USD',
                 value: parseFloat(item.price.substring(1))
             }
-            item.category = category
+            item.category = WebSocketApi.dummyCategory()
             item.aspects = {}
             return item
         }
@@ -98,3 +97,10 @@ function WebSocketApi() {
     }
 
 }
+
+WebSocketApi.getRootCategory = () => WebSocketApi.dummyCategory()
+WebSocketApi.dummyCategory = (features = []) => ({
+                                id: "dummy",
+                                name: "dummy",
+                                aspects: features
+                            })

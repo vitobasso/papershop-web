@@ -59,9 +59,9 @@ var FilterBuilder = (function() {
     }
 
     function fetchAspects(category){
-        if(category && category.aspects.length == 0){
-            AspectsFinder.find(category);
-        }
+        if(category == Sources.get().rootCategory) return
+        if(!category || category.aspects.length > 0) return
+        AspectsFinder.find(category);
     }
 
     return module;
