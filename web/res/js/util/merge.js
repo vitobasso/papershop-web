@@ -5,10 +5,10 @@ var Merge = (function () {
     var module = {};
 
     module.mergeObjects = function (oldObj, newObj) {
-        assert(typeof oldObj == 'object', "Invalid parameter");
-        assert(typeof newObj == 'object', "Invalid parameter");
-        assert(!Array.isArray(oldObj), "Invalid parameter");
-        assert(!Array.isArray(newObj), "Invalid parameter");
+        assert(typeof oldObj == 'object', "Expected an object", true, oldObj);
+        assert(typeof newObj == 'object', "Expected an object", true, newObj);
+        assert(!Array.isArray(oldObj), "Expected an object", true, oldObj);
+        assert(!Array.isArray(newObj), "Expected an object", true, newObj);
 
         _.keys(newObj).forEach(function (key) {
             var oldProp = oldObj[key];
@@ -32,8 +32,8 @@ var Merge = (function () {
     }
 
     module.mergeArrays = function (oldArray, newArray, getId) {
-        assert(Array.isArray(oldArray), "Invalid parameter");
-        assert(Array.isArray(newArray), "Invalid parameter");
+        assert(Array.isArray(oldArray), "Expected an array", true, oldArray);
+        assert(Array.isArray(newArray), "Expected an array", true, newArray);
 
         newArray.forEach(newItem => {
             var oldFound = oldArray.find(oldItem => getId(oldItem) == getId(newItem));

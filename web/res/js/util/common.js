@@ -48,8 +48,10 @@ function mapAsObject(array, keyFunction) {
 
 //////////////////////////////////////////////////////////////////
 
-function assert(bool, msg) {
+function assert(bool, msg, hasObjectToLog, obj) {
     if(!bool) {
-        throw msg? msg : "Assertion failed"
+        if(!msg) msg = "Assertion failed"
+        if(hasObjectToLog) console.error(msg, obj)
+        throw msg
     }
 }
