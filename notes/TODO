@@ -1,3 +1,6 @@
+- websocket
+    - send params to WS and receive back (fix forever pending request_log)
+    - list ws sites as "sources"
 
 - functionality
 

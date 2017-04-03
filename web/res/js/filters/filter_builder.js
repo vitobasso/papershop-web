@@ -61,6 +61,7 @@ var FilterBuilder = (function() {
     function fetchAspects(category){
         if(category == Sources.get().rootCategory) return
         if(!category || category.aspects.length > 0) return
+        if(category.hasFetchedFeatures) return // used by websocket only, to avoid an infinite loop when there are no aspects
         AspectsFinder.find(category);
     }
 

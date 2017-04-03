@@ -25,6 +25,7 @@ function WebSocketApi() {
 
     function publishFeatures(features) {
         var category = WebSocketApi.dummyCategory(features)
+        category.hasFetchedFeatures = true
         $.publish('new-aspects', [category, features])
     }
 
@@ -36,10 +37,6 @@ function WebSocketApi() {
 
         function parseItem(item){
             item.id = item.title
-            item.price = {
-                currency: 'USD',
-                value: parseFloat(item.price.substring(1))
-            }
             item.category = WebSocketApi.dummyCategory()
             item.aspects = {}
             return item
