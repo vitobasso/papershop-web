@@ -1,8 +1,8 @@
 
 function WebSocketApi() {
 
-    this.find = (params, onSuccess, onFail) => send('items')
-    this.findAspects = (params, onSuccess, onFail) => send('features')
+    this.find = (params, onSuccess, onFail) => send('items', params)
+    this.findAspects = (params, onSuccess, onFail) => send('features', params)
 
     function getHandler(type) {
         if(type == 'items') {
@@ -69,10 +69,15 @@ function WebSocketApi() {
     }
 
     var ws;
-    function send(subject){
+    function send(subject, params){
+        var jsonMsg = {
+            subject: subject,
+            params: params
+        }
+        var strMsg = JSON.stringify(jsonMsg)
         var doSend = () => {
-            ws.send(subject)
-            console.log('ws: sent:', subject)
+            ws.send(strMsg)
+            console.log('ws: sent:', strMsg)
         }
         if(ws) doSend()
         else init(doSend)
