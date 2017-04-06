@@ -1,10 +1,8 @@
 
-var Config = (function () {
+var SourcesUI = (function () {
     var module = {};
 
-    module.init = function () {
-        populate('#source', Sources.list());
-    };
+    $.subscribe('updated-source-list', (_, sources) => populate('#source', sources))
 
     function populate(selectId, data) {
         var select = d3.select(selectId);

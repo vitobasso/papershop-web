@@ -3,19 +3,32 @@ function WebSocketApi() {
 
     this.find = (params, onSuccess, onFail) => send('items', params)
     this.findAspects = (params, onSuccess, onFail) => send('features', params)
+    this.requestSourceList = () => send('list-sources')
 
-    function getHandler(type) {
-        if(type == 'items') {
-            return {
-                parse: parseItems,
-                publish: publishItems
+    $.subscribe('selected-source', (_, source) => {
+        var id = source.id
+        var prefix = 'scraper-'
+        if(id.startsWith(prefix)){
+            var params = {
+                name: id.replace(prefix, '')
             }
-        } else if(type == 'features') {
-            return {
-                parse: parseFeatures,
-                publish: publishFeatures
-            }
+            send('change-source', params)
         }
+    })
+
+    function getHandler(subject) {
+        var map = {
+            'items': {
+                parse: parseItems,
+                publish: publishItems },
+            'features': {
+                parse: parseFeatures,
+                publish: publishFeatures },
+            'list-sources': {
+                parse: x => x,
+                publish: list => $.publish('found-new-scraper-sources', [list]) }
+        }
+        return map[subject]
     }
 
     function publishItems(result) {
