@@ -30,7 +30,6 @@ var Sources = (function () {
     }
 
     $.subscribe('found-new-scraper-sources', (_, names) => {
-        console.log('sources.js received found-new-scraper-sources', names)
         var newOptions = names.map(scraperSource)
         options.pushAll(newOptions)
         $.publish('updated-source-list', [options])

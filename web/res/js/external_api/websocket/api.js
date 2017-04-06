@@ -31,8 +31,7 @@ function WebSocketApi() {
         return map[subject]
     }
 
-    function publishItems(result) {
-        var params = { filters: [] }
+    function publishItems(result, params) {
         $.publish('find-items', [params, result])
     }
 
@@ -78,7 +77,7 @@ function WebSocketApi() {
     function receive(json){
         var handler = getHandler(json.subject)
         var parsed = handler.parse(json.content)
-        handler.publish(parsed)
+        handler.publish(parsed, json.params)
     }
 
     var ws;

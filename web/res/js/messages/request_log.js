@@ -26,21 +26,23 @@ var RequestLog = (function () {
     };
 
     function onRequestSuccessful(_, params, result) {
-        delete params.isPending;
-        delete params.failed;
-        countResults(params, result.metadata);
+        var entry = requestHistory.get(params)
+        delete entry.isPending;
+        delete entry.failed;
+        countResults(entry, result.metadata);
         updateUI();
-    }
 
-    function countResults(params, metadata) {
-        params.lastItem = params.lastItem || 0;
-        params.lastItem += metadata.itemsReturned;
-        params.totalItems = metadata.totalItems;
+        function countResults(entry, metadata) {
+            entry.lastItem = entry.lastItem || 0;
+            entry.lastItem += metadata.itemsReturned;
+            entry.totalItems = metadata.totalItems;
+        }
     }
 
     function onRequestFailed(_, params) {
-        delete params.isPending;
-        params.failed = true;
+        var entry = requestHistory.get(params)
+        delete entry.isPending;
+        entry.failed = true;
         updateUI();
     }
 
