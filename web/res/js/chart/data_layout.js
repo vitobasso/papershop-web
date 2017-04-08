@@ -1,22 +1,20 @@
 
 function DataLayout(getTargetPosition) {
 
-    this.startLayout = startLayout;
-
     var force = d3.layout.force()
         .gravity(0)
         .charge(0);
 
     var radius;
 
-    function startLayout(data, dataRenderer, bounds) {
+    this.startLayout = (data, dataRenderer, bounds) => {
         initPositions(data);
         radius = dataRenderer.radius;
         var points = data.map(getPoint);
 
         force.stop();
         force.nodes(points);
-        force.on("tick", function (e) {
+        force.on("tick", e => {
             moveTorwardsTarget(data, e);
             avoidCollisions(points);
             respectBounds(points, bounds);
@@ -25,11 +23,17 @@ function DataLayout(getTargetPosition) {
         force.start();
     }
 
+    this.update = (data, dataRenderer, bounds) => {
+        data.forEach(updateTarget);
+        dataRenderer.render()
+    }
+
     function moveTorwardsTarget(data, e) {
         var cooling = 0.1 * e.alpha;
-        data.forEach(function (datum) {
-            var target = getTargetPosition(datum);
-            var point = datum.point;
+        data.forEach(function (d) {
+            var target = getTargetPosition(d);
+            d.targetPoint = target
+            var point = d.point;
             point.y += (target.y - point.y) * cooling;
             point.x += (target.x - point.x) * cooling;
         });
@@ -83,23 +87,35 @@ function DataLayout(getTargetPosition) {
         return Math.max(min, Math.min(max, value))
     }
 
-    function getPoint(datum) {
-        return datum.point;
+    function getPoint(d) {
+        return d.point;
     }
 
     function initPositions(data) {
         data.forEach(initPosition);
     }
 
-    function initPosition(datum) {
-        if (!datum.point) {
-            datum.point = getTargetPosition(datum);
-            displaceRandomly(datum.point); // avoid getting stuck in a vertical stack
+    function initPosition(d) {
+        if (!d.point) {
+            d.point = getTargetPosition(d);
+            d.targetPoint = d.point
+            displaceRandomly(d.point); // avoid getting stuck in a vertical stack
         }
     }
 
     function displaceRandomly(point) {
         point.x += Math.random() * 2 * radius - radius; // between -radius and +radius
+    }
+
+    function updateTarget(d){
+        var newTarget = getTargetPosition(d)
+        var oldTarget = d.targetPoint
+        var oldPoint = d.point
+        d.point = {
+            x: newTarget.x + oldPoint.x - oldTarget.x,
+            y: newTarget.y + oldPoint.y - oldTarget.y
+        }
+        d.targetPoint = newTarget
     }
 
 }

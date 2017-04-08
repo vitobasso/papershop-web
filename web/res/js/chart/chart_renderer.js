@@ -84,6 +84,20 @@ var ChartRenderer = (function() {
         dataRenderer = new DataRenderer(canvas, _data, getDataBounds());
         dataLayout.startLayout(_data, dataRenderer, getDataBounds());
         assignTooltips();
+        applyZoom()
+    }
+
+    function applyZoom(){
+        var zoom = d3.behavior.zoom()
+                       .y(yScale)
+                       .scaleExtent([0, Infinity])
+                       .on("zoom", zoomed)
+        svg.call(zoom)
+        function zoomed() {
+            svg.selectAll(".dot")
+                .attr("transform", () => dataLayout.update(_data, dataRenderer, getDataBounds()));
+            svg.select(".y.axis").call(axes.y);
+        }
     }
 
     function getDataBounds() {
@@ -131,10 +145,12 @@ var ChartRenderer = (function() {
         if (xParam.formatTick) {
             xAxis.tickFormat(xParam.formatTick)
         }
+        this.x = xAxis
 
         var yAxis = d3.svg.axis()
             .scale(yScale)
             .orient("left");
+        this.y = yAxis
 
         this.init = function () {
             canvas.selectAll(".axis").remove();
