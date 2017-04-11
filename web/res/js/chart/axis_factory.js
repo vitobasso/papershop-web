@@ -23,20 +23,16 @@ var AxisFactory = (function () {
         this.formatTick = ChartCommon.replaceUndefined;
     }
 
-    module.priceAxis = new LinearAxis("Price",
-        function (item) {
-            return item.price.value;
-        });
+    module.priceAxis = new LinearAxis("Price", item => item.price.value);
 
     var categoryAxis = new OrdinalAxis("Category", item => item.category.name);
 
     module.listOptions = function () {
         var result = [categoryAxis];
         Categories.each(category => {
-            var aspects = Categories.getInheritedAspects(category);
-            aspects.forEach(aspect => {
-                result.push(createAxis(aspect));
-            });
+            var aspects = Categories.getInheritedAspects(category)
+            var axes = aspects.map(createAxis)
+            result.pushAll(axes)
         });
         return result;
     };
