@@ -91,12 +91,16 @@ var ChartRenderer = (function() {
         var zoom = d3.behavior.zoom()
                        .y(yScale)
                        .scaleExtent([0, Infinity])
-                       .on("zoom", zoomed)
+                       .on("zoom", onZoom)
+                       .on("zoomend", onZoomEnd)
         svg.call(zoom)
-        function zoomed() {
-            svg.selectAll(".dot")
-                .attr("transform", () => dataLayout.update(_data, dataRenderer));
+
+        function onZoom() {
             svg.select(".y.axis").call(axes.y);
+            dataLayout.updateTarget(_data, dataRenderer);
+        }
+        function onZoomEnd(){
+            dataLayout.rearrange(_data, dataRenderer);
         }
     }
 

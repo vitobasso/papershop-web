@@ -16,24 +16,28 @@ function DataLayout(getTargetPosition) {
     this.startLayout = (data, dataRenderer) => {
         initPositions(data);
         radius = dataRenderer.radius;
-        var points = data.map(getPoint);
+        this.rearrange(data, dataRenderer)
+    }
 
+    this.rearrange = (data, dataRenderer) => {
+        var points = data.map(getPoint);
         force.stop();
         force.nodes(points);
         force.on("tick", e => {
-            moveTorwardsTarget(data, e);
+            moveTowardsTarget(data, e);
             avoidCollisions(points);
             dataRenderer.render();
         });
         force.start();
     }
 
-    this.update = (data, dataRenderer) => {
+    // update target position (e.g. because the axis is being zoomed) but keep displacements (distance kept to avoid collision)
+    this.updateTarget = (data, dataRenderer) => {
         data.forEach(updateTarget);
         dataRenderer.render()
     }
 
-    function moveTorwardsTarget(data, e) {
+    function moveTowardsTarget(data, e) {
         var cooling = 0.1 * e.alpha;
         data.forEach(function (d) {
             var target = getTargetPosition(d);
@@ -106,14 +110,22 @@ function DataLayout(getTargetPosition) {
     }
 
     function updateTarget(d){
+        var displacement = getDisplacement(d)
         var newTarget = getTargetPosition(d)
-        var oldTarget = d.targetPoint
-        var oldPoint = d.point
         d.point = {
-            x: newTarget.x + oldPoint.x - oldTarget.x,
-            y: newTarget.y + oldPoint.y - oldTarget.y
+            x: newTarget.x + displacement.x,
+            y: newTarget.y + displacement.y
         }
         d.targetPoint = newTarget
+    }
+
+    function getDisplacement(d){
+        var oldTarget = d.targetPoint
+        var oldPoint = d.point
+        return {
+            x: oldPoint.x - oldTarget.x,
+            y: oldPoint.y - oldTarget.y
+        }
     }
 
 }
