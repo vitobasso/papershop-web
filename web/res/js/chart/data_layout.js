@@ -54,11 +54,11 @@ function DataLayout(getTargetPosition) {
             var adjustPosition = collide(point);
             q.visit(adjustPosition);
         });
-
     }
 
     function collide(node) {
-        var r = radius,
+        var repulsion = 0.005, //on higher value, points will pop out further to escape collision
+            r = radius,
             nx1 = node.x - r,
             nx2 = node.x + r,
             ny1 = node.y - r,
@@ -71,7 +71,7 @@ function DataLayout(getTargetPosition) {
                     r = 2* radius;
                 if (l < r) {
                     if (l > 0) {
-                        l = (l - r) / l * .5;
+                        l = (l - r) / l * repulsion;
                         node.x -= dx *= l;
                         node.y -= dy *= l;
                     } else {
