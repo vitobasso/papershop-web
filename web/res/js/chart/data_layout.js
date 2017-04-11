@@ -1,4 +1,10 @@
 
+/*
+ * Controls data.point to implement:
+ *   - force
+ *   - collision
+ *   - zoom
+ */
 function DataLayout(getTargetPosition) {
 
     var force = d3.layout.force()
@@ -41,7 +47,7 @@ function DataLayout(getTargetPosition) {
 
     function avoidCollisions(points) {
         var q = d3.geom.quadtree(points);
-        points.forEach(function (point) {
+        points.forEach(point => {
             var adjustPosition = collide(point);
             q.visit(adjustPosition);
         });

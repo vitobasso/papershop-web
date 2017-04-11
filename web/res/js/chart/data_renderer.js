@@ -1,4 +1,7 @@
 
+/*
+ * Renders images for each data.point
+ */
 function DataRenderer(canvas, data, bounds) {
 
     var radius = calcRadius();
