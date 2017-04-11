@@ -82,7 +82,7 @@ var ChartRenderer = (function() {
         updateDomains();
         axes.update();
         dataRenderer = new DataRenderer(canvas, _data, getDataBounds());
-        dataLayout.startLayout(_data, dataRenderer, getDataBounds());
+        dataLayout.startLayout(_data, dataRenderer);
         assignTooltips();
         applyZoom()
     }
@@ -95,7 +95,7 @@ var ChartRenderer = (function() {
         svg.call(zoom)
         function zoomed() {
             svg.selectAll(".dot")
-                .attr("transform", () => dataLayout.update(_data, dataRenderer, getDataBounds()));
+                .attr("transform", () => dataLayout.update(_data, dataRenderer));
             svg.select(".y.axis").call(axes.y);
         }
     }

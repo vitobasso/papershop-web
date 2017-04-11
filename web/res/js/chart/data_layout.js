@@ -13,7 +13,7 @@ function DataLayout(getTargetPosition) {
 
     var radius;
 
-    this.startLayout = (data, dataRenderer, bounds) => {
+    this.startLayout = (data, dataRenderer) => {
         initPositions(data);
         radius = dataRenderer.radius;
         var points = data.map(getPoint);
@@ -23,13 +23,12 @@ function DataLayout(getTargetPosition) {
         force.on("tick", e => {
             moveTorwardsTarget(data, e);
             avoidCollisions(points);
-            respectBounds(points, bounds);
             dataRenderer.render();
         });
         force.start();
     }
 
-    this.update = (data, dataRenderer, bounds) => {
+    this.update = (data, dataRenderer) => {
         data.forEach(updateTarget);
         dataRenderer.render()
     }
@@ -80,13 +79,6 @@ function DataLayout(getTargetPosition) {
             }
             return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
         };
-    }
-
-    function respectBounds(points, bounds){
-        points.forEach(function(point) {
-            point.x = fitNumber(point.x, bounds.x + radius, bounds.width - radius);
-            point.y = fitNumber(point.y, bounds.y + radius, bounds.height - radius);
-        });
     }
 
     function fitNumber(value, min, max) {
