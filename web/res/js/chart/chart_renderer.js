@@ -14,23 +14,23 @@ var ChartRenderer = (function() {
     var _data;
 
     module.init = function() {
-        dataLayout = new DataLayout(getTargetPosition);
+        dataLayout = new DataLayout(getTargetPosition)
 
-        createCanvasFillingParent();
-        d3.select(window).on("resize", resize);
-    };
+        createCanvasFillingParent()
+        d3.select(window).on("resize", resize)
+    }
 
     module.setData = function (data) {
-        _data = data;
-        populate();
-    };
+        _data = data
+        populate()
+    }
 
     module.update = function (data, newYParam, newXParam) {
-        yParam = newYParam;
-        xParam = newXParam;
-        _data = data;
+        yParam = newYParam
+        xParam = newXParam
+        _data = data
         render()
-    };
+    }
 
     function createCanvasFillingParent() {
         var parent = d3.select(chartDivId).node();
@@ -90,13 +90,28 @@ var ChartRenderer = (function() {
                        .on("zoom", onZoom)
                        .on("zoomend", onZoomEnd)
         svg.call(zoom)
+        module.zoom = zoom
 
         function onZoom() {
-            svg.select(".y.axis").call(axes.y);
-            dataLayout.updateTarget(_data, dataRenderer);
+            svg.select(".y.axis").call(axes.y)
+            dataLayout.updateTarget(_data, dataRenderer)
         }
-        function onZoomEnd(){
-            dataLayout.rearrange(_data, dataRenderer);
+        function onZoomEnd(e){
+            var domain = yScale.domain()
+            var originalYMin = domain[0]
+            var originalYMax = domain[1]
+            var originalPriceRange = originalYMax - originalYMin
+            var pixelTranslation = zoom.translate()[1]
+            var zoomedPriceRange = originalPriceRange/zoom.scale()
+            var pixelsPerPriceUnit = height/zoomedPriceRange
+            var priceTranslation = pixelTranslation/pixelsPerPriceUnit
+
+            var yMax = originalYMax + priceTranslation
+            var yMin = yMax - zoomedPriceRange
+
+//            var filtered = Items.filterByPrice(yMin, yMax)
+//            $.publish('apply-filter', [filtered, 'zoom-end'])
+            dataLayout.rearrange(_data, dataRenderer)
         }
     }
 

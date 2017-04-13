@@ -3,16 +3,17 @@ var ChartManager = (function () {
     var module = {};
 
     var items;
-    var axisOptions, xAxis;
+    var axisOptions, xAxis, yAxis;
 
     module.init = _ => {
-        items = [];
-        $.subscribe('new-items', onNewItems);
-        $.subscribe('apply-filter', onApplyFilter);
-        $.subscribe('new-filters', updateAxisOptions);
-        updateAxisOptions(); //FIXME depends on Categories
-        xAxis = axisOptions[0];
-        buildChart(); //FIXME depends on ChartRenderer
+        items = []
+        $.subscribe('new-items', onNewItems)
+        $.subscribe('apply-filter', onApplyFilter)
+        $.subscribe('new-filters', updateAxisOptions)
+        updateAxisOptions() //FIXME depends on Categories
+        yAxis = AxisFactory.priceAxis
+        xAxis = axisOptions[0]
+        buildChart() //FIXME depends on ChartRenderer
     };
 
     function onNewItems(_, newItems, filtered) {
@@ -34,9 +35,7 @@ var ChartManager = (function () {
     }
 
     function buildChart() {
-        if (items) {
-            ChartRenderer.update(items, AxisFactory.priceAxis, xAxis);
-        }
+        if (items) ChartRenderer.update(items, yAxis, xAxis);
     }
 
     ////////////////////////////////////////////////////////////////////////
@@ -51,6 +50,7 @@ var ChartManager = (function () {
     };
 
     module.getXAxis = _ => xAxis;
+    module.getYAxis = _ => yAxis;
 
     function labelEquals(name) {
         return function (axis) {

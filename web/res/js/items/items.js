@@ -22,6 +22,14 @@ var Items = (function () {
         return set.filter(filterFunction);
     };
 
+    module.filterByPrice = (min, max) => {
+        var byPrice = (item) => {
+             var x = item.price.value
+             return x >= min && x <= max
+        }
+        return set.filter(byPrice);
+    }
+
     module.getByCategory = category => {
         return set.filter(isCategoryEqual(category));
     };
