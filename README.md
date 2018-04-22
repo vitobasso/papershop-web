@@ -1,8 +1,7 @@
 Papershop
 =========
 
-A web app to gather items for sale from various web shops and display
-them together in one plot so you can easily compare prices.
+A web app to aggregate items from various web shops and help compare prices in a plot.
 
 Web shops share a similar data model:
 Items with a price and some features that can be searched by a keyword.
@@ -18,13 +17,13 @@ That's the idea.
 
 ![screenshot](screenshot.png)
 
-You can try it [here](http://vitobasso.github.io/papershop-web/web/).  
+You can try it live [here](http://vitobasso.github.io/papershop-web/web/).  
 Note 1: Currently Chrome will complain of "unsafe scripts" (sorry) so,
 if you're not paranoid, you need to **click the shield** in the right end of
 the address bar in the browser (or the padlock in Firefox).
 You can check index.html to see what scripts are being loaded.  
-Note 2: It will only fetch data from public apis (approach 1), so it's
-limited to those 2 websites.
+Note 2: This live deploy will only fetch data from public apis (approach 1), 
+so it's limited to those 2 websites.
 
 ## Data scraping
 
