@@ -30,14 +30,6 @@ var Items = (function () {
         return set.filter(byPrice);
     }
 
-    module.getByCategory = category => {
-        return set.filter(isCategoryEqual(category));
-    };
-
-    function isCategoryEqual(category) {
-        return item => item.category.id == category.id;
-    }
-
     module.count = () => set.size();
 
     module.list = () => set.toArray();

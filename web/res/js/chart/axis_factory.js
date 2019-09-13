@@ -29,11 +29,9 @@ var AxisFactory = (function () {
 
     module.listOptions = function () {
         var result = [categoryAxis];
-        Categories.each(category => {
-            var aspects = Categories.getInheritedAspects(category)
-            var axes = aspects.map(createAxis)
-            result.pushAll(axes)
-        });
+        var aspects = Categories.get().aspects;
+        var axes = aspects.map(createAxis);
+        result.pushAll(axes);
         return result;
     };
 

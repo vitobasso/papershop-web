@@ -2,20 +2,11 @@
 var Sources = (function () {
     var module = {};
 
-    var options = [
-        {
-            id: 'rest-ebay',
-            name: "REST: eBay",
-            api: new EbayApi(),
-            rootCategory: EbayRootCategory.get()
-        },
-        { 
-            id: 'rest-ml',
-            name: "REST: Mercado Libre",
-            api: new MLApi(),
-            rootCategory: MLRootCategory.get()
-        }
-    ];
+    var options = [{
+        id: 'none',
+        name: "none",
+        api: {}
+    }];
 
     var selected = options[0];
 
@@ -24,8 +15,7 @@ var Sources = (function () {
         return {
             id: 'scraper-' + name,
             name: "Scraper: " + name,
-            api: wsApi,
-            rootCategory: WebSocketApi.getRootCategory()
+            api: wsApi
         }
     }
 

@@ -2,7 +2,6 @@
 function WebSocketApi() {
 
     this.find = (params, onSuccess, onFail) => send('items', params)
-    this.findAspects = (params, onSuccess, onFail) => send('features', params)
     this.requestSourceList = () => send('list-sources')
 
     $.subscribe('selected-source', (_, source) => {
@@ -21,9 +20,6 @@ function WebSocketApi() {
             'items': {
                 parse: parseItems,
                 publish: publishItems },
-            'features': {
-                parse: parseFeatures,
-                publish: publishFeatures },
             'list-sources': {
                 parse: x => x,
                 publish: list => $.publish('found-new-scraper-sources', [list]) }
@@ -35,12 +31,6 @@ function WebSocketApi() {
         $.publish('find-items', [params, result])
     }
 
-    function publishFeatures(features) {
-        var category = WebSocketApi.dummyCategory(features)
-        category.hasFetchedFeatures = true
-        $.publish('new-aspects', [category, features])
-    }
-
     function parseItems(arr) {
         return {
             items: arr.map(parseItem),
@@ -49,28 +39,9 @@ function WebSocketApi() {
 
         function parseItem(item){
             item.id = item.title
-            item.category = WebSocketApi.dummyCategory()
+            item.category = Categories.get()
             item.aspects = {}
             return item
-        }
-    }
-
-    function parseFeatures(arr){
-        return arr.map(parseFeature)
-
-        function parseFeature(feature){
-            return {
-                id: feature.key,
-                name: feature.key,
-                values: feature.values.map(parseFeatureValue)
-            }
-        }
-
-        function parseFeatureValue(value){
-            return {
-                id: value,
-                name: value
-            }
         }
     }
 
@@ -86,6 +57,7 @@ function WebSocketApi() {
             subject: subject,
             params: params
         }
+        console.log(strMsg)
         var strMsg = JSON.stringify(jsonMsg)
         var doSend = () => {
             ws.send(strMsg)
@@ -111,10 +83,3 @@ function WebSocketApi() {
     }
 
 }
-
-WebSocketApi.getRootCategory = () => WebSocketApi.dummyCategory()
-WebSocketApi.dummyCategory = (features = []) => ({
-                                id: "dummy",
-                                name: "dummy",
-                                aspects: features
-                            })

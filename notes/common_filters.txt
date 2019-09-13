@@ -9,7 +9,7 @@
 
 #category.aspects[#]        {id, name, values: [{id, name}], category: {id}}
     writes
-        categories          {cateogory: {id}} //see parser, new-aspects
+        categories          {category: {id}} //see parser, new-aspects
         ml/parser           {id, name, values: [{id, name}]}
         ebay/parser         {id, name, values: [{id, name}]}
 
