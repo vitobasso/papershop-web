@@ -38,7 +38,7 @@ var AxisFactory = (function () {
     function createAxis(aspect) {
         return aspect.getFromItem ?
             createRootAspectAxis(aspect) :
-            createAspectAxis(aspect);
+            createAspectAxis(aspect); //TODO remove?
     }
 
     function createRootAspectAxis(aspect) {
@@ -50,7 +50,7 @@ var AxisFactory = (function () {
         }
     }
 
-    function createAspectAxis(aspect) {
+    function createAspectAxis(aspect) {//TODO remove?
         return new OrdinalAxis(aspect.name, item => {
             var value = item.aspects[aspect.name] || {};
             return value.name;

@@ -1,7 +1,7 @@
 
 function WebSocketApi() {
 
-    this.find = (params, onSuccess, onFail) => send('items', params)
+    this.find = (params) => send('items', params)
     this.requestSourceList = () => send('list-sources')
 
     $.subscribe('selected-source', (_, source) => {
@@ -28,7 +28,7 @@ function WebSocketApi() {
     }
 
     function publishItems(result, params) {
-        $.publish('find-items', [params, result])
+        ItemFinder.onSuccess(params, result)
     }
 
     function parseItems(arr) {

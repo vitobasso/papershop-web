@@ -36,7 +36,7 @@ var Merge = (function () {
         assert(Array.isArray(newArray), "Expected an array", true, newArray);
 
         newArray.forEach(newItem => {
-            var oldFound = oldArray.find(oldItem => getId(oldItem) == getId(newItem));
+            var oldFound = oldArray.find(oldItem => getId(oldItem) && getId(oldItem) == getId(newItem));
             oldFound ? module.mergeObjects(oldFound, newItem) : oldArray.push(newItem)
         });
     };
