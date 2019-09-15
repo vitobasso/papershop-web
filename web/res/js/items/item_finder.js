@@ -43,7 +43,12 @@ var ItemFinder = (function () {
                  getFromItem: getValue
             }
         }
-        return Object.keys(item).filter(x => x != 'category').map(toAspect) //TODO remove category
+        return Object.keys(item).filter(isNotDiscardedAspect).map(toAspect)
+    }
+
+    function isNotDiscardedAspect(name) { //TODO do it based on values analysis instead
+        let discardedAspects = ['category', 'aspects', 'id', 'name', 'title', 'price', 'image', 'link']; //TODO remove category project-wide
+        return discardedAspects.indexOf(name) < 0;
     }
 
     function checkTotalItems(params) {
