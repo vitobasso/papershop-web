@@ -1,4 +1,4 @@
-var ItemGroomer = (function () {
+var ItemGroomer = (function () { //TODO remove, subscribe from items.js directly
     var module = {};
 
     module.init = () => {

@@ -57,7 +57,6 @@ function WebSocketApi() {
             subject: subject,
             params: params
         }
-        console.log(strMsg)
         var strMsg = JSON.stringify(jsonMsg)
         var doSend = () => {
             ws.send(strMsg)

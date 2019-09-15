@@ -14,9 +14,10 @@ var ItemFinder = (function () {
         }//TODO message when keywords empty?
     };
 
-    function publishAspects(result) {
+    module.onSuccess = (params, result) => {
         var aspects = collectAspects(result);
         $.publish('new-aspects', [aspects]);
+        $.publish('find-items', [params, result]);
     }
 
     function collectAspects(result) {
@@ -42,7 +43,7 @@ var ItemFinder = (function () {
                  getFromItem: getValue
             }
         }
-        return Object.keys(item).map(toAspect)
+        return Object.keys(item).filter(x => x != 'category').map(toAspect) //TODO remove category
     }
 
     function checkTotalItems(params) {
@@ -50,11 +51,6 @@ var ItemFinder = (function () {
             && params.lastItem >= params.totalItems) {
             throw "No new items left for this set of filters";
         }
-    }
-
-    module.onSuccess = (params, result) => {
-        publishAspects(result);
-        $.publish('find-items', [params, result]);
     }
 
     return module;
