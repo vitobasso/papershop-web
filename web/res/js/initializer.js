@@ -8,7 +8,6 @@ function init() {
     RequestLog.init()
     RequestLogUI.init()
     Items.init()
-    ItemGroomer.init()
     MessageUI.init()
     HandlerAssigner.init()
     $.publish('init')

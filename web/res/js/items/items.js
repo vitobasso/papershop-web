@@ -5,9 +5,11 @@ var Items = (function () {
 
     module.init = () => {
         set = new Set(getId);
+        $.subscribe('find-items', mergeNewItems);
     };
 
-    module.merge = (newItems) => {
+    function mergeNewItems(_, params, result) {
+        let newItems = result.items;
         set.addMergeAll(newItems, merge);
         $.publish('new-items', [newItems, module.filter(), module.list()]);
     };
