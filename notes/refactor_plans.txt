@@ -8,4 +8,4 @@ item fields
     response_parser
 
     find aspects after populating category
-        search-btn click > ItemFinder.find > ChartManager.onNewItems > Categories.populate > AspectsFinder.find
+        search-btn click > ItemFinder.find > ChartManager.onNewItems > Aspects.populate > AspectsFinder.find

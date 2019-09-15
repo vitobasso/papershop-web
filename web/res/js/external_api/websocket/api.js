@@ -39,7 +39,6 @@ function WebSocketApi() {
 
         function parseItem(item){
             item.id = item.title
-            item.category = Categories.get()
             item.aspects = {}
             return item
         }

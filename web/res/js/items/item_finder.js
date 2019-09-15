@@ -47,7 +47,7 @@ var ItemFinder = (function () {
     }
 
     function isNotDiscardedAspect(name) { //TODO do it based on values analysis instead
-        let discardedAspects = ['category', 'aspects', 'id', 'name', 'title', 'price', 'image', 'link']; //TODO remove category project-wide
+        let discardedAspects = ['aspects', 'id', 'name', 'title', 'price', 'image', 'link'];
         return discardedAspects.indexOf(name) < 0;
     }
 

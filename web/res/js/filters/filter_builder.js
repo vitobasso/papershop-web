@@ -8,7 +8,7 @@ var FilterBuilder = (function() {
     };
 
     function populateFilters() {
-        var aspects = Categories.get().aspects;
+        var aspects = Aspects.list();
         FilterUI.populate(aspects, "aspect");
     }
 

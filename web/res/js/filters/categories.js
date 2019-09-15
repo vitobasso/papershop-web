@@ -1,28 +1,18 @@
 
-var Categories = (function() {
+var Aspects = (function() {
     var module = {};
 
     var set;
 
     module.init = () => {
         set = new Set(getId);
-        var category = {
-            id: 'dummy',
-            name: 'dummy',
-            aspects: []
-        };
-        set.addMerge(category, Merge.mergeObjects);
         $.subscribe('new-aspects', onNewAspects);
     };
 
-    module.get = () => theUniqueCategory();
-
-    function theUniqueCategory(){
-        return set.get({id: 'dummy'});
-    }
+    module.list = () => set.toArray();
 
     function onNewAspects(_, aspects){
-        Merge.mergeArrays(theUniqueCategory().aspects, aspects, getId);
+        set.addMergeAll(aspects, Merge.mergeObjects);
         $.publish('new-filters');
     }
 

@@ -25,11 +25,11 @@ var AxisFactory = (function () {
 
     module.priceAxis = new LinearAxis("Price", item => item.price.value);
 
-    var categoryAxis = new OrdinalAxis("Category", item => item.category.name);
+    var dummyAxis = new OrdinalAxis("?", item => null);
 
     module.listOptions = function () {
-        var result = [categoryAxis];
-        var aspects = Categories.get().aspects;
+        var result = [dummyAxis];
+        var aspects = Aspects.list();
         var axes = aspects.map(createAxis);
         result.pushAll(axes);
         return result;

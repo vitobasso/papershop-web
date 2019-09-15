@@ -10,7 +10,7 @@ var ChartManager = (function () {
         $.subscribe('new-items', onNewItems)
         $.subscribe('apply-filter', onApplyFilter)
         $.subscribe('new-filters', updateAxisOptions)
-        updateAxisOptions() //FIXME depends on Categories
+        updateAxisOptions() //FIXME depends on Aspects
         yAxis = AxisFactory.priceAxis
         xAxis = axisOptions[0]
         buildChart() //FIXME depends on ChartRenderer

@@ -37,9 +37,7 @@ var ItemFilter = (function () {
     }
 
     function itemPropertyIdGetter(aspect) { //TODO make these behave the same way to simplify
-        if (aspect.name == "Category") {
-            return item => item.category.id;  //category doesn't have a corresponding root aspect with "getFromItem"
-        } else if (aspect.getFromItem) {
+        if (aspect.getFromItem) {
             return _.compose(getId, aspect.getFromItem); // root aspects are stored as specific properties of the item
         } else {
             return getValueIdForAspect(aspect.name); // other aspects are mapped in item.aspects object
