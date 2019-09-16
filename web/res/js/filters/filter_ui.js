@@ -2,21 +2,27 @@
 var FilterUI = (function () {
     var module = {};
 
-    module.populate = function (filters, kind, insert) {
-        populateFilters(filters, kind, insert);
-        updateItems(filters, kind);
-        HandlerAssigner.bindFilterListeners();
-        return selectDivs(filters, kind);
+    module.init = () => {
+        $.subscribe('init', populate);
+        $.subscribe('new-filters', populate)
     };
 
-    function populateFilters(filters, kind, insert) {
-        var sel = selectDivs(filters, kind);
+    function populate() {
+        let filters = Aspects.list();
+        populateFilters(filters);
+        updateItems(filters);
+        HandlerAssigner.bindFilterListeners();
+        return selectDivs(filters);
+    }
+
+    function populateFilters(filters) {
+        var sel = selectDivs(filters);
         sel.exit().remove();
 
         var selEnter = sel
-            .enter().insert("div", insert)
+            .enter().insert("div")
             .classed("filter", true)
-            .classed(kind, true);
+            .classed("aspect", true);
 
         // top
         var top = selEnter.append("div")
@@ -41,8 +47,8 @@ var FilterUI = (function () {
             .each(populateItems);
     }
 
-    function updateItems(filters, kind) {
-        selectDivs(filters, kind)
+    function updateItems(filters) {
+        selectDivs(filters)
             .select("ul")
             .each(populateItems)
     }
@@ -60,10 +66,10 @@ var FilterUI = (function () {
         return d.checked;
     }
 
-    function selectDivs(filters, kind) {
+    function selectDivs(filters) {
         return d3.select("#filters")
             .selectAll("div.filter")
-            .filter("." + kind)
+            .filter(".aspect")
             .data(filters, getName);
     }
 

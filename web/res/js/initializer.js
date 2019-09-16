@@ -2,7 +2,7 @@
 function init() {
     ChartRenderer.init() //FIXME glitchy size causing scrollbars to appear
     Aspects.init()
-    FilterBuilder.init()
+    FilterUI.init()
     Sources.init()
     ChartManager.init() //FIXME depends on ChartRenderer & Aspects.
     RequestLog.init()
