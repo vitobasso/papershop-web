@@ -1,27 +1,14 @@
 - functionality
 
-    - show full sources > categories > aspects > aspect values (dev purposes)
+    - cache items by request
 
-    - infer "same as"
-        - categories of different sources (and respective aspect)
-        - show fused categories/aspects when multiple categories/sources are selected
+    - fetch item detail page
+        - throttle requests?
+        - show request count
 
-    - show inferences/guesses
-        - show what was guessed by the app: fused categories, item's aspect values
-        - allow feedback (but do what with it? store as local preferences?)
+    - advanced search (fields depending on source)
 
-    - filters
-        - to create
-            - ships to
-            - price (zoom on chart)
-            - seller
-            - seller score
-        - show currently applied filters in request-log dialog
-
-    - config
-        - ebay site, "AvailableTo" country
-        ? items per request
-        - disable guesses
+    - choose y axis too
 
     - fetch items when click x axis label (add that label's value on respective filter. remove other values selected for same filter if any)
 
@@ -36,9 +23,3 @@
     - colors
        http://coolors.co/browser
        http://www.colorcombos.com/color-schemes/7625/ColorCombo7625.html
-
-- ebay api wrapper
-    https://github.com/benbuckman/nodejs-ebay-api
-    . needs node.js?
-    . node.js for web requires "express"?
-    . no problem w/ "same origin policy"?
