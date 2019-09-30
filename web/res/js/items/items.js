@@ -6,6 +6,7 @@ var Items = (function () {
     module.init = () => {
         set = new Set(getId);
         $.subscribe('find-items', mergeNewItems);
+        $.subscribe('detailed-item', mergeDetail);
     };
 
     function mergeNewItems(_, params, result) {
@@ -16,6 +17,13 @@ var Items = (function () {
 
     function merge(oldItem, newItem) {
         Merge.mergeObjects(oldItem.aspects, newItem.aspects); //item.aspects is a map (object), not an array
+    }
+
+    function mergeDetail(_, params, result) {
+        result.id = params.item.id;
+        result.aspects = {};
+        console.log("mergeDetail", result);
+        set.addMerge(result, merge)
     }
 
     module.filter = () => {

@@ -1,8 +1,9 @@
 
 function WebSocketApi() {
 
-    this.find = (params) => send('items', params)
     this.requestSourceList = () => send('list-sources')
+    this.find = (params) => send('items', params)
+    this.detail = (params) => send('detail', params)
 
     $.subscribe('selected-source', (_, source) => {
         var id = source.id
@@ -17,12 +18,18 @@ function WebSocketApi() {
 
     function getHandler(subject) {
         var map = {
-            'items': {
-                parse: parseItems,
-                publish: publishItems },
             'list-sources': {
                 parse: x => x,
-                publish: list => $.publish('found-new-scraper-sources', [list]) }
+                publish: list => $.publish('found-new-scraper-sources', [list])
+            },
+            'items': {
+                parse: parseItems,
+                publish: publishItems
+            },
+            'detail': {
+                parse: x => x,
+                publish: publishDetail
+            }
         }
         return map[subject]
     }
@@ -42,6 +49,10 @@ function WebSocketApi() {
             item.aspects = {}
             return item
         }
+    }
+
+    function publishDetail(result, params) {
+        ItemDetailScheduler.onSuccess(params, result)
     }
 
     function receive(json){
