@@ -13,7 +13,7 @@ var MessageUI = (function () {
         update();
     };
 
-    function onNewItems(_, newItems, filtered, all){
+    function onNewItems(_, _, filtered, all){
         totalCount = all.length;
         updateFilteredCount(filtered.length);
         update();

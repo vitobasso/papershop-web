@@ -16,7 +16,7 @@ var ChartManager = (function () {
         buildChart() //FIXME depends on ChartRenderer
     };
 
-    function onNewItems(_, newItems, filtered) {
+    function onNewItems(_, _, filtered) {
         updateAxisOptions();
         setData(filtered);
     }

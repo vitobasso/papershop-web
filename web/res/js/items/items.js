@@ -11,19 +11,15 @@ var Items = (function () {
 
     function mergeNewItems(_, params, result) {
         let newItems = result.items;
-        set.addMergeAll(newItems, merge);
+        set.addMergeAll(newItems, Merge.mergeObjects);
         $.publish('new-items', [newItems, module.filter(), module.list()]);
     };
-
-    function merge(oldItem, newItem) {
-        Merge.mergeObjects(oldItem.aspects, newItem.aspects); //item.aspects is a map (object), not an array
-    }
 
     function mergeDetail(_, params, result) {
         result.id = params.item.id;
         result.aspects = {};
-        console.log("mergeDetail", result);
-        set.addMerge(result, merge)
+        set.addMerge(result, Merge.mergeObjects)
+        $.publish('new-items', [[result], module.filter(), module.list()]);
     }
 
     module.filter = () => {

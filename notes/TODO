@@ -2,8 +2,8 @@
 
     - cache items by request
 
-    - fetch item detail page
-        - throttle requests?
+    √ fetch item detail page
+        √ throttle requests?
         - show request count
 
     - advanced search (fields depending on source)

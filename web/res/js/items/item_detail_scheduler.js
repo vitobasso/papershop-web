@@ -2,8 +2,7 @@ const ItemDetailScheduler = (function () {
     let module = {};
 
     module.init = () => {
-//        setInterval(detailNextItem, 10000) //TODO from config
-        setTimeout(detailNextItem, 1000)
+        setInterval(detailNextItem, 10000) //TODO from config
     }
 
     module.find = function () {
@@ -40,7 +39,6 @@ const ItemDetailScheduler = (function () {
 
     function detailNextItem() {
         const item = pickItem();
-        console.log("detailNextItem", item); //TODO remove
         if(item){
             fetchDetails(item)
         }
@@ -52,7 +50,9 @@ const ItemDetailScheduler = (function () {
 
     function pickItem() {
         const items = Items.filter();
-        return items.filter(isPendingDetails)[0];
+        const chosenItem = items.filter(isPendingDetails)[0];
+        chosenItem.isDetailed = true;
+        return chosenItem
     }
 
     function fetchDetails(item){
