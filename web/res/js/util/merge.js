@@ -19,7 +19,7 @@ var Merge = (function () {
                 } else {
                     module.mergeObjects(oldProp, newProp);
                 }
-            } else {
+            } else if (newProp != undefined) {
                 oldObj[key] = newProp;
             }
         });
@@ -29,6 +29,7 @@ var Merge = (function () {
         return typeof a == 'object'
             && typeof b == 'object'
             && Array.isArray(a) == Array.isArray(b)
+            && b != null && a != null
     }
 
     module.mergeArrays = function (oldArray, newArray, getId) {
