@@ -41,10 +41,18 @@ var ChartManager = (function () {
     ////////////////////////////////////////////////////////////////////////
 
 
-    module.changeAxisByName = name => {
+    module.changeXAxisByName = name => {
         var axis = axisOptions.find(labelEquals(name));
         if (axis) {
             xAxis = axis;
+            buildChart();
+        }
+    };
+
+    module.changeYAxisByName = name => {
+        var axis = axisOptions.find(labelEquals(name));
+        if (axis) {
+            yAxis = axis;
             buildChart();
         }
     };

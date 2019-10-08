@@ -36,7 +36,11 @@ var HandlerAssigner = (function () {
         $("#filters").find("> .filter").find(" .title")
             .off().on("click", function () {
                 var filterName = this.__data__.name;
-                ChartManager.changeAxisByName(filterName);
+                ChartManager.changeXAxisByName(filterName);
+                FilterUI.refresh();
+            }).on("dblclick", function () {
+                var filterName = this.__data__.name;
+                ChartManager.changeYAxisByName(filterName);
                 FilterUI.refresh();
             })
     }
