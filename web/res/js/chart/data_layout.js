@@ -3,7 +3,6 @@
  * Controls data.point to implement:
  *   - force
  *   - collision
- *   - zoom
  */
 function DataLayout(getTargetPosition) {
 
@@ -29,12 +28,6 @@ function DataLayout(getTargetPosition) {
             dataRenderer.render();
         });
         force.start();
-    }
-
-    // update target position (e.g. because the axis is being zoomed) but keep displacements (distance kept to avoid collision)
-    this.updateTarget = (data, dataRenderer) => {
-        data.forEach(updateTarget);
-        dataRenderer.render()
     }
 
     function moveTowardsTarget(data, e) {
@@ -107,25 +100,6 @@ function DataLayout(getTargetPosition) {
 
     function displaceRandomly(point) {
         point.x += Math.random() * 2 * radius - radius; // between -radius and +radius
-    }
-
-    function updateTarget(d){
-        var displacement = getDisplacement(d)
-        var newTarget = getTargetPosition(d)
-        d.point = {
-            x: newTarget.x + displacement.x,
-            y: newTarget.y + displacement.y
-        }
-        d.targetPoint = newTarget
-    }
-
-    function getDisplacement(d){
-        var oldTarget = d.targetPoint
-        var oldPoint = d.point
-        return {
-            x: oldPoint.x - oldTarget.x,
-            y: oldPoint.y - oldTarget.y
-        }
     }
 
 }

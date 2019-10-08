@@ -80,40 +80,7 @@ var ChartRenderer = (function() {
         dataRenderer = new DataRenderer(canvas, _data, getDataBounds())
         dataLayout.startLayout(_data, dataRenderer)
         assignTooltips()
-//        enableZoom(dataRenderer)
     }
-
-//    function enableZoom(dataRenderer){
-//        var zoom = d3.behavior.zoom()
-//                       .y(yScale)
-//                       .scaleExtent([0, Infinity])
-//                       .on("zoom", onZoom)
-//                       .on("zoomend", onZoomEnd)
-//        svg.call(zoom)
-//        module.zoom = zoom
-//
-//        function onZoom() {
-//            svg.select(".y.axis").call(axes.y)
-//            dataLayout.updateTarget(_data, dataRenderer)
-//        }
-//        function onZoomEnd(e){
-//            var domain = yScale.domain()
-//            var originalYMin = domain[0]
-//            var originalYMax = domain[1]
-//            var originalPriceRange = originalYMax - originalYMin
-//            var pixelTranslation = zoom.translate()[1]
-//            var zoomedPriceRange = originalPriceRange/zoom.scale()
-//            var pixelsPerPriceUnit = height/zoomedPriceRange
-//            var priceTranslation = pixelTranslation/pixelsPerPriceUnit
-//
-//            var yMax = originalYMax + priceTranslation
-//            var yMin = yMax - zoomedPriceRange
-//
-////            var filtered = Items.filterByPrice(yMin, yMax)
-////            $.publish('apply-filter', [filtered, 'zoom-end'])
-//            dataLayout.rearrange(_data, dataRenderer)
-//        }
-//    }
 
     function getDataBounds() {
         return {
