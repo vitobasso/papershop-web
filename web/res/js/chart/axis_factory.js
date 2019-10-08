@@ -23,8 +23,6 @@ var AxisFactory = (function () {
         this.formatTick = ChartCommon.replaceUndefined;
     }
 
-    module.priceAxis = new LinearAxis("Price", item => item.price.value);
-
     var dummyAxis = new OrdinalAxis("?", item => null);
 
     module.listOptions = function () {

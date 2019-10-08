@@ -12,11 +12,10 @@ var ItemTooltip = (function () {
 
     function buildUI() {
         var item = this.__data__;
-        var priceStr = item.price.currency + " " + item.price.value;
         return "<div class='chart-tooltip'>" +
             "<p>" + item.title + "</p>" +
             "<img src='" + item.image + "'/>" +
-            "<p>" + priceStr + "</p>" +
+            "<p>" + item.price + "</p>" +
             "</div>";
     }
 

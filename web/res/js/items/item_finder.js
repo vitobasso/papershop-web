@@ -47,7 +47,7 @@ var ItemFinder = (function () {
     }
 
     function isNotDiscardedAspect(name) { //TODO do it based on values analysis instead
-        let discardedAspects = ['aspects', 'id', 'name', 'title', 'price', 'image', 'link'];
+        let discardedAspects = ['aspects', 'id', 'name', 'title', 'image', 'link'];
         return discardedAspects.indexOf(name) < 0;
     }
 
