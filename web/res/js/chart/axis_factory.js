@@ -20,7 +20,7 @@ var AxisFactory = (function () {
         this.getProperty = getProperty;
         this.getScale = d3.scale.ordinal;
         this.updateDomain = updateOrdinalDomain(this);
-        this.formatTick = ChartCommon.replaceUndefined;
+        this.formatTick = replaceUndefined;
     }
 
     var dummyAxis = new OrdinalAxis("?", item => null);
@@ -43,17 +43,27 @@ var AxisFactory = (function () {
     }
 
     function updateLinearDomain(axis) {
-        return function (scale, items) {
+        return (scale, items) => {
             var domain = d3.extent(items, axis.getProperty);
             scale.domain(domain);
         }
     }
 
     function updateOrdinalDomain(axis) {
-        return function (scale, items) {
-            var values = ChartCommon.findOrdinalDomain(items, axis.getProperty);
+        return (scale, items) => {
+            var values = findOrdinalDomain(items, axis.getProperty);
             scale.domain(values);
         }
+    }
+
+    function findOrdinalDomain(data, getProperty) {
+        var uniqueValues = new Set();
+        uniqueValues.addMap(data, getProperty);
+        return uniqueValues.toArray().sort(naturalSort);
+    }
+
+    function replaceUndefined(value) {
+        return value ? value : "?";
     }
 
     return module;
