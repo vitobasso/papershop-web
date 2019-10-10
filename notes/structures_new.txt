@@ -1,20 +1,11 @@
-category {
+
+aspect {
     id
     name
-    aspects[] {
+    values[] {
         id
         name
-        values[] {
-            id
-            name
-        }
     }
-    parent
-}
-
-category.fuzzy {
-    attrMapByValue: aspect.value -> aspect
-    fuzzyValues: FuzzySet[aspect.value]
 }
 
 filter {
@@ -28,17 +19,15 @@ filter {
     selected
 }
 
-item { //item_manager.js
+item { //items.js
     id
-    category
-    aspects[]: id -> value.id
 
-    // other fields
+    // ui fields
     image
     title
     link
-    price
 
     // volatile fields
     point //ui
+    isDetailed
 }

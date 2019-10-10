@@ -4,21 +4,18 @@ publisher               event                       subscriber
 initializer             init                        filter_builder
                                                     handler_assigner
 
-item_finder             find-items                  item_groomer
+item_finder             find-items                  items
                                                     request_log
 
                         find-items-failed           request_log
 
-item_groomer            new-categories              categories
-
 items                   new-items                   message_ui
                                                     chart_manager
 
-aspects_finder          new-aspects                 item_groomer
-item_finder                                         categories
+item_finder             new-aspects                 aspects
+item_detail_scheduler
 
-
-categories              new-filters                 filter_builder
+aspects                 new-filters                 filter_ui
                                                     chart_manager
 
 handler_assigner        apply-filter                message_ui
