@@ -1,14 +1,20 @@
 - functionality
 
-    - cache items by request
+    - fields improvement
+        - sort dates, X kb/Mb/Gb, etc
+        - ordinal axis for dates, X kb/Mb/Gb, X grams, X inches, £X, etc
+            - except: dimensions, like "10 x 20 x 15"
+        - hide id fields (fields w/ 1 item per value)
 
-    √ fetch item detail page
-        √ throttle requests?
-        - show request count
+    - filter improvement
+        - show all applied filters in a centralized place
+        - slider ui for ordinal fields
+        - selectable tags as wrapping text for non ordinal fields
 
     - advanced search (fields depending on source)
 
-    - choose y axis too
+    - avoid fetching details again
+        - maybe save to csv file
 
     - fetch items when click x axis label (add that label's value on respective filter. remove other values selected for same filter if any)
 

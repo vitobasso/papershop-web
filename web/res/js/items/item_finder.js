@@ -9,7 +9,7 @@ var ItemFinder = (function () {
                 checkTotalItems(params);
                 Sources.get().api.find(params);
             } catch (err) {
-                onFail(err);
+                console.error(err);
             }
         }//TODO message when keywords empty?
     };

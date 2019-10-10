@@ -42,8 +42,7 @@ var RequestLogUI = (function () {
 
     function getParamsString(params) {
         var filtersStr = getFiltersString(params.filters);
-        var aspectsStr = getFiltersString(params.aspects);
-        var parts = [params.keywords, filtersStr, aspectsStr].filter(notEmpty);
+        var parts = [params.keywords, filtersStr].filter(notEmpty);
         return parts.join(", ");
     }
 

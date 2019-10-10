@@ -21,8 +21,7 @@ var FilterUI = (function () {
 
         var selEnter = sel
             .enter().insert("div")
-            .classed("filter", true)
-            .classed("aspect", true);
+            .classed("filter", true);
 
         // top
         var top = selEnter.append("div")
@@ -69,7 +68,6 @@ var FilterUI = (function () {
     function selectDivs(filters) {
         return d3.select("#filters")
             .selectAll("div.filter")
-            .filter(".aspect")
             .data(filters, getName);
     }
 

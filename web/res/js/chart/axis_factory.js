@@ -34,25 +34,12 @@ var AxisFactory = (function () {
     };
 
     function createAxis(aspect) {
-        return aspect.getFromItem ?
-            createRootAspectAxis(aspect) :
-            createAspectAxis(aspect); //TODO remove?
-    }
-
-    function createRootAspectAxis(aspect) {
         if (aspect.axis == "Time") {
             return new TimeAxis(aspect.name, aspect.getFromItem);
         } else {
             var getValueName = _.compose(getName, aspect.getFromItem);
             return new OrdinalAxis(aspect.name, getValueName);
         }
-    }
-
-    function createAspectAxis(aspect) {//TODO remove?
-        return new OrdinalAxis(aspect.name, item => {
-            var value = item.aspects[aspect.name] || {};
-            return value.name;
-        })
     }
 
     function updateLinearDomain(axis) {

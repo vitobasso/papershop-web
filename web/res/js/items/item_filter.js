@@ -36,19 +36,8 @@ var ItemFilter = (function () {
         return filterValues.contains(valueId);
     }
 
-    function itemPropertyIdGetter(aspect) { //TODO make these behave the same way to simplify
-        if (aspect.getFromItem) {
-            return _.compose(getId, aspect.getFromItem); // root aspects are stored as specific properties of the item
-        } else {
-            return getValueIdForAspect(aspect.name); // other aspects are mapped in item.aspects object
-        }
-    }
-
-    function getValueIdForAspect(aspectName) {
-        return function (item) {
-            var value = item.aspects[aspectName] || {};
-            return value.id;
-        }
+    function itemPropertyIdGetter(aspect) {
+        return _.compose(getId, aspect.getFromItem);
     }
 
     return module;

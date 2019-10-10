@@ -17,7 +17,6 @@ var Items = (function () {
 
     function mergeDetail(_, params, result) {
         result.id = params.item.id;
-        result.aspects = {};
         set.addMerge(result, Merge.mergeObjects)
         $.publish('new-items', [[result], module.filter(), module.list()]);
     }
