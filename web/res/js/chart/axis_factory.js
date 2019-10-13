@@ -26,11 +26,9 @@ var AxisFactory = (function () {
     var dummyAxis = new OrdinalAxis("?", item => null);
 
     module.listOptions = function () {
-        var result = [dummyAxis];
         var aspects = Aspects.list();
         var axes = aspects.map(createAxis);
-        result.pushAll(axes);
-        return result;
+        return axes.length > 0 ? axes : [dummyAxis];
     };
 
     function createAxis(aspect) {
